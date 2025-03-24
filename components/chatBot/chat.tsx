@@ -33,8 +33,7 @@ export function Chat({
     experimental_throttle: 50, // Throttle updates to improve rendering performance
     onError: error => {
       toast.error(`Error in chat: ${error.message}`)
-    },
-    sendExtraMessageFields: false // Disable extra message fields
+    }
   })
 
 

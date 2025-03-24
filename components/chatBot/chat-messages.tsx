@@ -2,7 +2,7 @@ import { JSONValue, Message } from 'ai'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { RenderMessage } from './render-message'
 import { ToolSection } from './tool-section'
-import { Spinner } from '../ui/Spinner'
+import { SearchSkeleton } from './default-skeleton'
 
 interface ChatMessagesProps {
   messages: Message[]
@@ -112,7 +112,9 @@ export function ChatMessages({
             onOpenChange={open => handleOpenChange(manualToolCallId, open)}
           />
         ) : (
-          <Spinner />
+          <div className="mb-4">
+            <SearchSkeleton />
+          </div>
         ))}
       <div ref={messagesEndRef} /> {/* Add empty div as scroll anchor */}
     </div>

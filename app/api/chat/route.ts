@@ -16,15 +16,7 @@ const GEMINI_MODEL: Model = {
 export async function POST(req: Request) {
   try {
     const { messages} = await req.json()
-    const referer = req.headers.get('referer')
-    const isSharePage = referer?.includes('/share/')
 
-    if (isSharePage) {
-      return new Response('Chat API is not available on share pages', {
-        status: 403,
-        statusText: 'Forbidden'
-      })
-    }
 
     const cookieStore = await cookies()
     const searchMode = cookieStore.get('search-mode')?.value === 'true'
