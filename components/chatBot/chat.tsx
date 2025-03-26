@@ -51,9 +51,9 @@ export function Chat({
 
   return (
     <div className="flex flex-col items-center w-full h-[calc(100vh-4rem)] overflow-y-auto">
-      <div className="w-full max-w-3xl flex-1 flex flex-col px-4 pb-16">
+      <div className="w-full max-w-3xl flex-1 flex flex-col px-4 ">
         {messages.length > 0 ? (
-          <div className="flex-1 pt-10 pb-4">
+          <div className="flex-1 pt-10 pb-10">
             <ChatMessages
               messages={messages}
               data={data}
@@ -83,6 +83,7 @@ export function Chat({
               query={query}
               append={append}
               models={models}
+
             />
           </div>
         )}
