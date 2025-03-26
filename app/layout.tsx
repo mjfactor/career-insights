@@ -16,8 +16,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "ForestAI | AI-Powered Career Analysis",
-  description: "ForestAI combines Random Forests with Large Language Models for unprecedented career insights.",
+  title: "Employment Opportunities | AI-Powered Career Platform",
+  description: "Employment Opportunities combines Random Forests with Large Language Models for comprehensive career guidance with Career Compass, Career Chatbot Agent, and Job Aggregator.",
 };
 
 export default function RootLayout({
@@ -34,9 +34,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-  
-            {children}
-            <Toaster position="top-right" richColors />
+
+          {children}
+          <Toaster position="top-right" richColors />
         </ThemeProvider>
       </body>
     </html>

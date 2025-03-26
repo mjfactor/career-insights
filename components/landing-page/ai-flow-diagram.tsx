@@ -89,7 +89,7 @@ export default function AIFlowDiagram() {
 
   return (
     <div ref={containerRef} className="py-8 px-4 relative" onMouseEnter={handleContainerHover}>
-      <h3 className="text-xl font-semibold text-white mb-8 text-center">Enhanced Career Analysis Process</h3>
+      <h3 className="text-xl font-semibold text-white mb-8 text-center">Employment Opportunities Career Analysis Process</h3>
 
       <div className="flex flex-col md:flex-row items-center justify-between gap-8 md:gap-4 relative">
         {/* Random Forest Model */}

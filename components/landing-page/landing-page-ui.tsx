@@ -41,8 +41,8 @@ export default function LandingPage() {
     const phrases = [
         "AI-Powered Career Analysis",
         "Random Forest Integration",
-        "Large Language Model",
-        "Employment Opportunities"
+        "Employment Opportunities",
+        "Career Development Platform"
     ]
     const [phraseIndex, setPhraseIndex] = useState(0)
     const [isDeleting, setIsDeleting] = useState(false)
@@ -133,7 +133,7 @@ export default function LandingPage() {
                             <Trees className="h-5 w-5 text-green-500" />
                             <div className="absolute inset-0 rounded-full border border-green-500/20"></div>
                         </div>
-                        <span className="text-xl font-bold text-white">ForestAI</span>
+                        <span className="text-xl font-bold text-white">Employment Opportunities</span>
                     </Link>
 
                     <div className="flex items-center gap-3">
@@ -173,8 +173,9 @@ export default function LandingPage() {
                         transition={{ duration: 0.5, delay: 0.4 }}
                         className="text-lg text-zinc-300 mb-10 max-w-2xl"
                     >
-                        ForestAI combines the predictive power of Random Forests with the understanding capabilities of Large
-                        Language Models for unprecedented career insights.
+                        Employment Opportunities combines the predictive power of Random Forests with the understanding
+                        capabilities of Large Language Models to help you navigate your career journey with our Career Compass,
+                        Career Chatbot Agent, and Job Aggregator.
                     </motion.p>
 
                     <motion.div
@@ -240,13 +241,13 @@ export default function LandingPage() {
                         transition={{ duration: 0.5 }}
                         className="text-center mb-16"
                     >
-                        <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Powerful AI Capabilities</h2>
+                        <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Powerful Career Tools</h2>
                         <p className="text-zinc-300 max-w-2xl mx-auto">
-                            Our platform combines the best of decision trees and language models to deliver powerful insights.
+                            Our platform combines advanced AI technologies to deliver comprehensive career guidance through multiple specialized tools.
                         </p>
                     </motion.div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-7xl mx-auto">
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
@@ -265,8 +266,8 @@ export default function LandingPage() {
                                         )}
                                     />
                                 }
-                                title="Random Forest Predictions"
-                                description="Utilize ensemble learning methods to make accurate predictions based on multiple decision trees."
+                                title="Career Compass"
+                                description="Get personalized career guidance and skill recommendations based on your resume, experience, and goals."
                                 isActive={activeFeature === 0}
                             />
                         </motion.div>
@@ -289,8 +290,8 @@ export default function LandingPage() {
                                         )}
                                     />
                                 }
-                                title="Advanced LLM Integration"
-                                description="Leverage state-of-the-art language models to understand and generate human-like text with remarkable accuracy."
+                                title="Career Chatbot Agent"
+                                description="Interact with our AI assistant to get answers to your career questions, job search advice, and industry insights."
                                 isActive={activeFeature === 1}
                             />
                         </motion.div>
@@ -313,8 +314,8 @@ export default function LandingPage() {
                                         )}
                                     />
                                 }
-                                title="Hybrid Intelligence"
-                                description="Combine the strengths of both technologies for a powerful AI system that excels at both understanding and prediction."
+                                title="Job Aggregator"
+                                description="Discover job opportunities from multiple sources, curated and organized to match your skills and preferences."
                                 isActive={activeFeature === 2}
                             />
                         </motion.div>
@@ -335,7 +336,7 @@ export default function LandingPage() {
                         <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
                             <div className="text-center md:text-left">
                                 <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
-                                    Ready to harness the power of ForestAI?
+                                    Ready to advance your career journey?
                                 </h2>
                             </div>
 
@@ -357,7 +358,7 @@ export default function LandingPage() {
                             <div className="relative flex h-8 w-8 items-center justify-center rounded-full bg-green-500/10">
                                 <Trees className="h-4 w-4 text-green-500" />
                             </div>
-                            <span className="text-lg font-bold text-white">ForestAI</span>
+                            <span className="text-lg font-bold text-white">Employment Opportunities</span>
                             <p className="text-sm text-zinc-500 ml-2">© {new Date().getFullYear()} All rights reserved.</p>
                         </div>
                     </div>
