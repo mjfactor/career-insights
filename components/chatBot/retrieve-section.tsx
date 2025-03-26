@@ -5,7 +5,7 @@ import { Section, ToolArgsSection } from '@/components/chatBot/section'
 import { SearchResults as SearchResultsType } from '@/lib/types'
 import { ToolInvocation } from 'ai'
 import { CollapsibleMessage } from './collapsible-message'
-import { DefaultSkeleton } from './default-skeleton'
+import { DefaultSkeleton} from './default-skeleton'
 
 interface RetrieveSectionProps {
   tool: ToolInvocation

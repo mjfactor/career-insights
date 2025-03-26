@@ -36,8 +36,6 @@ export function Chat({
     }
   })
 
-
-
   const onQuerySelect = (query: string) => {
     append({
       role: 'user',
@@ -64,7 +62,16 @@ export function Chat({
             />
           </div>
         ) : (
-          <div className="flex-1 flex items-center justify-center">
+          <div className="flex-1 flex items-center justify-center flex-col">
+            {/* Career advisor header - only shown when no messages exist */}
+            <div className="text-center">
+              <h2 className="text-2xl font-bold text-primary mb-1">Career Advisor Chat</h2>
+              <p className="text-muted-foreground max-w-md mx-auto mb-1">
+                Your personal career guidance assistant. Ask anything about job trends,
+                salary negotiations, interview tips, or career advancement opportunities.
+              </p>
+            </div>
+
             <ChatPanel
               input={input}
               handleInputChange={handleInputChange}

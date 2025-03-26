@@ -1,22 +1,26 @@
 import { Button } from '@/components/ui/button'
-import { ArrowRight } from 'lucide-react'
+import { TrendingUp, DollarSign, Laptop, HandshakeIcon } from 'lucide-react'
 
 const exampleMessages = [
   {
     heading: 'Job Market Trends in 2025 and beyond',
-    message: 'Job Market Trends in 2025 and beyond'
+    message: 'Job Market Trends in 2025 and beyond',
+    icon: <TrendingUp size={16} className="mr-2 text-green-500" />
   },
   {
     heading: 'What are the highest paying jobs in 2025?',
-    message: 'What are the highest paying jobs in 2025?'
+    message: 'What are the highest paying jobs in 2025?',
+    icon: <DollarSign size={16} className="mr-2 text-green-500" />
   },
   {
     heading: 'Remote work vs in-office careers',
-    message: 'Remote work vs in-office careers'
+    message: 'Remote work vs in-office careers',
+    icon: <Laptop size={16} className="mr-2 text-green-500" />
   },
   {
     heading: 'Tips for negotiating a higher salary',
-    message: 'Tips for negotiating a higher salary'
+    message: 'Tips for negotiating a higher salary',
+    icon: <HandshakeIcon size={16} className="mr-2 text-green-500" />
   }
 ]
 export function EmptyScreen({
@@ -40,8 +44,11 @@ export function EmptyScreen({
                 submitMessage(message.message)
               }}
             >
-              <ArrowRight size={16} className="mr-2 text-muted-foreground" />
-              {message.heading}
+              <div className="flex items-center">
+                {message.icon}
+
+                {message.heading}
+              </div>
             </Button>
           ))}
         </div>

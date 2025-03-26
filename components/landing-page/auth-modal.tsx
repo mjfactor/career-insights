@@ -12,7 +12,7 @@ import { ArrowRight, Mail, Lock, User, Github, ChromeIcon as Google, Eye, EyeOff
 import { signIn } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import { Alert, AlertDescription } from "@/components/ui/alert"
-import { signupSchema } from "@/lib/validations/auth"
+import { signupSchema } from "@/lib/schema/auth"
 import { signUp } from "@/lib/actions/register"
 
 interface AuthModalProps {
@@ -131,7 +131,7 @@ export default function AuthModal({ mode, children, className }: AuthModalProps)
 
   const handleGoogleSignIn = async () => {
     setIsGoogleLoading(true)
-    await signIn("google", { callbackUrl: "/dashboard" })
+    await signIn("google", { redirectTo: "/dashboard" })
     setIsGoogleLoading(false)
   }
 

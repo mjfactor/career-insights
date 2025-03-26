@@ -2,6 +2,7 @@ import { DeepPartial } from 'ai'
 import { z } from 'zod'
 
 export const relatedSchema = z.object({
+  symbol: z.string().default('→'),
   items: z
     .array(
       z.object({
