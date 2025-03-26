@@ -3,6 +3,7 @@
 import { z } from "zod";
 import { prisma } from "@/prisma/prisma";
 import bcrypt from 'bcrypt';
+import crypto from 'crypto';
 
 // Schema for validation
 const SignupSchema = z.object({
@@ -55,27 +56,113 @@ export async function signUp(formData: FormData | { name: string; email: string;
         // Hash password
         const hashedPassword = await saltAndHashPassword(password);
 
-        // Create user in database
+        // Create user in database with emailVerified set to null (unverified)
         const user = await prisma.user.create({
             data: {
                 name,
                 email,
-                password: hashedPassword
+                password: hashedPassword,
+                emailVerified: null // Explicitly set as unverified
             }
         });
+
+        // Create verification token
+        const token = crypto.randomBytes(32).toString('hex');
+        const expires = new Date();
+        expires.setHours(expires.getHours() + 24); // Token expires in 24 hours
+
+        await prisma.verificationToken.create({
+            data: {
+                identifier: email,
+                token,
+                expires
+            }
+        });
+
+        // Base URL for verification link
+        const baseUrl = process.env.NEXTAUTH_URL || 'http://localhost:3000';
+        const verificationUrl = `${baseUrl}/api/auth/verify?token=${token}&email=${encodeURIComponent(email)}`;
+
+        // Send verification email using the dedicated API route
+        const emailResponse = await fetch(`${baseUrl}/api/email/send-verification`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                email,
+                name,
+                verificationUrl
+            }),
+        });
+
+        if (!emailResponse.ok) {
+            console.error('Failed to send verification email:', await emailResponse.text());
+        }
 
         // Return success response (excluding password)
         const { password: _, ...userWithoutPassword } = user;
 
         return {
             user: userWithoutPassword,
-            message: "Account created successfully",
-            success: true
+            message: "Account created successfully. Please check your email to verify your account.",
+            success: true,
+            requiresVerification: true
         };
     } catch (error) {
         console.error("Signup error:", error);
         return {
             error: "An error occurred during registration",
+            success: false
+        };
+    }
+}
+
+// Function to verify email with token
+export async function verifyEmail(token: string, email: string) {
+    try {
+        // Find the verification token
+        const verificationToken = await prisma.verificationToken.findUnique({
+            where: {
+                identifier_token: {
+                    identifier: email,
+                    token
+                }
+            }
+        });
+
+        // If token doesn't exist or has expired
+        if (!verificationToken || verificationToken.expires < new Date()) {
+            return {
+                error: "Invalid or expired verification token",
+                success: false
+            };
+        }
+
+        // Update user's emailVerified field
+        await prisma.user.update({
+            where: { email },
+            data: { emailVerified: new Date() }
+        });
+
+        // Delete the used verification token
+        await prisma.verificationToken.delete({
+            where: {
+                identifier_token: {
+                    identifier: email,
+                    token
+                }
+            }
+        });
+
+        return {
+            message: "Email verified successfully. You can now log in.",
+            success: true
+        };
+    } catch (error) {
+        console.error("Email verification error:", error);
+        return {
+            error: "An error occurred during email verification",
             success: false
         };
     }
