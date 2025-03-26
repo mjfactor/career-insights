@@ -4,7 +4,6 @@ import { prisma } from "@/prisma/prisma"
 import Credentials from "next-auth/providers/credentials";
 import bcrypt from "bcrypt";
 import Google from "next-auth/providers/google"
-import Resend from "next-auth/providers/resend"
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   adapter: PrismaAdapter(prisma),
@@ -19,10 +18,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       clientId: process.env.AUTH_GOOGLE_ID,
       clientSecret: process.env.AUTH_GOOGLE_SECRET,
       allowDangerousEmailAccountLinking: true
-    }),
-    Resend({
-      apiKey: process.env.AUTH_RESEND_KEY,
-      from: "Employment Opportunities <onboarding@resend.dev>",
     }),
     Credentials({
       credentials: {
@@ -67,14 +62,14 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       if (account?.provider === "credentials") {
         return true;
       }
-      
+
       // For Google OAuth sign-ins
       if (account?.provider === "google" && profile) {
         // Find existing user with the same email
         const existingUser = await prisma.user.findUnique({
           where: { email: user.email ?? "" }
         });
-      
+
         // If user exists, update their profile with Google data
         if (existingUser) {
           // Update user profile
@@ -94,16 +89,16 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           return true;
         }
       }
-      
+
       // For all other cases, check if the email is verified
       if (user.email) {
         const dbUser = await prisma.user.findUnique({
           where: { email: user.email }
         });
-        
+
         return !!(dbUser?.emailVerified);
       }
-      
+
       return false;
     },
     async session({ session, token }) {
