@@ -63,6 +63,14 @@ model VerificationToken {
   @@id([identifier, token])
 }
 
+model PasswordResetToken {
+  identifier String
+  token      String
+  expires    DateTime
+
+  @@id([identifier, token])
+}
+
 // Optional for WebAuthn support
 model Authenticator {
   credentialID         String  @unique
