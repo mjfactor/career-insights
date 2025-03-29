@@ -12,14 +12,14 @@ import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/s
 import { auth } from "@/auth"
 import { ModeToggle } from "@/components/dark-light-toggle/theme-toggle"
 import { Metadata } from "next"
-import { formatPageTitle } from "@/lib/utils"
+
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { ArrowRight, Compass, Globe, Search, BarChart3, Book, Briefcase, Rocket } from "lucide-react"
 
 export const metadata: Metadata = {
-  title: formatPageTitle("dashboard"),
+  title: "dashboard",
   description: "Manage your career insights dashboard",
 }
 

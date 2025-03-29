@@ -621,8 +621,8 @@ const ManualDetailsTab = forwardRef(function ManualDetailsTab(props, ref) {
                               onChange={(e) => updateJobExperience(job.id, "title", e.target.value)}
                               onBlur={() => markFieldAsTouched("jobExperiences", job.id, "title")}
                               className={`h-8 text-sm ${jobErrors.title && isFieldTouched("jobExperiences", job.id, "title")
-                                  ? "border-red-500 focus-visible:ring-red-500"
-                                  : ""
+                                ? "border-red-500 focus-visible:ring-red-500"
+                                : ""
                                 }`}
                             />
                           </div>
@@ -650,8 +650,8 @@ const ManualDetailsTab = forwardRef(function ManualDetailsTab(props, ref) {
                               onChange={(e) => updateJobExperience(job.id, "company", e.target.value)}
                               onBlur={() => markFieldAsTouched("jobExperiences", job.id, "company")}
                               className={`h-8 text-sm ${jobErrors.company && isFieldTouched("jobExperiences", job.id, "company")
-                                  ? "border-red-500 focus-visible:ring-red-500"
-                                  : ""
+                                ? "border-red-500 focus-visible:ring-red-500"
+                                : ""
                                 }`}
                             />
                           </div>
@@ -681,8 +681,8 @@ const ManualDetailsTab = forwardRef(function ManualDetailsTab(props, ref) {
                               onChange={(e) => updateJobExperience(job.id, "startDate", e.target.value)}
                               onBlur={() => markFieldAsTouched("jobExperiences", job.id, "startDate")}
                               className={`h-8 text-sm ${jobErrors.startDate && isFieldTouched("jobExperiences", job.id, "startDate")
-                                  ? "border-red-500 focus-visible:ring-red-500"
-                                  : ""
+                                ? "border-red-500 focus-visible:ring-red-500"
+                                : ""
                                 }`}
                             />
                           </div>
@@ -710,8 +710,8 @@ const ManualDetailsTab = forwardRef(function ManualDetailsTab(props, ref) {
                               onChange={(e) => updateJobExperience(job.id, "endDate", e.target.value)}
                               onBlur={() => markFieldAsTouched("jobExperiences", job.id, "endDate")}
                               className={`h-8 text-sm ${jobErrors.endDate && isFieldTouched("jobExperiences", job.id, "endDate")
-                                  ? "border-red-500 focus-visible:ring-red-500"
-                                  : ""
+                                ? "border-red-500 focus-visible:ring-red-500"
+                                : ""
                                 }`}
                             />
                           </div>
