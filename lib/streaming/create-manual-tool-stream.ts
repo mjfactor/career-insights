@@ -69,7 +69,7 @@ export function createManualToolStreamResponse(config: BaseStreamConfig) {
               model: modelId,
               chatId,
               dataStream,
-              skipRelatedQuestions: true,
+              skipRelatedQuestions: false,
               annotations,
               userId
             })
