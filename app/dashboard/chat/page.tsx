@@ -40,7 +40,7 @@ export default async function ChatPage() {
                 </BreadcrumbItem>
                 <BreadcrumbSeparator className="hidden md:block" />
                 <BreadcrumbItem className="hidden md:block">
-                  <BreadcrumbLink href="/dashboard/chat">Chat</BreadcrumbLink>
+                  <BreadcrumbLink href="/dashboard/chat">Chatbot</BreadcrumbLink>
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>

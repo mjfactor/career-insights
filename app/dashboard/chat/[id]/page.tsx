@@ -66,7 +66,7 @@ export default async function SearchPage(props: {
                             </BreadcrumbItem>
                             <BreadcrumbSeparator className="hidden md:block" />
                             <BreadcrumbItem className="hidden md:block">
-                                <BreadcrumbLink href="/dashboard/career-compass">Career Compass</BreadcrumbLink>
+                                <BreadcrumbLink href="/dashboard/career-compass">Chatbot</BreadcrumbLink>
                             </BreadcrumbItem>
                         </BreadcrumbList>
                     </Breadcrumb>
