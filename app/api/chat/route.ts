@@ -15,9 +15,7 @@ const GEMINI_MODEL: Model = {
 
 export async function POST(req: Request) {
   try {
-    const { messages} = await req.json()
-
-
+    const { messages, id: chatId, userId = 'anonymous' } = await req.json()
     const cookieStore = await cookies()
     const searchMode = cookieStore.get('search-mode')?.value === 'true'
 
@@ -28,7 +26,9 @@ export async function POST(req: Request) {
     return createManualToolStreamResponse({
       messages,
       model: selectedModel,
-      searchMode
+      chatId,
+      searchMode,
+      userId
     })
   } catch (error) {
     console.error('API route error:', error)

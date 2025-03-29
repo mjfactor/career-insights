@@ -7,8 +7,8 @@ export default async function AuthSidebarWrapper(props: React.ComponentPropsWith
     const userData = session?.user ? {
         name: session.user.name || "Unknown User", // Provide default for name
         email: session.user.email || "", // Provide default for email
-        image: session.user.image || undefined // Convert null to undefined
+        image: session.user.image || undefined, // Convert null to undefined
+        id: session.user.id // Add user ID for chat history
     } : null
     return <AppSidebar userData={userData} {...props} />
-
 }

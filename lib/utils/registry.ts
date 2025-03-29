@@ -15,10 +15,11 @@ export function getModel(model: string) {
 
   // Only Google models are supported
   if (provider !== 'google') {
-    return registry.languageModel('google:gemini-2.0-flash')
+    return registry.languageModel('google:gemini-2.0-flash' as const)
   }
 
-  return registry.languageModel(model)
+  // Cast the model string to a template literal type that meets the expected type
+  return registry.languageModel(`google:${modelName}` as `google:${string}`)
 }
 
 export function isProviderEnabled(providerId: string): boolean {
