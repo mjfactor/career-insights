@@ -7,16 +7,22 @@ import { Message, useChat } from 'ai/react'
 import { toast } from 'sonner'
 import { ChatMessages } from './chat-messages'
 import { ChatPanel } from './chat-panel'
+import { HISTORY_UPDATE_EVENT } from '@/components/sidebar/chat-history'
 
 export function Chat({
+  id,
   savedMessages = [],
   query,
-  models
+  models,
+  userId = 'anonymous'
 }: {
+  id: string
   savedMessages?: Message[]
   query?: string
   models?: Model[]
+  userId?: string
 }) {
+
   const {
     messages,
     input,
@@ -30,11 +36,27 @@ export function Chat({
     setData
   } = useChat({
     initialMessages: savedMessages,
+    id,
+    body: {
+      id,
+      userId
+    },
+    onFinish: () => {
+      // Update URL without page refresh
+      window.history.replaceState({}, '', `/dashboard/chat/${id}`)
+
+      // Dispatch event to update chat history
+      window.dispatchEvent(new Event(HISTORY_UPDATE_EVENT))
+    },
     experimental_throttle: 50, // Throttle updates to improve rendering performance
     onError: error => {
       toast.error(`Error in chat: ${error.message}`)
     }
   })
+
+  useEffect(() => {
+    setMessages(savedMessages)
+  }, [id])
 
   const onQuerySelect = (query: string) => {
     append({
@@ -48,6 +70,7 @@ export function Chat({
     setData(undefined) // reset data to clear tool call
     handleSubmit(e)
   }
+
 
   return (
     <div className="flex flex-col items-center w-full h-[calc(100vh-4rem)] overflow-y-auto">
@@ -83,7 +106,6 @@ export function Chat({
               query={query}
               append={append}
               models={models}
-
             />
           </div>
         )}

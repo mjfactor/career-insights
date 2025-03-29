@@ -1,6 +1,8 @@
 'use client'
 
+
 import { JSONValue } from 'ai'
+import { useChat } from 'ai/react'
 import { ArrowRight, Repeat2 } from 'lucide-react'
 import React from 'react'
 import { Button } from '../ui/button'
@@ -27,7 +29,7 @@ export const RelatedQuestions: React.FC<RelatedQuestionsProps> = ({
   isOpen,
   onOpenChange
 }) => {
-  
+
 
   if (!annotations) {
     return null
@@ -45,7 +47,7 @@ export const RelatedQuestions: React.FC<RelatedQuestionsProps> = ({
   )
 
   const relatedQuestions = lastRelatedQuestionsAnnotation?.data
-  if ((!relatedQuestions || !relatedQuestions.items) ) {
+  if ((!relatedQuestions || !relatedQuestions.items)) {
     return null
   }
 

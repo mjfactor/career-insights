@@ -15,7 +15,7 @@ import { BaseStreamConfig } from './types'
 export function createManualToolStreamResponse(config: BaseStreamConfig) {
   return createDataStreamResponse({
     execute: async (dataStream: DataStreamWriter) => {
-      const { messages, model, searchMode } = config
+      const { messages, model, chatId, searchMode, userId = 'anonymous' } = config
       const modelId = `${model.providerId}:${model.id}`
       let toolCallModelId = model.toolCallModel
         ? `${model.providerId}:${model.toolCallModel}`
@@ -67,9 +67,11 @@ export function createManualToolStreamResponse(config: BaseStreamConfig) {
               responseMessages: result.response.messages,
               originalMessages: messages,
               model: modelId,
+              chatId,
               dataStream,
-              skipRelatedQuestions: false,
-              annotations
+              skipRelatedQuestions: true,
+              annotations,
+              userId
             })
           },
           onChunk(event) {

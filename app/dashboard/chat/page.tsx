@@ -1,8 +1,8 @@
-import { Chat } from '@/components/chatBot/chat'
 import { getModels } from '@/lib/config/models'
-import { generateId } from 'ai'
 import { redirect } from "next/navigation"
 import AuthSidebarWrapper from "@/components/sidebar/auth-sidebar-wrapper"
+import { Chat } from '@/components/chatBot/chat'
+import { generateId } from 'ai'
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -14,14 +14,16 @@ import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/s
 import { auth } from "@/auth"
 import { ModeToggle } from "@/components/dark-light-toggle/theme-toggle"
 
-
-export default async function Page() {
+export default async function ChatPage() {
   const session = await auth()
   if (!session) {
     redirect("/")
   }
-  
+
+  const id = generateId()
   const models = await getModels()
+  const userId = session.user?.id || 'anonymous'
+
   return (
     <SidebarProvider>
       <AuthSidebarWrapper />
@@ -38,13 +40,13 @@ export default async function Page() {
                 </BreadcrumbItem>
                 <BreadcrumbSeparator className="hidden md:block" />
                 <BreadcrumbItem className="hidden md:block">
-                  <BreadcrumbLink href="/dashboard/career-compass">Career Compass</BreadcrumbLink>
+                  <BreadcrumbLink href="/dashboard/chat">Chat</BreadcrumbLink>
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>
           </div>
         </header>
-        <Chat models={models} />
+        <Chat id={id} models={models} userId={userId} />
       </SidebarInset>
     </SidebarProvider>
   )

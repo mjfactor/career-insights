@@ -19,7 +19,6 @@ model User {
   sessions      Session[]
   // Optional for WebAuthn support
   Authenticator Authenticator[]
-  chats         Chat[] // Added relation to Chat model
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -86,24 +85,4 @@ model Authenticator {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@id([userId, credentialID])
-}
-
-// Chat history models
-model Chat {
-  id        String        @id @default(cuid())
-  userId    String
-  title     String?
-  createdAt DateTime      @default(now())
-  updatedAt DateTime      @updatedAt
-  messages  ChatMessage[]
-  user      User          @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
-model ChatMessage {
-  id        String   @id @default(cuid())
-  chatId    String
-  role      String
-  content   String
-  createdAt DateTime @default(now())
-  chat      Chat     @relation(fields: [chatId], references: [id], onDelete: Cascade)
 }
