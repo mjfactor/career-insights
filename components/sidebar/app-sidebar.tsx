@@ -70,7 +70,7 @@ export function AppSidebar({
       <SidebarContent className="overflow-hidden">
         <NavMain items={data.navMain} />
 
-        {/* Show Chat History on Chat page */}
+        {/* Show Chat History only on Chat page */}
         {isChatPage && (
           <>
             <div className="w-full overflow-hidden">
@@ -93,26 +93,12 @@ export function AppSidebar({
           </>
         )}
 
-        {/* Only show History section on Career Compass page */}
+        {/* Career Compass section, but without the chat history */}
         {isCareerCompassPage && (
           <>
             <div className="w-full overflow-hidden">
               <SidebarSeparator className="my-2 w-full max-w-full" />
             </div>
-
-            {/* Use the ChatHistory component for Career Compass page as well */}
-            <Suspense fallback={
-              <SidebarGroup>
-                <SidebarGroupLabel>Recent Chat</SidebarGroupLabel>
-                <div className="px-3 py-5">
-                  <Skeleton className="h-5 w-full mb-3" />
-                  <Skeleton className="h-5 w-3/4 mb-3" />
-                  <Skeleton className="h-5 w-5/6" />
-                </div>
-              </SidebarGroup>
-            }>
-              <ChatHistory userId={userData?.id || 'anonymous'} />
-            </Suspense>
           </>
         )}
       </SidebarContent>
