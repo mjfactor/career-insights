@@ -1,6 +1,5 @@
-import { smoothStream, streamObject } from 'ai';
+import { streamObject } from 'ai';
 import { google } from '@ai-sdk/google';
-import { NextRequest } from 'next/server';
 import { CAREER_COMPASS_PROMPT } from '../prompt-template';
 import { careerCompassSchema } from '@/lib/schema/career-compass-schema';
 
