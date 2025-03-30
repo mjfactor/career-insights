@@ -4,7 +4,7 @@ import type React from "react"
 import { useState, useEffect, useRef, forwardRef, useImperativeHandle } from "react"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
-import { Upload, FileText, AlertCircle, CheckCircle, Eye, X, StopCircle, AlertTriangle, ArrowDown } from "lucide-react"
+import { Upload, FileText, AlertCircle, CheckCircle, Eye, X, StopCircle, AlertTriangle, ArrowDown, BarChart } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Progress } from "@/components/ui/progress"
@@ -17,6 +17,10 @@ import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 // Import the placeholder component
 import StructuredDataPlaceholder from "./StructuredDataPlaceholder"
+// Import data visualizer component
+import { CareerDataVisualizer } from "./CareerDataVisualizer"
+// Import tabs component
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 // Import dialog components for modern confirmation dialogs
 import {
@@ -43,6 +47,10 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
   const [fileSizeError, setFileSizeError] = useState<boolean>(false)
   // Add a state to track the analysis phase
   const [analysisPhase, setAnalysisPhase] = useState<"structured" | "markdown" | null>(null)
+  // Add new state for structured data
+  const [structuredData, setStructuredData] = useState<any>(null);
+  // State for tracking which visualization tab is active
+  const [visualTab, setVisualTab] = useState<string>("text");
 
   // Ref to track if component is mounted
   const isMounted = useRef(true);
@@ -353,6 +361,11 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
       // Parse the structured data
       const structuredData = await structuredResponse.json();
       console.log("Structured data received:", structuredData);
+
+      // Store the structured data for visualization
+      if (isMounted.current) {
+        setStructuredData(structuredData);
+      }
 
       // Update the analysis phase to "markdown"
       setAnalysisPhase("markdown");
@@ -706,47 +719,95 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.4 }}
-            className="mt-6 rounded-lg p-4 bg-card shadow-md"
+            className="mt-6 border rounded-lg bg-card shadow-md"
             ref={analysisContainerRef}
           >
-
-            {/* Performance optimization: Simplified styling */}
             <motion.div
-              initial={{ y: 30, opacity: 0 }}
+              initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.3, duration: 0.4 }}
-              className="prose prose-sm max-w-none dark:prose-invert"
+              transition={{ delay: 0.2, duration: 0.3 }}
+              className="flex justify-between items-center p-4 border-b"
             >
-              <ReactMarkdown
-                remarkPlugins={[remarkGfm]}
-                components={{
-                  h1: ({ node, ...props }) => <h1 className="text-xl font-bold mt-6 mb-3 pb-1 border-b" {...props} />,
-                  h2: ({ node, ...props }) => <h2 className="text-lg font-bold mt-4 mb-2" {...props} />,
-                  h3: ({ node, ...props }) => <h3 className="text-base font-semibold mt-3 mb-2" {...props} />,
-                  h4: ({ node, ...props }) => <h4 className="text-sm font-semibold mt-3 mb-1" {...props} />,
-                  a: ({ node, href, ...props }) => (
-                    <a href={href} className="text-blue-600 dark:text-blue-400 underline" target="_blank" rel="noopener noreferrer" {...props} />
-                  ),
-                  p: ({ node, ...props }) => <p className="my-2 text-sm" {...props} />,
-                  ul: ({ node, ...props }) => <ul className="list-disc pl-5 my-2" {...props} />,
-                  ol: ({ node, ...props }) => <ol className="list-decimal pl-5 my-2" {...props} />,
-                  li: ({ node, ...props }) => <li className="my-1 text-sm" {...props} />,
-                  blockquote: ({ node, ...props }) => <blockquote className="border-l-4 border-primary/30 pl-3 py-1 my-3 italic text-sm" {...props} />,
-                  table: ({ node, ...props }) => (
-                    <div className="overflow-x-auto my-4 border rounded">
-                      <table className="w-full text-sm" {...props} />
-                    </div>
-                  ),
-                  thead: ({ node, ...props }) => <thead className="border-b" {...props} />,
-                  tr: ({ node, ...props }) => <tr className="border-b" {...props} />,
-                  th: ({ node, ...props }) => <th className="border-r last:border-r-0 px-3 py-2 text-left font-medium" {...props} />,
-                  td: ({ node, ...props }) => <td className="border-r last:border-r-0 px-3 py-2" {...props} />,
-                  hr: ({ node, ...props }) => <hr className="my-4" {...props} />,
-                }}
-              >
-                {analysisResult}
-              </ReactMarkdown>
+              <h3 className="text-xl font-bold text-primary">
+                {isStreaming ? "Streaming Analysis..." : "Career Analysis"}
+              </h3>
+
+              {/* Only show tabs when we have analysis results */}
+              {analysisResult && !isStreaming && (
+                <Tabs
+                  value={visualTab}
+                  onValueChange={setVisualTab}
+                  className="w-[240px]"
+                >
+                  <TabsList className="grid w-full grid-cols-2">
+                    <TabsTrigger value="text" className="flex items-center gap-1.5">
+                      <FileText className="h-3.5 w-3.5" />
+                      <span>Text</span>
+                    </TabsTrigger>
+                    <TabsTrigger value="data" className="flex items-center gap-1.5">
+                      <BarChart className="h-3.5 w-3.5" />
+                      <span>Charts</span>
+                    </TabsTrigger>
+                  </TabsList>
+                </Tabs>
+              )}
             </motion.div>
+
+            <div className="p-4">
+              {/* Tabs content */}
+              {visualTab === "text" ? (
+                /* Text analysis content */
+                <motion.div
+                  initial={{ y: 30, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ delay: 0.3, duration: 0.4 }}
+                  className="prose prose-sm max-w-none dark:prose-invert"
+                >
+                  <ReactMarkdown
+                    remarkPlugins={[remarkGfm]}
+                    components={{
+                      h1: ({ node, ...props }) => <h1 className="text-xl font-bold mt-6 mb-3 pb-1 border-b" {...props} />,
+                      h2: ({ node, ...props }) => <h2 className="text-lg font-bold mt-4 mb-2" {...props} />,
+                      h3: ({ node, ...props }) => <h3 className="text-base font-semibold mt-3 mb-2" {...props} />,
+                      h4: ({ node, ...props }) => <h4 className="text-sm font-semibold mt-3 mb-1" {...props} />,
+                      a: ({ node, href, ...props }) => (
+                        <a href={href} className="text-blue-600 dark:text-blue-400 underline" target="_blank" rel="noopener noreferrer" {...props} />
+                      ),
+                      p: ({ node, ...props }) => <p className="my-2 text-sm" {...props} />,
+                      ul: ({ node, ...props }) => <ul className="list-disc pl-5 my-2" {...props} />,
+                      ol: ({ node, ...props }) => <ol className="list-decimal pl-5 my-2" {...props} />,
+                      li: ({ node, ...props }) => <li className="my-1 text-sm" {...props} />,
+                      blockquote: ({ node, ...props }) => <blockquote className="border-l-4 border-primary/30 pl-3 py-1 my-3 italic text-sm" {...props} />,
+                      table: ({ node, ...props }) => (
+                        <div className="overflow-x-auto my-4 border rounded">
+                          <table className="w-full text-sm" {...props} />
+                        </div>
+                      ),
+                      thead: ({ node, ...props }) => <thead className="border-b" {...props} />,
+                      tr: ({ node, ...props }) => <tr className="border-b" {...props} />,
+                      th: ({ node, ...props }) => <th className="border-r last:border-r-0 px-3 py-2 text-left font-medium" {...props} />,
+                      td: ({ node, ...props }) => <td className="border-r last:border-r-0 px-3 py-2" {...props} />,
+                      hr: ({ node, ...props }) => <hr className="my-4" {...props} />,
+                    }}
+                  >
+                    {analysisResult}
+                  </ReactMarkdown>
+                </motion.div>
+              ) : (
+                /* Data visualization content */
+                <motion.div
+                  initial={{ y: 30, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ delay: 0.3, duration: 0.4 }}
+                >
+                  <div className="mb-4 pb-2 border-b">
+                    <h3 className="text-base font-medium">Data Visualizations</h3>
+                    <p className="text-sm text-muted-foreground">Interactive charts visualizing your career analysis data</p>
+                  </div>
+                  <CareerDataVisualizer structuredData={structuredData} />
+                </motion.div>
+              )}
+            </div>
 
             {analysisError && (
               <motion.div
@@ -754,7 +815,7 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.5 }}
               >
-                <Alert variant="destructive" className="mt-4 rounded-lg py-2">
+                <Alert variant="destructive" className="m-4 mt-0 rounded-lg py-2">
                   <AlertCircle className="h-3.5 w-3.5" />
                   <AlertDescription className="text-xs">{analysisError}</AlertDescription>
                 </Alert>
