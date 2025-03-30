@@ -14,7 +14,7 @@ const exampleMessages = [
   },
   {
     heading: 'Remote work vs in-office careers',
-    message: 'Create a table comparing remote work vs in-office careers',
+    message: 'Remote work vs in-office careers',
     icon: <Laptop size={16} className="mr-2 text-green-500" />
   },
   {
@@ -24,7 +24,7 @@ const exampleMessages = [
   },
   {
     heading: 'Create a table comparing tech, finance, and healthcare careers',
-    message: 'Create a comparison table of tech, finance, and healthcare careers showing average salary, growth outlook, entry requirements, and work-life balance',
+    message: 'Create a table comparing tech, finance, and healthcare careers',
     icon: <TableIcon size={16} className="mr-2 text-green-500" />
   }
 ]

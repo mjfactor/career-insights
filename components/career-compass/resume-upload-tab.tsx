@@ -48,7 +48,7 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
   // Add state for results view tab
   const [resultsView, setResultsView] = useState<"text" | "visualization">("text")
   // Add state to control placeholder visibility
-  const [showPlaceholder, setShowPlaceholder] = useState<boolean>(true)
+  const [showPlaceholder, setShowPlaceholder] = useState<boolean>(false)
 
   // Ref to track if component is mounted
   const isMounted = useRef(true);
