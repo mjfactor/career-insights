@@ -14,28 +14,36 @@ export const ReadableMemoizedMarkdown = memo(
         const blocks = useMemo(() => parseMarkdownIntoBlocks(content), [content]);
 
         return (
-            <div className="font-sans text-base leading-relaxed prose prose-stone dark:prose-invert prose-headings:mb-4 prose-headings:mt-6 prose-p:my-4 prose-li:my-2 max-w-none">
+            <div className="font-sans text-base leading-relaxed prose prose-stone dark:prose-invert max-w-none">
                 {blocks.map((block, index) => (
                     <ReactMarkdown
                         key={`${id}-block_${index}`}
                         rehypePlugins={[rehypeRaw]}
                         remarkPlugins={[remarkGfm]}
                         components={{
-                            p: ({ children }) => <p className="my-4">{children}</p>,
-                            h1: ({ children }) => <h1 className="text-2xl font-bold my-6">{children}</h1>,
-                            h2: ({ children }) => <h2 className="text-xl font-bold my-5">{children}</h2>,
-                            h3: ({ children }) => <h3 className="text-lg font-bold my-4">{children}</h3>,
-                            ul: ({ children }) => <ul className="my-4 ml-6 list-disc">{children}</ul>,
-                            ol: ({ children }) => <ol className="my-4 ml-6 list-decimal">{children}</ol>,
-                            li: ({ children }) => <li className="my-2">{children}</li>,
-                            // Add custom table styling
-                            table: ({ children }) => <table className="border-collapse table-auto w-full my-6">{children}</table>,
-                            thead: ({ children }) => <thead className="bg-muted">{children}</thead>,
-                            tbody: ({ children }) => <tbody>{children}</tbody>,
-                            tr: ({ children }) => <tr className="border-b border-muted">{children}</tr>,
-                            th: ({ children, style }) => <th className="p-2 text-left font-bold" style={style}>{children}</th>,
-                            td: ({ children, style }) => <td className="p-2" style={style}>{children}</td>,
-                            // Existing code component
+                            h1: ({ node, ...props }) => <h1 className="text-xl font-bold mt-6 mb-3 pb-1 border-b" {...props} />,
+                            h2: ({ node, ...props }) => <h2 className="text-lg font-bold mt-4 mb-2" {...props} />,
+                            h3: ({ node, ...props }) => <h3 className="text-base font-semibold mt-3 mb-2" {...props} />,
+                            h4: ({ node, ...props }) => <h4 className="text-sm font-semibold mt-3 mb-1" {...props} />,
+                            a: ({ node, href, ...props }) => (
+                                <a href={href} className="text-blue-600 dark:text-blue-400 underline" target="_blank" rel="noopener noreferrer" {...props} />
+                            ),
+                            p: ({ node, ...props }) => <p className="my-2 text-sm" {...props} />,
+                            ul: ({ node, ...props }) => <ul className="list-disc pl-5 my-2" {...props} />,
+                            ol: ({ node, ...props }) => <ol className="list-decimal pl-5 my-2" {...props} />,
+                            li: ({ node, ...props }) => <li className="my-1 text-sm" {...props} />,
+                            blockquote: ({ node, ...props }) => <blockquote className="border-l-4 border-primary/30 pl-3 py-1 my-3 italic text-sm" {...props} />,
+                            table: ({ node, ...props }) => (
+                                <div className="overflow-x-auto my-4 border rounded">
+                                    <table className="w-full text-sm" {...props} />
+                                </div>
+                            ),
+                            thead: ({ node, ...props }) => <thead className="border-b" {...props} />,
+                            tr: ({ node, ...props }) => <tr className="border-b" {...props} />,
+                            th: ({ node, ...props }) => <th className="border-r last:border-r-0 px-3 py-2 text-left font-medium" {...props} />,
+                            td: ({ node, ...props }) => <td className="border-r last:border-r-0 px-3 py-2" {...props} />,
+                            hr: ({ node, ...props }) => <hr className="my-4" {...props} />,
+                            // Keep the existing code component with some adjustments
                             code: ({ className, children, ...props }: {
                                 className?: string;
                                 inline?: boolean;
