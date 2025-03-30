@@ -2,6 +2,7 @@ import { marked } from 'marked';
 import { memo, useMemo } from 'react';
 import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
+import remarkGfm from 'remark-gfm';
 
 function parseMarkdownIntoBlocks(markdown: string): string[] {
     const tokens = marked.lexer(markdown);
@@ -10,7 +11,15 @@ function parseMarkdownIntoBlocks(markdown: string): string[] {
 
 export const ReadableMemoizedMarkdown = memo(
     ({ content, id }: { content: string; id: string }) => {
-        const blocks = useMemo(() => parseMarkdownIntoBlocks(content), [content]);
+        // For tables, it's better to process the whole content rather than blocks
+        // to ensure table structure is maintained
+        const hasTable = content.includes('|') && content.includes('\n|');
+
+        // Only split into blocks if there's no table
+        const blocks = useMemo(() =>
+            hasTable ? [content] : parseMarkdownIntoBlocks(content),
+            [content, hasTable]
+        );
 
         return (
             <div className="font-sans text-base leading-relaxed prose prose-stone dark:prose-invert prose-headings:mb-4 prose-headings:mt-6 prose-p:my-4 prose-li:my-2 max-w-none">
@@ -18,6 +27,7 @@ export const ReadableMemoizedMarkdown = memo(
                     <ReactMarkdown
                         key={`${id}-block_${index}`}
                         rehypePlugins={[rehypeRaw]}
+                        remarkPlugins={[remarkGfm]}
                         components={{
                             p: ({ children }) => <p className="my-4">{children}</p>,
                             h1: ({ children }) => <h1 className="text-2xl font-bold my-6">{children}</h1>,
@@ -45,23 +55,23 @@ export const ReadableMemoizedMarkdown = memo(
                             pre: ({ children }) => (
                                 <pre className="p-4 rounded-md bg-muted overflow-x-auto my-4">{children}</pre>
                             ),
-                            // Table components with improved styling
+                            // Enhanced table components with stronger styling
                             table: ({ children }) => (
                                 <div className="overflow-x-auto my-6 rounded-lg border border-border">
-                                    <table className="min-w-full divide-y divide-border w-full table-auto">
+                                    <table className="min-w-full w-full table-auto border-collapse">
                                         {children}
                                     </table>
                                 </div>
                             ),
                             thead: ({ children }) => <thead className="bg-muted/50">{children}</thead>,
-                            tbody: ({ children }) => <tbody className="divide-y divide-border bg-card">{children}</tbody>,
-                            tr: ({ children }) => <tr className="divide-x divide-border">{children}</tr>,
+                            tbody: ({ children }) => <tbody className="divide-y divide-border">{children}</tbody>,
+                            tr: ({ children }) => <tr className="border-b border-border">{children}</tr>,
                             th: ({ children }) => (
-                                <th scope="col" className="px-4 py-3 text-left text-sm font-semibold">
+                                <th scope="col" className="px-4 py-3 text-left text-sm font-semibold border-r border-border last:border-r-0">
                                     {children}
                                 </th>
                             ),
-                            td: ({ children }) => <td className="px-4 py-3 text-sm border-r last:border-r-0">{children}</td>,
+                            td: ({ children }) => <td className="px-4 py-3 text-sm border-r border-border last:border-r-0">{children}</td>,
                         }}
                     >
                         {block}

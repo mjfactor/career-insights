@@ -17,7 +17,7 @@ import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 // Import the placeholder component
 import StructuredDataPlaceholder from "./StructuredDataPlaceholder"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { CareerDataVisualizer } from "./CareerDataVisualizer"
 
 // Import dialog components for modern confirmation dialogs
@@ -39,12 +39,10 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
   const [uploadStage, setUploadStage] = useState<"idle" | "uploading" | "validating" | "complete">("idle")
   const [isAnalyzing, setIsAnalyzing] = useState(false)
   const [resumeContent, setResumeContent] = useState<string | null>(null)
-  const [analysisResult, setAnalysisResult] = useState<string>("")
+  const [analysisResult, setAnalysisResult] = useState<string | null>(null)
   const [analysisError, setAnalysisError] = useState<string | null>(null)
   const [isStreaming, setIsStreaming] = useState(false);
   const [fileSizeError, setFileSizeError] = useState<boolean>(false)
-  // Add a state to track the analysis phase
-  const [analysisPhase, setAnalysisPhase] = useState<"structured" | "markdown" | null>(null)
   // Add state for structured data
   const [structuredData, setStructuredData] = useState<any>(null)
   // Add state for results view tab
@@ -293,8 +291,8 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
           if (isMounted.current) {
             setIsAnalyzing(false);
             setIsStreaming(false);
-            // Reset the analysis phase to remove the placeholder
-            setAnalysisPhase(null);
+            // Clear the analysis result when aborting
+            setAnalysisResult(null);
           }
         }
       });
@@ -310,8 +308,8 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
     if (isMounted.current) {
       setIsAnalyzing(false);
       setIsStreaming(false);
-      // Reset the analysis phase to remove the placeholder
-      setAnalysisPhase(null);
+      // Clear the analysis result when the user stops the analysis
+      setAnalysisResult(null);
     }
 
     return true;
@@ -330,7 +328,6 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
       setAnalysisError(null);
       setStructuredData(null);
       // Set the initial analysis phase to "structured"
-      setAnalysisPhase("structured");
       // Reset to text view for new analysis
       setResultsView("text");
 
@@ -370,8 +367,7 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
       // Save the structured data for visualization
       setStructuredData(structuredData);
 
-      // Update the analysis phase to "markdown"
-      setAnalysisPhase("markdown");
+
 
       // STEP 2: Now pass the structured data to the main endpoint for markdown formatting
       console.log("Step 2: Getting formatted markdown...");
@@ -703,7 +699,7 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
 
       {/* Analysis Results Section - Always show when streaming or has content */}
       <AnimatePresence mode="wait">
-        {analysisPhase === "structured" && !analysisResult && (
+        {!analysisResult && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
