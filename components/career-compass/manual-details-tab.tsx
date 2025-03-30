@@ -17,6 +17,7 @@ import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 
 import { Switch } from "@/components/ui/switch"
+import StructuredDataPlaceholder from "./StructuredDataPlaceholder"
 
 interface JobExperience {
   id: string
@@ -77,6 +78,8 @@ const ManualDetailsTab = forwardRef(function ManualDetailsTab(props, ref) {
   const [isStreaming, setIsStreaming] = useState(false)
   const [analysisResult, setAnalysisResult] = useState<string>("")
   const [analysisError, setAnalysisError] = useState<string | null>(null)
+  // Add a state to track the analysis phase
+  const [analysisPhase, setAnalysisPhase] = useState<"structured" | "markdown" | null>(null)
 
   // Ref to track if component is mounted
   const isMounted = useRef(true)
@@ -304,6 +307,8 @@ const ManualDetailsTab = forwardRef(function ManualDetailsTab(props, ref) {
     setIsStreaming(true)
     setAnalysisResult("")
     setAnalysisError(null)
+    // Set the initial analysis phase to "structured"
+    setAnalysisPhase("structured")
 
     try {
       // Debug logs for raw data
@@ -373,6 +378,9 @@ const ManualDetailsTab = forwardRef(function ManualDetailsTab(props, ref) {
       const decoder = new TextDecoder()
       let done = false
 
+      // Switch to markdown phase when we start receiving data
+      setAnalysisPhase("markdown")
+
       while (!done) {
         const { value, done: doneReading } = await reader.read()
         done = doneReading
@@ -425,6 +433,7 @@ const ManualDetailsTab = forwardRef(function ManualDetailsTab(props, ref) {
     if (isMounted.current) {
       setIsAnalyzing(false);
       setIsStreaming(false);
+      setAnalysisPhase(null); // Reset the analysis phase
     }
   };
 
@@ -749,7 +758,7 @@ const ManualDetailsTab = forwardRef(function ManualDetailsTab(props, ref) {
                             </Label>
                             {jobErrors.description && isFieldTouched("jobExperiences", job.id, "description") && (
                               <span className="text-xs text-red-500 flex items-center gap-1">
-                                <AlertCircle className="h-3 w-3" />
+                                <AlertCircle className="h-3.5 w-3.5" />
                                 {jobErrors.description}
                               </span>
                             )}
@@ -811,9 +820,23 @@ const ManualDetailsTab = forwardRef(function ManualDetailsTab(props, ref) {
       </div>
 
       {/* Analysis Results Section - Display when streaming or has content */}
-      <AnimatePresence mode="wait">
-        {(isStreaming || analysisResult) && (
+      <AnimatePresence mode="sync">
+        {analysisPhase === "structured" && (
           <motion.div
+            key="structured-placeholder"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.4 }}
+            className="mt-6"
+          >
+            <StructuredDataPlaceholder />
+          </motion.div>
+        )}
+
+        {((analysisPhase === "markdown" && isStreaming) || analysisResult) && (
+          <motion.div
+            key="markdown-results"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}

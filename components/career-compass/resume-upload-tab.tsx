@@ -685,9 +685,10 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
       </div>
 
       {/* Analysis Results Section - Always show when streaming or has content */}
-      <AnimatePresence mode="wait">
+      <AnimatePresence mode="sync">
         {analysisPhase === "structured" && (
           <motion.div
+            key="structured-placeholder"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -700,6 +701,7 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
 
         {((analysisPhase === "markdown" && isStreaming) || analysisResult) && (
           <motion.div
+            key="markdown-results"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
