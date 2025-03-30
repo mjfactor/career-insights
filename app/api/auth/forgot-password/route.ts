@@ -102,7 +102,7 @@ export async function POST(request: NextRequest) {
         });
 
         // Get the base URL for reset link
-        const baseUrl = process.env.NEXTAUTH_URL || 'http://localhost:3000';
+        const baseUrl = process.env.NEXTAUTH_URL || 'https://employment-opportunities.vercel.app';
         const resetUrl = `${baseUrl}/reset-password?token=${token}&email=${encodeURIComponent(email)}`;
 
         try {
