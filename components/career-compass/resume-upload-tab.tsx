@@ -17,6 +17,8 @@ import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 // Import the placeholder component
 import StructuredDataPlaceholder from "./StructuredDataPlaceholder"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { CareerDataVisualizer } from "./CareerDataVisualizer"
 
 // Import dialog components for modern confirmation dialogs
 import {
@@ -43,6 +45,10 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
   const [fileSizeError, setFileSizeError] = useState<boolean>(false)
   // Add a state to track the analysis phase
   const [analysisPhase, setAnalysisPhase] = useState<"structured" | "markdown" | null>(null)
+  // Add state for structured data
+  const [structuredData, setStructuredData] = useState<any>(null)
+  // Add state for results view tab
+  const [resultsView, setResultsView] = useState<"text" | "visualization">("text")
 
   // Ref to track if component is mounted
   const isMounted = useRef(true);
@@ -318,8 +324,11 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
       setIsStreaming(true);
       setAnalysisResult("");
       setAnalysisError(null);
+      setStructuredData(null);
       // Set the initial analysis phase to "structured"
       setAnalysisPhase("structured");
+      // Reset to text view for new analysis
+      setResultsView("text");
 
       // Create an AbortController for this request
       abortControllerRef.current = new AbortController();
@@ -353,6 +362,9 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
       // Parse the structured data
       const structuredData = await structuredResponse.json();
       console.log("Structured data received:", structuredData);
+
+      // Save the structured data for visualization
+      setStructuredData(structuredData);
 
       // Update the analysis phase to "markdown"
       setAnalysisPhase("markdown");
@@ -401,7 +413,7 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
         if (done) break;
       }
 
-    } catch (error: unknown) {
+    } catch (error) {
       // Check if this was an abort error (user cancelled)
       if (error instanceof Error && error.name === 'AbortError') {
         console.log('Analysis was cancelled by the user');
@@ -413,7 +425,8 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
       if (isMounted.current) {
         setIsAnalyzing(false);
         setIsStreaming(false);
-        setAnalysisPhase(null);
+        // Don't reset the analysis phase when the streaming is complete
+        // We want to keep displaying the result
       }
       // Clear the abort controller reference
       abortControllerRef.current = null;
@@ -685,10 +698,9 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
       </div>
 
       {/* Analysis Results Section - Always show when streaming or has content */}
-      <AnimatePresence mode="sync">
-        {analysisPhase === "structured" && (
+      <AnimatePresence mode="wait">
+        {analysisPhase === "structured" && !analysisResult && (
           <motion.div
-            key="structured-placeholder"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -699,9 +711,9 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
           </motion.div>
         )}
 
-        {((analysisPhase === "markdown" && isStreaming) || analysisResult) && (
+        {/* Always render the analysis results if we have any, regardless of phase */}
+        {analysisResult && (
           <motion.div
-            key="markdown-results"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -709,44 +721,80 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
             className="mt-6 rounded-lg p-4 bg-card shadow-md"
             ref={analysisContainerRef}
           >
+            {/* Add tabs for text view and data visualization */}
+            {structuredData && (
+              <div className="mb-4">
+                <Tabs value={resultsView} onValueChange={(v) => setResultsView(v as "text" | "visualization")}>
+                  <TabsList className="grid w-full grid-cols-2 max-w-[400px] mx-auto">
+                    <TabsTrigger value="text" className="text-sm">
+                      <span className="flex items-center gap-1.5">
+                        <FileText className="h-3.5 w-3.5" />
+                        Text Analysis
+                      </span>
+                    </TabsTrigger>
+                    <TabsTrigger value="visualization" className="text-sm">
+                      <span className="flex items-center gap-1.5">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-bar-chart">
+                          <line x1="12" x2="12" y1="20" y2="10"></line>
+                          <line x1="18" x2="18" y1="20" y2="4"></line>
+                          <line x1="6" x2="6" y1="20" y2="16"></line>
+                        </svg>
+                        Data Visualization
+                      </span>
+                    </TabsTrigger>
+                  </TabsList>
+                </Tabs>
+              </div>
+            )}
 
-            {/* Performance optimization: Simplified styling */}
-            <motion.div
-              initial={{ y: 30, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.3, duration: 0.4 }}
-              className="prose prose-sm max-w-none dark:prose-invert"
-            >
-              <ReactMarkdown
-                remarkPlugins={[remarkGfm]}
-                components={{
-                  h1: ({ node, ...props }) => <h1 className="text-xl font-bold mt-6 mb-3 pb-1 border-b" {...props} />,
-                  h2: ({ node, ...props }) => <h2 className="text-lg font-bold mt-4 mb-2" {...props} />,
-                  h3: ({ node, ...props }) => <h3 className="text-base font-semibold mt-3 mb-2" {...props} />,
-                  h4: ({ node, ...props }) => <h4 className="text-sm font-semibold mt-3 mb-1" {...props} />,
-                  a: ({ node, href, ...props }) => (
-                    <a href={href} className="text-blue-600 dark:text-blue-400 underline" target="_blank" rel="noopener noreferrer" {...props} />
-                  ),
-                  p: ({ node, ...props }) => <p className="my-2 text-sm" {...props} />,
-                  ul: ({ node, ...props }) => <ul className="list-disc pl-5 my-2" {...props} />,
-                  ol: ({ node, ...props }) => <ol className="list-decimal pl-5 my-2" {...props} />,
-                  li: ({ node, ...props }) => <li className="my-1 text-sm" {...props} />,
-                  blockquote: ({ node, ...props }) => <blockquote className="border-l-4 border-primary/30 pl-3 py-1 my-3 italic text-sm" {...props} />,
-                  table: ({ node, ...props }) => (
-                    <div className="overflow-x-auto my-4 border rounded">
-                      <table className="w-full text-sm" {...props} />
-                    </div>
-                  ),
-                  thead: ({ node, ...props }) => <thead className="border-b" {...props} />,
-                  tr: ({ node, ...props }) => <tr className="border-b" {...props} />,
-                  th: ({ node, ...props }) => <th className="border-r last:border-r-0 px-3 py-2 text-left font-medium" {...props} />,
-                  td: ({ node, ...props }) => <td className="border-r last:border-r-0 px-3 py-2" {...props} />,
-                  hr: ({ node, ...props }) => <hr className="my-4" {...props} />,
-                }}
+            {(!structuredData || resultsView === "text") && (
+              <motion.div
+                initial={{ y: 30, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.3, duration: 0.4 }}
+                className="prose prose-sm max-w-none dark:prose-invert"
               >
-                {analysisResult}
-              </ReactMarkdown>
-            </motion.div>
+                <ReactMarkdown
+                  remarkPlugins={[remarkGfm]}
+                  components={{
+                    h1: ({ node, ...props }) => <h1 className="text-xl font-bold mt-6 mb-3 pb-1 border-b" {...props} />,
+                    h2: ({ node, ...props }) => <h2 className="text-lg font-bold mt-4 mb-2" {...props} />,
+                    h3: ({ node, ...props }) => <h3 className="text-base font-semibold mt-3 mb-2" {...props} />,
+                    h4: ({ node, ...props }) => <h4 className="text-sm font-semibold mt-3 mb-1" {...props} />,
+                    a: ({ node, href, ...props }) => (
+                      <a href={href} className="text-blue-600 dark:text-blue-400 underline" target="_blank" rel="noopener noreferrer" {...props} />
+                    ),
+                    p: ({ node, ...props }) => <p className="my-2 text-sm" {...props} />,
+                    ul: ({ node, ...props }) => <ul className="list-disc pl-5 my-2" {...props} />,
+                    ol: ({ node, ...props }) => <ol className="list-decimal pl-5 my-2" {...props} />,
+                    li: ({ node, ...props }) => <li className="my-1 text-sm" {...props} />,
+                    blockquote: ({ node, ...props }) => <blockquote className="border-l-4 border-primary/30 pl-3 py-1 my-3 italic text-sm" {...props} />,
+                    table: ({ node, ...props }) => (
+                      <div className="overflow-x-auto my-4 border rounded">
+                        <table className="w-full text-sm" {...props} />
+                      </div>
+                    ),
+                    thead: ({ node, ...props }) => <thead className="border-b" {...props} />,
+                    tr: ({ node, ...props }) => <tr className="border-b" {...props} />,
+                    th: ({ node, ...props }) => <th className="border-r last:border-r-0 px-3 py-2 text-left font-medium" {...props} />,
+                    td: ({ node, ...props }) => <td className="border-r last:border-r-0 px-3 py-2" {...props} />,
+                    hr: ({ node, ...props }) => <hr className="my-4" {...props} />,
+                  }}
+                >
+                  {analysisResult}
+                </ReactMarkdown>
+              </motion.div>
+            )}
+
+            {structuredData && resultsView === "visualization" && (
+              <motion.div
+                initial={{ y: 30, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.3, duration: 0.4 }}
+              >
+                <CareerDataVisualizer structuredData={structuredData} />
+              </motion.div>
+            )}
 
             {analysisError && (
               <motion.div
