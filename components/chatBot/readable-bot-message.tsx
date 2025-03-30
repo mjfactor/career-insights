@@ -1,6 +1,6 @@
 'use client'
 
-import { ReadableMemoizedMarkdown } from '../ui/memoized-markdown'
+import { ReadableMemoizedMarkdown } from '../ui/memoized-markdown-chatbot'
 
 interface ReadableBotMessageProps {
   message: string
