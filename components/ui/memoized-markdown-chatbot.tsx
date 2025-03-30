@@ -45,23 +45,23 @@ export const ReadableMemoizedMarkdown = memo(
                             pre: ({ children }) => (
                                 <pre className="p-4 rounded-md bg-muted overflow-x-auto my-4">{children}</pre>
                             ),
-                            // Table components
+                            // Table components with improved styling
                             table: ({ children }) => (
-                                <div className="overflow-x-auto my-6">
-                                    <table className="min-w-full divide-y divide-gray-300 dark:divide-gray-700 border border-gray-300 dark:border-gray-700">
+                                <div className="overflow-x-auto my-6 rounded-lg border border-border">
+                                    <table className="min-w-full divide-y divide-border w-full table-auto">
                                         {children}
                                     </table>
                                 </div>
                             ),
-                            thead: ({ children }) => <thead className="bg-gray-100 dark:bg-gray-800">{children}</thead>,
-                            tbody: ({ children }) => <tbody className="divide-y divide-gray-200 dark:divide-gray-800">{children}</tbody>,
-                            tr: ({ children }) => <tr>{children}</tr>,
+                            thead: ({ children }) => <thead className="bg-muted/50">{children}</thead>,
+                            tbody: ({ children }) => <tbody className="divide-y divide-border bg-card">{children}</tbody>,
+                            tr: ({ children }) => <tr className="divide-x divide-border">{children}</tr>,
                             th: ({ children }) => (
                                 <th scope="col" className="px-4 py-3 text-left text-sm font-semibold">
                                     {children}
                                 </th>
                             ),
-                            td: ({ children }) => <td className="px-4 py-3 text-sm">{children}</td>,
+                            td: ({ children }) => <td className="px-4 py-3 text-sm border-r last:border-r-0">{children}</td>,
                         }}
                     >
                         {block}

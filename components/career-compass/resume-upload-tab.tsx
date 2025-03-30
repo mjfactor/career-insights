@@ -293,6 +293,8 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
           if (isMounted.current) {
             setIsAnalyzing(false);
             setIsStreaming(false);
+            // Reset the analysis phase to remove the placeholder
+            setAnalysisPhase(null);
           }
         }
       });
@@ -308,6 +310,8 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
     if (isMounted.current) {
       setIsAnalyzing(false);
       setIsStreaming(false);
+      // Reset the analysis phase to remove the placeholder
+      setAnalysisPhase(null);
     }
 
     return true;
