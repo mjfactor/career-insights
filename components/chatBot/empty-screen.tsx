@@ -14,7 +14,7 @@ const exampleMessages = [
   },
   {
     heading: 'Remote work vs in-office careers',
-    message: 'Create a table comparing remote work and in-office careers showing pros and cons, salary differences, productivity impacts, and best industries for each as of 2025',
+    message: 'Create a table comparing remote work vs in-office careers',
     icon: <Laptop size={16} className="mr-2 text-green-500" />
   },
   {

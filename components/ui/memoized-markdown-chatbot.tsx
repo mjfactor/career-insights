@@ -4,6 +4,31 @@ import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
 import remarkGfm from 'remark-gfm';
 
+// Improved table detection function
+function hasValidTable(content: string): boolean {
+    // A valid table should have pipe characters and at least one header-body separator row
+    // The separator row must contain at least one "---" or ":-:" pattern between pipes
+    const lines = content.split('\n');
+    if (lines.length < 3) return false;
+
+    // Find potential header and separator rows
+    const potentialHeaderRow = lines.findIndex(line => line.includes('|'));
+    if (potentialHeaderRow === -1) return false;
+
+    // Check if the next row contains a valid separator (---|--- or :--|:--: etc)
+    if (potentialHeaderRow + 1 >= lines.length) return false;
+
+    const potentialSeparatorRow = lines[potentialHeaderRow + 1];
+    if (!potentialSeparatorRow.includes('|')) return false;
+
+    // Check if separator row contains dashes between pipes
+    const cells = potentialSeparatorRow.split('|').filter(Boolean);
+    return cells.every(cell => {
+        const trimmed = cell.trim();
+        return /^[-:]+$/.test(trimmed) && trimmed.includes('-');
+    });
+}
+
 function parseMarkdownIntoBlocks(markdown: string): string[] {
     const tokens = marked.lexer(markdown);
     return tokens.map(token => token.raw);
@@ -11,9 +36,8 @@ function parseMarkdownIntoBlocks(markdown: string): string[] {
 
 export const ReadableMemoizedMarkdown = memo(
     ({ content, id }: { content: string; id: string }) => {
-        // For tables, it's better to process the whole content rather than blocks
-        // to ensure table structure is maintained
-        const hasTable = content.includes('|') && content.includes('\n|');
+        // Use the improved table detection function
+        const hasTable = useMemo(() => hasValidTable(content), [content]);
 
         // Only split into blocks if there's no table
         const blocks = useMemo(() =>
@@ -55,14 +79,23 @@ export const ReadableMemoizedMarkdown = memo(
                             pre: ({ children }) => (
                                 <pre className="p-4 rounded-md bg-muted overflow-x-auto my-4">{children}</pre>
                             ),
-                            // Enhanced table components with stronger styling
-                            table: ({ children }) => (
-                                <div className="overflow-x-auto my-6 rounded-lg border border-border">
-                                    <table className="min-w-full w-full table-auto border-collapse">
-                                        {children}
-                                    </table>
-                                </div>
-                            ),
+                            // Enhanced table components with stronger styling and better validation
+                            table: ({ children }) => {
+                                // Only render the table if we detected a valid table structure
+                                return hasTable ? (
+                                    <div className="overflow-x-auto my-6 rounded-lg border border-border">
+                                        <table className="min-w-full w-full table-auto border-collapse">
+                                            {children}
+                                        </table>
+                                    </div>
+                                ) : (
+                                    <div className="my-4 p-4 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg">
+                                        <p className="text-sm text-yellow-800 dark:text-yellow-200">
+                                            Table rendering error: Invalid markdown table format.
+                                        </p>
+                                    </div>
+                                );
+                            },
                             thead: ({ children }) => <thead className="bg-muted/50">{children}</thead>,
                             tbody: ({ children }) => <tbody className="divide-y divide-border">{children}</tbody>,
                             tr: ({ children }) => <tr className="border-b border-border">{children}</tr>,

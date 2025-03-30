@@ -47,6 +47,8 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
   const [structuredData, setStructuredData] = useState<any>(null)
   // Add state for results view tab
   const [resultsView, setResultsView] = useState<"text" | "visualization">("text")
+  // Add state to control placeholder visibility
+  const [showPlaceholder, setShowPlaceholder] = useState<boolean>(true)
 
   // Ref to track if component is mounted
   const isMounted = useRef(true);
@@ -291,8 +293,6 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
           if (isMounted.current) {
             setIsAnalyzing(false);
             setIsStreaming(false);
-            // Clear the analysis result when aborting
-            setAnalysisResult(null);
           }
         }
       });
@@ -308,8 +308,6 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
     if (isMounted.current) {
       setIsAnalyzing(false);
       setIsStreaming(false);
-      // Clear the analysis result when the user stops the analysis
-      setAnalysisResult(null);
     }
 
     return true;
@@ -327,7 +325,8 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
       setAnalysisResult("");
       setAnalysisError(null);
       setStructuredData(null);
-      // Set the initial analysis phase to "structured"
+      // Show the placeholder while analyzing
+      setShowPlaceholder(true);
       // Reset to text view for new analysis
       setResultsView("text");
 
@@ -396,22 +395,31 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
         throw new Error("Response has no readable body");
       }
 
-      const decoder = new TextDecoder();
-      let done = false;
+      // Function to process the streaming response data
+      const processStream = async (reader: ReadableStreamDefaultReader<Uint8Array>) => {
+        const decoder = new TextDecoder();
+        let done = false;
 
-      while (!done) {
-        const { value, done: doneReading } = await reader.read();
-        done = doneReading;
+        while (!done) {
+          const { value, done: doneReading } = await reader.read();
+          done = doneReading;
 
-        if (value) {
-          const chunk = decoder.decode(value, { stream: !done });
-          if (isMounted.current) {
-            setAnalysisResult(prev => prev + chunk);
+          if (value) {
+            const chunk = decoder.decode(value, { stream: !done });
+            if (isMounted.current) {
+              setAnalysisResult(prev => {
+                // Hide the placeholder when we get the first chunk of data
+                setShowPlaceholder(false);
+                return prev + chunk;
+              });
+            }
           }
-        }
 
-        if (done) break;
-      }
+          if (done) break;
+        }
+      };
+
+      await processStream(reader);
 
     } catch (error) {
       // Check if this was an abort error (user cancelled)
@@ -425,8 +433,6 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
       if (isMounted.current) {
         setIsAnalyzing(false);
         setIsStreaming(false);
-        // Don't reset the analysis phase when the streaming is complete
-        // We want to keep displaying the result
       }
       // Clear the abort controller reference
       abortControllerRef.current = null;
@@ -699,7 +705,7 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
 
       {/* Analysis Results Section - Always show when streaming or has content */}
       <AnimatePresence mode="wait">
-        {!analysisResult && (
+        {showPlaceholder && !analysisResult && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
