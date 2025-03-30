@@ -15,6 +15,9 @@ import { validateResumeFile, validateResumeText } from "@/lib/actions/resume-val
 // Import markdown renderer
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
+// Import the placeholder components
+import StructuredDataPlaceholder from "./StructuredDataPlaceholder"
+
 
 // Import dialog components for modern confirmation dialogs
 import {
@@ -39,6 +42,8 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
   const [analysisError, setAnalysisError] = useState<string | null>(null)
   const [isStreaming, setIsStreaming] = useState(false);
   const [fileSizeError, setFileSizeError] = useState<boolean>(false)
+  // Add a state to track the analysis phase
+  const [analysisPhase, setAnalysisPhase] = useState<"structured" | "markdown" | null>(null)
 
   // Ref to track if component is mounted
   const isMounted = useRef(true);
@@ -314,6 +319,8 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
       setIsStreaming(true);
       setAnalysisResult("");
       setAnalysisError(null);
+      // Set the initial analysis phase to "structured"
+      setAnalysisPhase("structured");
 
       // Create an AbortController for this request
       abortControllerRef.current = new AbortController();
@@ -332,10 +339,33 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
         throw new Error("No valid content available for analysis");
       }
 
-      // Make the API call with streaming response and abort signal
-      const response = await fetch('/api/career-compass', {
+      // STEP 1: First call the structured endpoint to get structured data
+      console.log("Step 1: Getting structured data...");
+      const structuredResponse = await fetch('/api/career-compass/structured', {
         method: 'POST',
         body: formData,
+        signal, // Pass the abort signal
+      });
+
+      if (!structuredResponse.ok) {
+        throw new Error(`Error getting structured data: ${structuredResponse.status}`);
+      }
+
+      // Parse the structured data
+      const structuredData = await structuredResponse.json();
+      console.log("Structured data received:", structuredData);
+
+      // Update the analysis phase to "markdown"
+      setAnalysisPhase("markdown");
+
+      // STEP 2: Now pass the structured data to the main endpoint for markdown formatting
+      console.log("Step 2: Getting formatted markdown...");
+      const response = await fetch('/api/career-compass', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ structuredData }),
         signal, // Pass the abort signal
       });
 
@@ -384,6 +414,7 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
       if (isMounted.current) {
         setIsAnalyzing(false);
         setIsStreaming(false);
+        setAnalysisPhase(null);
       }
       // Clear the abort controller reference
       abortControllerRef.current = null;
@@ -406,7 +437,7 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
   return (
     <div className="space-y-6 relative">
       <div className="flex flex-col gap-3">
-        <h2 className="text-2xl font-bold bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent">Career Compass</h2>
+        <h2 className="text-2xl font-bold bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent">Resume Upload</h2>
         <p className="text-muted-foreground text-base">Upload your resume and let our AI analyze your skills, experience, and potential. Get personalized insights to accelerate your career journey.</p>
         <p className="text-xs text-muted-foreground">Our system uses a sophisticated <span className="font-medium text-primary">Random Forest model</span> to identify key qualifications and skills from your resume, combined with a state-of-the-art <span className="font-medium text-primary">Large Language Model (LLM)</span> to provide detailed career insights and recommendations tailored specifically to your professional background.</p>
       </div>
@@ -656,7 +687,19 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
 
       {/* Analysis Results Section - Always show when streaming or has content */}
       <AnimatePresence mode="wait">
-        {(isStreaming || analysisResult) && (
+        {analysisPhase === "structured" && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.4 }}
+            className="mt-6"
+          >
+            <StructuredDataPlaceholder />
+          </motion.div>
+        )}
+
+        {((analysisPhase === "markdown" && isStreaming) || analysisResult) && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}

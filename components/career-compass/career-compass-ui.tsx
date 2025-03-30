@@ -67,14 +67,41 @@ export default function CareerAnalysis() {
 
     return (
         <div className="space-y-6 w-full max-w-[75rem] mx-auto pt-6">
-            <Tabs value={activeTab} className="w-full" onValueChange={handleTabChange}>
-                <TabsList className="grid w-full grid-cols-2 mb-8">
-                    <TabsTrigger value="resume-upload">Resume Upload</TabsTrigger>
-                    <TabsTrigger value="manual-details">Manual Details</TabsTrigger>
-                </TabsList>
+            {/* Description section for Career Compass */}
+            <div className="mb-6 px-6">
+                <h1 className="text-2xl font-bold mb-2 bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent">Career Compass</h1>
+                <p className="text-muted-foreground">
+                    Your personal career navigator. Analyze your resume or enter your details manually to receive AI-powered insights,
+                    job recommendations, and skill development guidance tailored specifically to your professional background.
+                </p>
+            </div>
 
-                <Card className="w-full border-none">
-                    <CardContent className="pt-6">
+            <Tabs value={activeTab} className="w-full" onValueChange={handleTabChange}>
+                <div className="px-6">
+                    <TabsList className="grid w-full grid-cols-2 mb-6 p-1.5 bg-card/50 backdrop-blur-sm border shadow-sm rounded-xl overflow-hidden">
+                        <TabsTrigger
+                            value="resume-upload"
+                            className="rounded-lg px-8 py-3.5 min-h-[4rem] data-[state=active]:bg-white dark:data-[state=active]:bg-zinc-800 data-[state=active]:shadow-sm relative z-10 transition-all duration-200"
+                        >
+                            <div className="flex flex-col items-center justify-center space-y-1 pb-10">
+                                <span className="font-medium leading-none">Resume Upload</span>
+
+                            </div>
+                        </TabsTrigger>
+                        <TabsTrigger
+                            value="manual-details"
+                            className="rounded-lg px-8 py-3.5 min-h-[4rem] data-[state=active]:bg-white dark:data-[state=active]:bg-zinc-800 data-[state=active]:shadow-sm relative z-10 transition-all duration-200"
+                        >
+                            <div className="flex flex-col items-center justify-center space-y-1 pb-10">
+                                <span className="font-medium leading-none">Manual Details</span>
+
+                            </div>
+                        </TabsTrigger>
+                    </TabsList>
+                </div>
+
+                <Card className="w-full border-none shadow-sm">
+                    <CardContent className="pt-6 px-6">
                         {/* Always render both components but control visibility with CSS */}
                         <div style={{ display: activeTab === "resume-upload" ? 'block' : 'none' }}>
                             <ResumeUploadTab ref={resumeUploadRef} />

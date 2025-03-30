@@ -254,6 +254,7 @@ const ManualDetailsTab = forwardRef(function ManualDetailsTab(props, ref) {
     setJobExperiences(jobExperiences.map((job) => (job.id === id ? { ...job, [field]: value } : job)))
   }
 
+  // Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
@@ -326,12 +327,32 @@ const ManualDetailsTab = forwardRef(function ManualDetailsTab(props, ref) {
       abortControllerRef.current = new AbortController();
       const signal = abortControllerRef.current.signal;
 
-      // Make the API call with streaming response and abort signal
-      const response = await fetch('/api/career-compass', {
+      // STEP 1: First call the structured endpoint to get structured data
+      console.log("Step 1: Getting structured data...");
+      const structuredResponse = await fetch('/api/career-compass/structured', {
         method: 'POST',
         body: formData,
-        signal, // Add abort signal
-      })
+        signal, // Pass the abort signal
+      });
+
+      if (!structuredResponse.ok) {
+        throw new Error(`Error getting structured data: ${structuredResponse.status}`);
+      }
+
+      // Parse the structured data
+      const structuredData = await structuredResponse.json();
+      console.log("Structured data received:", structuredData);
+
+      // STEP 2: Now pass the structured data to the main endpoint for markdown formatting
+      console.log("Step 2: Getting formatted markdown...");
+      const response = await fetch('/api/career-compass', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ structuredData }),
+        signal, // Pass the abort signal
+      });
 
       if (!response.ok) {
         // Try to parse error response
