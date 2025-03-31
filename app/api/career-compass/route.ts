@@ -119,7 +119,13 @@ export async function POST(request: NextRequest) {
       });
 
       // Return the streaming response
-      return response.toTextStreamResponse();
+      return response.toTextStreamResponse({
+        headers: {
+          'Content-Type': 'text/event-stream',
+          'Cache-Control': 'no-cache, no-transform',
+          'Connection': 'keep-alive',
+        },
+      });
     }
 
   } catch (error) {

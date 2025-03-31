@@ -293,6 +293,7 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
           if (isMounted.current) {
             setIsAnalyzing(false);
             setIsStreaming(false);
+            setAnalysisPhase(null); // Reset the analysis phase when stopping
           }
         }
       });
@@ -308,6 +309,7 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
     if (isMounted.current) {
       setIsAnalyzing(false);
       setIsStreaming(false);
+      setAnalysisPhase(null); // Reset the analysis phase when stopping
     }
 
     return true;
@@ -425,8 +427,7 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
       if (isMounted.current) {
         setIsAnalyzing(false);
         setIsStreaming(false);
-        // Don't reset the analysis phase when the streaming is complete
-        // We want to keep displaying the result
+
       }
       // Clear the abort controller reference
       abortControllerRef.current = null;
