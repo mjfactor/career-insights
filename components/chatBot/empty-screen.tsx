@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button'
-import { TrendingUp, DollarSign, Laptop, HandshakeIcon } from 'lucide-react'
+import { TrendingUp, DollarSign, Laptop, HandshakeIcon, TableIcon } from 'lucide-react'
 
 const exampleMessages = [
   {
@@ -21,6 +21,11 @@ const exampleMessages = [
     heading: 'Tips for negotiating a higher salary',
     message: 'Tips for negotiating a higher salary',
     icon: <HandshakeIcon size={16} className="mr-2 text-green-500" />
+  },
+  {
+    heading: 'Create a table comparing tech, finance, and healthcare careers',
+    message: 'Create a table comparing tech, finance, and healthcare careers',
+    icon: <TableIcon size={16} className="mr-2 text-green-500" />
   }
 ]
 export function EmptyScreen({

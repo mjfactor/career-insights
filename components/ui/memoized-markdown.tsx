@@ -2,6 +2,7 @@ import { marked } from 'marked';
 import { memo, useMemo } from 'react';
 import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
+import remarkGfm from 'remark-gfm';
 
 function parseMarkdownIntoBlocks(markdown: string): string[] {
     const tokens = marked.lexer(markdown);
@@ -18,6 +19,7 @@ export const ReadableMemoizedMarkdown = memo(
                     <ReactMarkdown
                         key={`${id}-block_${index}`}
                         rehypePlugins={[rehypeRaw]}
+                        remarkPlugins={[remarkGfm]}
                         components={{
                             p: ({ children }) => <p className="my-4">{children}</p>,
                             h1: ({ children }) => <h1 className="text-2xl font-bold my-6">{children}</h1>,
@@ -26,6 +28,14 @@ export const ReadableMemoizedMarkdown = memo(
                             ul: ({ children }) => <ul className="my-4 ml-6 list-disc">{children}</ul>,
                             ol: ({ children }) => <ol className="my-4 ml-6 list-decimal">{children}</ol>,
                             li: ({ children }) => <li className="my-2">{children}</li>,
+                            // Add custom table styling
+                            table: ({ children }) => <table className="border-collapse table-auto w-full my-6">{children}</table>,
+                            thead: ({ children }) => <thead className="bg-muted">{children}</thead>,
+                            tbody: ({ children }) => <tbody>{children}</tbody>,
+                            tr: ({ children }) => <tr className="border-b border-muted">{children}</tr>,
+                            th: ({ children, style }) => <th className="p-2 text-left font-bold" style={style}>{children}</th>,
+                            td: ({ children, style }) => <td className="p-2" style={style}>{children}</td>,
+                            // Existing code component
                             code: ({ className, children, ...props }: {
                                 className?: string;
                                 inline?: boolean;
