@@ -15,10 +15,6 @@ import { validateResumeFile, validateResumeText } from "@/lib/actions/resume-val
 // Import markdown renderer
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
-// Import the placeholder component
-import StructuredDataPlaceholder from "./StructuredDataPlaceholder"
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { CareerDataVisualizer } from "./CareerDataVisualizer"
 
 // Import dialog components for modern confirmation dialogs
 import {
@@ -39,16 +35,10 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
   const [uploadStage, setUploadStage] = useState<"idle" | "uploading" | "validating" | "complete">("idle")
   const [isAnalyzing, setIsAnalyzing] = useState(false)
   const [resumeContent, setResumeContent] = useState<string | null>(null)
-  const [analysisResult, setAnalysisResult] = useState<string | null>(null)
+  const [analysisResult, setAnalysisResult] = useState<string>("")
   const [analysisError, setAnalysisError] = useState<string | null>(null)
   const [isStreaming, setIsStreaming] = useState(false);
   const [fileSizeError, setFileSizeError] = useState<boolean>(false)
-  // Add state for structured data
-  const [structuredData, setStructuredData] = useState<any>(null)
-  // Add state for results view tab
-  const [resultsView, setResultsView] = useState<"text" | "visualization">("text")
-  // Add state to control placeholder visibility
-  const [showPlaceholder, setShowPlaceholder] = useState<boolean>(false)
 
   // Ref to track if component is mounted
   const isMounted = useRef(true);
@@ -293,7 +283,6 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
           if (isMounted.current) {
             setIsAnalyzing(false);
             setIsStreaming(false);
-            setShowPlaceholder(false); // Hide the placeholder when stopping analysis
           }
         }
       });
@@ -309,7 +298,6 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
     if (isMounted.current) {
       setIsAnalyzing(false);
       setIsStreaming(false);
-      setShowPlaceholder(false); // Hide the placeholder when stopping analysis
     }
 
     return true;
@@ -326,11 +314,6 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
       setIsStreaming(true);
       setAnalysisResult("");
       setAnalysisError(null);
-      setStructuredData(null);
-      // Show the placeholder while analyzing
-      setShowPlaceholder(true);
-      // Reset to text view for new analysis
-      setResultsView("text");
 
       // Create an AbortController for this request
       abortControllerRef.current = new AbortController();
@@ -349,35 +332,10 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
         throw new Error("No valid content available for analysis");
       }
 
-      // STEP 1: First call the structured endpoint to get structured data
-      console.log("Step 1: Getting structured data...");
-      const structuredResponse = await fetch('/api/career-compass/structured', {
-        method: 'POST',
-        body: formData,
-        signal, // Pass the abort signal
-      });
-
-      if (!structuredResponse.ok) {
-        throw new Error(`Error getting structured data: ${structuredResponse.status}`);
-      }
-
-      // Parse the structured data
-      const structuredData = await structuredResponse.json();
-      console.log("Structured data received:", structuredData);
-
-      // Save the structured data for visualization
-      setStructuredData(structuredData);
-
-
-
-      // STEP 2: Now pass the structured data to the main endpoint for markdown formatting
-      console.log("Step 2: Getting formatted markdown...");
+      // Make the API call with streaming response and abort signal
       const response = await fetch('/api/career-compass', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ structuredData }),
+        body: formData,
         signal, // Pass the abort signal
       });
 
@@ -397,33 +355,24 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
         throw new Error("Response has no readable body");
       }
 
-      // Function to process the streaming response data
-      const processStream = async (reader: ReadableStreamDefaultReader<Uint8Array>) => {
-        const decoder = new TextDecoder();
-        let done = false;
+      const decoder = new TextDecoder();
+      let done = false;
 
-        while (!done) {
-          const { value, done: doneReading } = await reader.read();
-          done = doneReading;
+      while (!done) {
+        const { value, done: doneReading } = await reader.read();
+        done = doneReading;
 
-          if (value) {
-            const chunk = decoder.decode(value, { stream: !done });
-            if (isMounted.current) {
-              setAnalysisResult(prev => {
-                // Hide the placeholder when we get the first chunk of data
-                setShowPlaceholder(false);
-                return prev + chunk;
-              });
-            }
+        if (value) {
+          const chunk = decoder.decode(value, { stream: !done });
+          if (isMounted.current) {
+            setAnalysisResult(prev => prev + chunk);
           }
-
-          if (done) break;
         }
-      };
 
-      await processStream(reader);
+        if (done) break;
+      }
 
-    } catch (error) {
+    } catch (error: unknown) {
       // Check if this was an abort error (user cancelled)
       if (error instanceof Error && error.name === 'AbortError') {
         console.log('Analysis was cancelled by the user');
@@ -457,7 +406,7 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
   return (
     <div className="space-y-6 relative">
       <div className="flex flex-col gap-3">
-        <h2 className="text-2xl font-bold bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent">Resume Upload</h2>
+        <h2 className="text-2xl font-bold bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent">Career Compass</h2>
         <p className="text-muted-foreground text-base">Upload your resume and let our AI analyze your skills, experience, and potential. Get personalized insights to accelerate your career journey.</p>
         <p className="text-xs text-muted-foreground">Our system uses a sophisticated <span className="font-medium text-primary">Random Forest model</span> to identify key qualifications and skills from your resume, combined with a state-of-the-art <span className="font-medium text-primary">Large Language Model (LLM)</span> to provide detailed career insights and recommendations tailored specifically to your professional background.</p>
       </div>
@@ -707,20 +656,7 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
 
       {/* Analysis Results Section - Always show when streaming or has content */}
       <AnimatePresence mode="wait">
-        {showPlaceholder && !analysisResult && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.4 }}
-            className="mt-6"
-          >
-            <StructuredDataPlaceholder />
-          </motion.div>
-        )}
-
-        {/* Always render the analysis results if we have any, regardless of phase */}
-        {analysisResult && (
+        {(isStreaming || analysisResult) && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -729,80 +665,43 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
             className="mt-6 rounded-lg p-4 bg-card shadow-md"
             ref={analysisContainerRef}
           >
-            {/* Add tabs for text view and data visualization */}
-            {structuredData && (
-              <div className="mb-4">
-                <Tabs value={resultsView} onValueChange={(v) => setResultsView(v as "text" | "visualization")}>
-                  <TabsList className="grid w-full grid-cols-2 max-w-[400px] mx-auto">
-                    <TabsTrigger value="text" className="text-sm">
-                      <span className="flex items-center gap-1.5">
-                        <FileText className="h-3.5 w-3.5" />
-                        Text Analysis
-                      </span>
-                    </TabsTrigger>
-                    <TabsTrigger value="visualization" className="text-sm">
-                      <span className="flex items-center gap-1.5">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-bar-chart">
-                          <line x1="12" x2="12" y1="20" y2="10"></line>
-                          <line x1="18" x2="18" y1="20" y2="4"></line>
-                          <line x1="6" x2="6" y1="20" y2="16"></line>
-                        </svg>
-                        Data Visualization
-                      </span>
-                    </TabsTrigger>
-                  </TabsList>
-                </Tabs>
-              </div>
-            )}
 
-            {(!structuredData || resultsView === "text") && (
-              <motion.div
-                initial={{ y: 30, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.3, duration: 0.4 }}
-                className="prose prose-sm max-w-none dark:prose-invert"
+            <motion.div
+              initial={{ y: 30, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.3, duration: 0.4 }}
+              className="prose prose-sm max-w-none dark:prose-invert"
+            >
+              <ReactMarkdown
+                remarkPlugins={[remarkGfm]}
+                components={{
+                  h1: ({ node, ...props }) => <h1 className="text-xl font-bold mt-6 mb-3 pb-1 border-b" {...props} />,
+                  h2: ({ node, ...props }) => <h2 className="text-lg font-bold mt-4 mb-2" {...props} />,
+                  h3: ({ node, ...props }) => <h3 className="text-base font-semibold mt-3 mb-2" {...props} />,
+                  h4: ({ node, ...props }) => <h4 className="text-sm font-semibold mt-3 mb-1" {...props} />,
+                  a: ({ node, href, ...props }) => (
+                    <a href={href} className="text-blue-600 dark:text-blue-400 underline" target="_blank" rel="noopener noreferrer" {...props} />
+                  ),
+                  p: ({ node, ...props }) => <p className="my-2 text-sm" {...props} />,
+                  ul: ({ node, ...props }) => <ul className="list-disc pl-5 my-2" {...props} />,
+                  ol: ({ node, ...props }) => <ol className="list-decimal pl-5 my-2" {...props} />,
+                  li: ({ node, ...props }) => <li className="my-1 text-sm" {...props} />,
+                  blockquote: ({ node, ...props }) => <blockquote className="border-l-4 border-primary/30 pl-3 py-1 my-3 italic text-sm" {...props} />,
+                  table: ({ node, ...props }) => (
+                    <div className="overflow-x-auto my-4 border rounded">
+                      <table className="w-full text-sm" {...props} />
+                    </div>
+                  ),
+                  thead: ({ node, ...props }) => <thead className="border-b" {...props} />,
+                  tr: ({ node, ...props }) => <tr className="border-b" {...props} />,
+                  th: ({ node, ...props }) => <th className="border-r last:border-r-0 px-3 py-2 text-left font-medium" {...props} />,
+                  td: ({ node, ...props }) => <td className="border-r last:border-r-0 px-3 py-2" {...props} />,
+                  hr: ({ node, ...props }) => <hr className="my-4" {...props} />,
+                }}
               >
-                <ReactMarkdown
-                  remarkPlugins={[remarkGfm]}
-                  components={{
-                    h1: ({ node, ...props }) => <h1 className="text-xl font-bold mt-6 mb-3 pb-1 border-b" {...props} />,
-                    h2: ({ node, ...props }) => <h2 className="text-lg font-bold mt-4 mb-2" {...props} />,
-                    h3: ({ node, ...props }) => <h3 className="text-base font-semibold mt-3 mb-2" {...props} />,
-                    h4: ({ node, ...props }) => <h4 className="text-sm font-semibold mt-3 mb-1" {...props} />,
-                    a: ({ node, href, ...props }) => (
-                      <a href={href} className="text-blue-600 dark:text-blue-400 underline" target="_blank" rel="noopener noreferrer" {...props} />
-                    ),
-                    p: ({ node, ...props }) => <p className="my-2 text-sm" {...props} />,
-                    ul: ({ node, ...props }) => <ul className="list-disc pl-5 my-2" {...props} />,
-                    ol: ({ node, ...props }) => <ol className="list-decimal pl-5 my-2" {...props} />,
-                    li: ({ node, ...props }) => <li className="my-1 text-sm" {...props} />,
-                    blockquote: ({ node, ...props }) => <blockquote className="border-l-4 border-primary/30 pl-3 py-1 my-3 italic text-sm" {...props} />,
-                    table: ({ node, ...props }) => (
-                      <div className="overflow-x-auto my-4 border rounded">
-                        <table className="w-full text-sm" {...props} />
-                      </div>
-                    ),
-                    thead: ({ node, ...props }) => <thead className="border-b" {...props} />,
-                    tr: ({ node, ...props }) => <tr className="border-b" {...props} />,
-                    th: ({ node, ...props }) => <th className="border-r last:border-r-0 px-3 py-2 text-left font-medium" {...props} />,
-                    td: ({ node, ...props }) => <td className="border-r last:border-r-0 px-3 py-2" {...props} />,
-                    hr: ({ node, ...props }) => <hr className="my-4" {...props} />,
-                  }}
-                >
-                  {analysisResult}
-                </ReactMarkdown>
-              </motion.div>
-            )}
-
-            {structuredData && resultsView === "visualization" && (
-              <motion.div
-                initial={{ y: 30, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.3, duration: 0.4 }}
-              >
-                <CareerDataVisualizer structuredData={structuredData} />
-              </motion.div>
-            )}
+                {analysisResult}
+              </ReactMarkdown>
+            </motion.div>
 
             {analysisError && (
               <motion.div

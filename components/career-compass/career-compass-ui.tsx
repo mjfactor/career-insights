@@ -77,31 +77,13 @@ export default function CareerAnalysis() {
             </div>
 
             <Tabs value={activeTab} className="w-full" onValueChange={handleTabChange}>
-                <div className="px-6">
-                    <TabsList className="grid w-full grid-cols-2 mb-6 p-1.5 bg-card/50 backdrop-blur-sm border shadow-sm rounded-xl overflow-hidden">
-                        <TabsTrigger
-                            value="resume-upload"
-                            className="rounded-lg px-8 py-3.5 min-h-[4rem] data-[state=active]:bg-white dark:data-[state=active]:bg-zinc-800 data-[state=active]:shadow-sm relative z-10 transition-all duration-200"
-                        >
-                            <div className="flex flex-col items-center justify-center space-y-1 pb-10">
-                                <span className="font-medium leading-none">Resume Upload</span>
+                <TabsList className="grid w-full  grid-cols-2 mb-2">
+                    <TabsTrigger value="resume-upload">Resume Upload</TabsTrigger>
+                    <TabsTrigger value="manual-details">Manual Details</TabsTrigger>
+                </TabsList>
 
-                            </div>
-                        </TabsTrigger>
-                        <TabsTrigger
-                            value="manual-details"
-                            className="rounded-lg px-8 py-3.5 min-h-[4rem] data-[state=active]:bg-white dark:data-[state=active]:bg-zinc-800 data-[state=active]:shadow-sm relative z-10 transition-all duration-200"
-                        >
-                            <div className="flex flex-col items-center justify-center space-y-1 pb-10">
-                                <span className="font-medium leading-none">Manual Details</span>
-
-                            </div>
-                        </TabsTrigger>
-                    </TabsList>
-                </div>
-
-                <Card className="w-full border-none shadow-sm">
-                    <CardContent className="pt-6 px-6">
+                <Card className="w-full border-none">
+                    <CardContent className="pt-6">
                         {/* Always render both components but control visibility with CSS */}
                         <div style={{ display: activeTab === "resume-upload" ? 'block' : 'none' }}>
                             <ResumeUploadTab ref={resumeUploadRef} />
