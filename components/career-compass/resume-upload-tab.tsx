@@ -18,7 +18,8 @@ import remarkGfm from 'remark-gfm'
 // Import the placeholder component
 import StructuredDataPlaceholder from "./StructuredDataPlaceholder"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { CareerDataVisualizer } from "./CareerDataVisualizer"
+import CareerDataVisualizer from "./CareerDataVisualizer"
+
 
 // Import dialog components for modern confirmation dialogs
 import {
