@@ -279,7 +279,7 @@ export default function CareerDataVisualizer({ structuredData }: CareerDataVisua
                                     margin={{
                                         top: 40,
                                         right: 40,
-                                        bottom: 40,
+                                        bottom: 200,
                                         left: 40,
                                     }}
                                     barCategoryGap={20}
@@ -292,7 +292,7 @@ export default function CareerDataVisualizer({ structuredData }: CareerDataVisua
                                         axisLine={false}
                                     />
                                     <YAxis
-                                        domain={[0, 100]}
+                                        domain={[0, (dataMax: number) => Math.ceil(dataMax * 1.1)]}
                                         tickLine={false}
                                         axisLine={false}
                                     />
@@ -380,7 +380,7 @@ export default function CareerDataVisualizer({ structuredData }: CareerDataVisua
                                     margin={{
                                         top: 40,
                                         right: 40,
-                                        bottom: 40,
+                                        bottom: 200,
                                         left: 40,
                                     }}
                                     barCategoryGap={20}
@@ -458,7 +458,7 @@ export default function CareerDataVisualizer({ structuredData }: CareerDataVisua
                                     margin={{
                                         top: 40,
                                         right: 40,
-                                        bottom: 40,
+                                        bottom: 200,
                                         left: 40,
                                     }}
                                     barCategoryGap={20}
@@ -471,6 +471,7 @@ export default function CareerDataVisualizer({ structuredData }: CareerDataVisua
                                         axisLine={false}
                                     />
                                     <YAxis
+                                        domain={[0, (dataMax: number) => Math.ceil(dataMax * 1.1)]}
                                         tickFormatter={(value) => `$${value / 1000}K`}
                                         tickLine={false}
                                         axisLine={false}
@@ -534,7 +535,7 @@ export default function CareerDataVisualizer({ structuredData }: CareerDataVisua
                                     margin={{
                                         top: 40,
                                         right: 40,
-                                        bottom: 40,
+                                        bottom: 200,
                                         left: 40,
                                     }}
                                     barCategoryGap={20}
@@ -547,6 +548,7 @@ export default function CareerDataVisualizer({ structuredData }: CareerDataVisua
                                         axisLine={false}
                                     />
                                     <YAxis
+                                        domain={[0, (dataMax: number) => Math.ceil(dataMax * 1.1)]}
                                         tickLine={false}
                                         axisLine={false}
                                     />
