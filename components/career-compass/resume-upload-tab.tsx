@@ -19,7 +19,7 @@ import remarkGfm from 'remark-gfm'
 import StructuredDataPlaceholder from "./StructuredDataPlaceholder"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import CareerDataVisualizer from "./CareerDataVisualizer"
-
+import rehypeRaw from 'rehype-raw';
 
 // Import dialog components for modern confirmation dialogs
 import {
@@ -34,7 +34,6 @@ import {
 const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
   const [file, setFile] = useState<File | null>(null)
   const [isDragging, setIsDragging] = useState(false)
-  const [isValidating, setIsValidating] = useState(false)
   const [isValidResume, setIsValidResume] = useState<boolean | null>(null)
   const [uploadProgress, setUploadProgress] = useState(0)
   const [uploadStage, setUploadStage] = useState<"idle" | "uploading" | "validating" | "complete">("idle")
@@ -43,11 +42,11 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
   const [analysisResult, setAnalysisResult] = useState<string>("")
   const [isStreaming, setIsStreaming] = useState(false);
   const [fileSizeError, setFileSizeError] = useState<boolean>(false)
-  // Add a state to track the analysis phase
+  // Analysis phase state
   const [analysisPhase, setAnalysisPhase] = useState<"structured" | "markdown" | null>(null)
-  // Add state for structured data
+  // Structured data state
   const [structuredData, setStructuredData] = useState<any>(null)
-  // Add state for results view tab
+  // Results view tab state
   const [resultsView, setResultsView] = useState<"text" | "visualization">("text")
 
   // Ref to track if component is mounted
@@ -139,8 +138,6 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
   const validateResume = async () => {
     if (!file) return
 
-    setIsValidating(true)
-
     try {
       const fileExtension = file.name.split('.').pop()?.toLowerCase();
       let extractedText = '';
@@ -173,12 +170,10 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
         setResumeContent(extractedText);
       }
 
-      setIsValidating(false);
       setUploadStage("complete");
     } catch (error) {
       console.error("Error processing file:", error)
       setIsValidResume(false)
-      setIsValidating(false)
       setUploadStage("complete")
     }
   }
@@ -241,9 +236,6 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
     setFileSizeError(false);
     setFile(selectedFile);
     setIsValidResume(null);
-
-    // Remove text file preview logic since we no longer accept txt files
-
   }
 
   const removeFile = () => {
@@ -255,16 +247,16 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
         description: "Removing the file will stop the current analysis. This action cannot be undone.",
         action: () => {
           stopAnalysis();
-          setFile(null);
-          setIsValidResume(null);
-          setUploadStage("idle");
-          setUploadProgress(0);
-          setFileSizeError(false);
+          resetFileState();
         }
       });
       return;
     }
 
+    resetFileState();
+  }
+
+  const resetFileState = () => {
     setFile(null);
     setIsValidResume(null);
     setUploadStage("idle");
@@ -284,23 +276,17 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
         title: "Stop Analysis?",
         description: "This will immediately stop the current analysis process. Any partial results will remain visible.",
         action: () => {
-          // Actual stop logic
-          if (abortControllerRef.current) {
-            abortControllerRef.current.abort();
-            abortControllerRef.current = null;
-          }
-
-          if (isMounted.current) {
-            setIsAnalyzing(false);
-            setIsStreaming(false);
-            setAnalysisPhase(null); // Reset the analysis phase when stopping
-          }
+          cancelOngoingAnalysis();
         }
       });
       return false;
     }
 
-    // If not showing confirmation, just stop the analysis
+    cancelOngoingAnalysis();
+    return true;
+  }
+
+  const cancelOngoingAnalysis = () => {
     if (abortControllerRef.current) {
       abortControllerRef.current.abort();
       abortControllerRef.current = null;
@@ -309,10 +295,8 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
     if (isMounted.current) {
       setIsAnalyzing(false);
       setIsStreaming(false);
-      setAnalysisPhase(null); // Reset the analysis phase when stopping
+      setAnalysisPhase(null);
     }
-
-    return true;
   }
 
   // Handle resume submission for analysis with streaming
@@ -326,9 +310,7 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
       setIsStreaming(true);
       setAnalysisResult("");
       setStructuredData(null);
-      // Set the initial analysis phase to "structured"
       setAnalysisPhase("structured");
-      // Reset to text view for new analysis
       setResultsView("text");
 
       // Create an AbortController for this request
@@ -339,10 +321,8 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
       const formData = new FormData();
 
       if (file && file.name.toLowerCase().endsWith('.pdf')) {
-        // For PDF files, upload the file directly
         formData.append('file', file);
       } else if (resumeContent) {
-        // For DOCX or extracted text content
         formData.append('text', resumeContent);
       } else {
         throw new Error("No valid content available for analysis");
@@ -353,7 +333,7 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
       const structuredResponse = await fetch('/api/career-compass/structured', {
         method: 'POST',
         body: formData,
-        signal, // Pass the abort signal
+        signal,
       });
 
       if (!structuredResponse.ok) {
@@ -366,8 +346,6 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
 
       // Save the structured data for visualization
       setStructuredData(structuredData);
-
-      // Update the analysis phase to "markdown"
       setAnalysisPhase("markdown");
 
       // STEP 2: Now pass the structured data to the main endpoint for markdown formatting
@@ -378,11 +356,10 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ structuredData }),
-        signal, // Pass the abort signal
+        signal,
       });
 
       if (!response.ok) {
-        // Try to parse error response
         try {
           const errorData = await response.json();
           throw new Error(errorData.error || `Error: ${response.status}`);
@@ -425,9 +402,7 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
       if (isMounted.current) {
         setIsAnalyzing(false);
         setIsStreaming(false);
-
       }
-      // Clear the abort controller reference
       abortControllerRef.current = null;
     }
   };
@@ -552,7 +527,7 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
             </Card>
 
             <AnimatePresence>
-              {isValidResume === false && !isValidating && (
+              {isValidResume === false && uploadStage === "complete" && (
                 <motion.div
                   initial={{ opacity: 0, height: 0 }}
                   animate={{ opacity: 1, height: "auto" }}
@@ -568,7 +543,7 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
                 </motion.div>
               )}
 
-              {isValidResume === true && !isValidating && (
+              {isValidResume === true && uploadStage === "complete" && (
                 <motion.div
                   initial={{ opacity: 0, height: 0 }}
                   animate={{ opacity: 1, height: "auto" }}
@@ -661,7 +636,7 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
         >
           <Button
             size="sm"
-            disabled={!isValidResume || isValidating || isAnalyzing}
+            disabled={!isValidResume || uploadStage === "validating" || isAnalyzing}
             className={cn(
               "mt-1 rounded-lg font-medium transition-all",
               isAnalyzing ? "bg-primary/80" : "bg-gradient-to-r from-primary to-blue-500 hover:shadow-lg hover:shadow-primary/20"
@@ -697,8 +672,6 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
             <StructuredDataPlaceholder />
           </motion.div>
         )}
-
-        {/* Always render the analysis results if we have any, regardless of phase */}
         {analysisResult && (
           <motion.div
             initial={{ opacity: 0 }}
@@ -734,43 +707,35 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
             )}
 
             {resultsView === "text" && (
-              <motion.div
-                initial={{ y: 30, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.3, duration: 0.4 }}
-                className="prose prose-sm max-w-none dark:prose-invert"
+              <ReactMarkdown
+                remarkPlugins={[remarkGfm]}
+                components={{
+                  h1: ({ node, ...props }) => <h1 className="text-xl font-bold mt-6 mb-3 pb-1 border-b" {...props} />,
+                  h2: ({ node, ...props }) => <h2 className="text-lg font-bold mt-4 mb-2" {...props} />,
+                  h3: ({ node, ...props }) => <h3 className="text-base font-semibold mt-3 mb-2" {...props} />,
+                  h4: ({ node, ...props }) => <h4 className="text-sm font-semibold mt-3 mb-1" {...props} />,
+                  a: ({ node, href, ...props }) => (
+                    <a href={href} className="text-blue-600 dark:text-blue-400 underline" target="_blank" rel="noopener noreferrer" {...props} />
+                  ),
+                  p: ({ node, ...props }) => <p className="my-2 text-sm" {...props} />,
+                  ul: ({ node, ...props }) => <ul className="list-disc pl-5 my-2" {...props} />,
+                  ol: ({ node, ...props }) => <ol className="list-decimal pl-5 my-2" {...props} />,
+                  li: ({ node, ...props }) => <li className="my-1 text-sm" {...props} />,
+                  blockquote: ({ node, ...props }) => <blockquote className="border-l-4 border-primary/30 pl-3 py-1 my-3 italic text-sm" {...props} />,
+                  table: ({ node, ...props }) => (
+                    <div className="overflow-x-auto my-4 border rounded">
+                      <table className="w-full text-sm" {...props} />
+                    </div>
+                  ),
+                  thead: ({ node, ...props }) => <thead className="border-b" {...props} />,
+                  tr: ({ node, ...props }) => <tr className="border-b" {...props} />,
+                  th: ({ node, ...props }) => <th className="border-r last:border-r-0 px-3 py-2 text-left font-medium" {...props} />,
+                  td: ({ node, ...props }) => <td className="border-r last:border-r-0 px-3 py-2" {...props} />,
+                  hr: ({ node, ...props }) => <hr className="my-4" {...props} />,
+                }}
               >
-                <ReactMarkdown
-                  remarkPlugins={[remarkGfm]}
-                  components={{
-                    h1: ({ node, ...props }) => <h1 className="text-xl font-bold mt-6 mb-3 pb-1 border-b" {...props} />,
-                    h2: ({ node, ...props }) => <h2 className="text-lg font-bold mt-4 mb-2" {...props} />,
-                    h3: ({ node, ...props }) => <h3 className="text-base font-semibold mt-3 mb-2" {...props} />,
-                    h4: ({ node, ...props }) => <h4 className="text-sm font-semibold mt-3 mb-1" {...props} />,
-                    a: ({ node, href, ...props }) => (
-                      <a href={href} className="text-blue-600 dark:text-blue-400 underline" target="_blank" rel="noopener noreferrer" {...props} />
-                    ),
-                    p: ({ node, ...props }) => <p className="my-2 text-sm" {...props} />,
-                    ul: ({ node, ...props }) => <ul className="list-disc pl-5 my-2" {...props} />,
-                    ol: ({ node, ...props }) => <ol className="list-decimal pl-5 my-2" {...props} />,
-                    li: ({ node, ...props }) => <li className="my-1 text-sm" {...props} />,
-                    blockquote: ({ node, ...props }) => <blockquote className="border-l-4 border-primary/30 pl-3 py-1 my-3 italic text-sm" {...props} />,
-                    table: ({ node, ...props }) => (
-                      <div className="overflow-x-auto my-4 border rounded">
-                        <table className="w-full text-sm" {...props} />
-                      </div>
-                    ),
-                    thead: ({ node, ...props }) => <thead className="border-b" {...props} />,
-                    tr: ({ node, ...props }) => <tr className="border-b" {...props} />,
-                    th: ({ node, ...props }) => <th className="border-r last:border-r-0 px-3 py-2 text-left font-medium" {...props} />,
-                    td: ({ node, ...props }) => <td className="border-r last:border-r-0 px-3 py-2" {...props} />,
-                    hr: ({ node, ...props }) => <hr className="my-4" {...props} />,
-
-                  }}
-                >
-                  {analysisResult}
-                </ReactMarkdown>
-              </motion.div>
+                {analysisResult}
+              </ReactMarkdown>
             )}
 
             {structuredData && resultsView === "visualization" && (
