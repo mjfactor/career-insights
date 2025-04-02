@@ -9,9 +9,8 @@ Output ONLY a valid JSON object with the following structure (no other text or e
 {
   "candidateProfile": {
     "coreCompetencies": {
-      "technicalStrengths": ["list of key technical strengths, programming languages, tools, methodologies"],
+      "technicalSkills": ["list of key technical skills, tools, methodologies"],
       "softSkills": ["list of soft skills like communication, leadership, teamwork"],
-      "toolsAndTechnologies": ["list of software, platforms, tools the candidate has experience with"]
       "mostUsedSkill": {
         "Typescript",
         "Communication",
