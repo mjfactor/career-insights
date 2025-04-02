@@ -59,8 +59,7 @@ Format exactly as follows:
 | Course name          | Skills covered                       | Duration | URL  |
 
 ### 🌟 Career Path Projections
-- List the potential career paths
-- Include required steps
+- List the potential career paths and Include required steps
 
 ### 🎲 Random Forest Insights
 - Include the random forest explanation
@@ -119,13 +118,7 @@ export async function POST(request: NextRequest) {
       });
 
       // Return the streaming response
-      return response.toTextStreamResponse({
-        headers: {
-          'Content-Type': 'text/event-stream',
-          'Cache-Control': 'no-cache, no-transform',
-          'Connection': 'keep-alive',
-        },
-      });
+      return response.toTextStreamResponse();
     }
 
   } catch (error) {
