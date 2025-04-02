@@ -7,13 +7,18 @@ import {
   BreadcrumbList,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
-import { Separator } from "@/components/ui/separator"
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { auth } from "@/auth"
 import { ModeToggle } from "@/components/dark-light-toggle/theme-toggle"
+import { Metadata } from "next"
 
 import { jobResources } from "@/components/aggregator/job-resources"
 import JobResourcesUI from "@/components/aggregator/job-resources-ui"
+
+export const metadata: Metadata = {
+  title: "Job Aggregator | Employment Opportunities",
+  description: "Discover job opportunities from multiple sources",
+}
 
 export default async function Page() {
   const session = await auth()
@@ -28,7 +33,7 @@ export default async function Page() {
           <div className="flex items-center gap-2 px-4">
             <SidebarTrigger className="-ml-1" />
             <ModeToggle />
-            
+
             <Breadcrumb>
               <BreadcrumbList>
                 <BreadcrumbItem className="hidden md:block">
@@ -42,7 +47,7 @@ export default async function Page() {
             </Breadcrumb>
           </div>
         </header>
-          <JobResourcesUI resources={jobResources} />
+        <JobResourcesUI resources={jobResources} />
       </SidebarInset>
     </SidebarProvider>
   )

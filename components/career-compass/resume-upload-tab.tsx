@@ -17,9 +17,9 @@ import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 // Import the placeholder component
 import StructuredDataPlaceholder from "./StructuredDataPlaceholder"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import CareerDataVisualizer from "./CareerDataVisualizer"
-import rehypeRaw from 'rehype-raw';
+
 
 // Import dialog components for modern confirmation dialogs
 import {

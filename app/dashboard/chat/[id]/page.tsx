@@ -14,16 +14,23 @@ import {
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { ModeToggle } from "@/components/dark-light-toggle/theme-toggle"
 import { auth } from "@/auth"
+import { Metadata } from "next"
+
+export const metadata: Metadata = {
+    title: "Chat | Employment Opportunities",
+    description: "Chat with our career assistant",
+}
 
 export const maxDuration = 60
 
 export async function generateMetadata(props: {
     params: Promise<{ id: string }>
-}) {
+}): Promise<Metadata> {
     const { id } = await props.params
     const chat = await getChat(id)
     return {
-        title: chat?.title.toString().slice(0, 50) || 'Search'
+        title: chat?.title ? `Chat: ${chat.title.toString().slice(0, 50)}` : 'Chat',
+        description: "Conversation with career assistant"
     }
 }
 

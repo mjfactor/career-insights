@@ -10,8 +10,13 @@ import {
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { auth } from "@/auth"
 import { ModeToggle } from "@/components/dark-light-toggle/theme-toggle"
+import { Metadata } from "next"
 import CareerAnalysis from "@/components/career-compass/career-compass-ui"
 
+export const metadata: Metadata = {
+  title: "Career Compass | Employment Opportunities",
+  description: "Get personalized career guidance and insights",
+}
 
 export default async function Page() {
   const session = await auth()
@@ -41,7 +46,7 @@ export default async function Page() {
             </Breadcrumb>
           </div>
         </header>
-          <CareerAnalysis />
+        <CareerAnalysis />
       </SidebarInset>
     </SidebarProvider>
   )

@@ -13,6 +13,12 @@ import {
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { auth } from "@/auth"
 import { ModeToggle } from "@/components/dark-light-toggle/theme-toggle"
+import { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Chat | Employment Opportunities",
+  description: "Chat with our career assistant",
+}
 
 export default async function ChatPage() {
   const session = await auth()
