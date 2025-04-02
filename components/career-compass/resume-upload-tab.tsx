@@ -41,7 +41,6 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
   const [isAnalyzing, setIsAnalyzing] = useState(false)
   const [resumeContent, setResumeContent] = useState<string | null>(null)
   const [analysisResult, setAnalysisResult] = useState<string>("")
-  const [analysisError, setAnalysisError] = useState<string | null>(null)
   const [isStreaming, setIsStreaming] = useState(false);
   const [fileSizeError, setFileSizeError] = useState<boolean>(false)
   // Add a state to track the analysis phase
@@ -326,7 +325,6 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
       setIsAnalyzing(true);
       setIsStreaming(true);
       setAnalysisResult("");
-      setAnalysisError(null);
       setStructuredData(null);
       // Set the initial analysis phase to "structured"
       setAnalysisPhase("structured");
@@ -422,7 +420,6 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
         console.log('Analysis was cancelled by the user');
       } else {
         console.error("Error analyzing resume:", error);
-        setAnalysisError(error instanceof Error ? error.message : 'An error occurred during analysis');
       }
     } finally {
       if (isMounted.current) {
@@ -435,18 +432,6 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
     }
   };
 
-  // Add a reference to the analysis results container
-  const analysisContainerRef = useRef<HTMLDivElement>(null);
-
-  // Function to scroll to the bottom of the analysis
-  const scrollToBottom = () => {
-    if (analysisContainerRef.current) {
-      analysisContainerRef.current.scrollIntoView({
-        behavior: "smooth",
-        block: "end"
-      });
-    }
-  };
 
   return (
     <div className="space-y-6 relative">
@@ -721,7 +706,6 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.4 }}
             className="mt-6 rounded-lg p-4 bg-card shadow-md"
-            ref={analysisContainerRef}
           >
             {/* Add tabs for text view and data visualization */}
             {structuredData && (
@@ -749,7 +733,7 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
               </div>
             )}
 
-            {(!structuredData || resultsView === "text") && (
+            {resultsView === "text" && (
               <motion.div
                 initial={{ y: 30, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
@@ -781,6 +765,7 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
                     th: ({ node, ...props }) => <th className="border-r last:border-r-0 px-3 py-2 text-left font-medium" {...props} />,
                     td: ({ node, ...props }) => <td className="border-r last:border-r-0 px-3 py-2" {...props} />,
                     hr: ({ node, ...props }) => <hr className="my-4" {...props} />,
+
                   }}
                 >
                   {analysisResult}
@@ -797,37 +782,7 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
                 <CareerDataVisualizer structuredData={structuredData} />
               </motion.div>
             )}
-
-            {analysisError && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.5 }}
-              >
-                <Alert variant="destructive" className="mt-4 rounded-lg py-2">
-                  <AlertCircle className="h-3.5 w-3.5" />
-                  <AlertDescription className="text-xs">{analysisError}</AlertDescription>
-                </Alert>
-              </motion.div>
-            )}
           </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Scroll to bottom button - only shows during analysis */}
-      <AnimatePresence>
-        {isAnalyzing && (
-          <motion.button
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 10 }}
-            transition={{ duration: 0.2 }}
-            onClick={scrollToBottom}
-            className="fixed bottom-6 right-6 p-2 rounded-full bg-primary text-primary-foreground shadow-lg hover:bg-primary/90 hover:shadow-xl transition-all z-50 flex items-center justify-center"
-            aria-label="Scroll to bottom of analysis"
-          >
-            <ArrowDown className="h-4 w-4" />
-          </motion.button>
         )}
       </AnimatePresence>
 

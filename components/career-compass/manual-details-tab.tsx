@@ -889,7 +889,7 @@ const ManualDetailsTab = forwardRef(function ManualDetailsTab(props, ref) {
                   hr: ({ node, ...props }) => <hr className="my-4" {...props} />,
                 }}
               >
-                {analysisResult}
+                {analysisResult || "No analysis content available."}
               </ReactMarkdown>
             </motion.div>
 
