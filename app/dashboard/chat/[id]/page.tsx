@@ -16,11 +16,6 @@ import { ModeToggle } from "@/components/dark-light-toggle/theme-toggle"
 import { auth } from "@/auth"
 import { Metadata } from "next"
 
-export const metadata: Metadata = {
-    title: "Chat | Employment Opportunities",
-    description: "Chat with our career assistant",
-}
-
 export const maxDuration = 60
 
 export async function generateMetadata(props: {
