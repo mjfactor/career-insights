@@ -390,18 +390,7 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
     }
   };
 
-  // Add a reference to the analysis results container
-  const analysisContainerRef = useRef<HTMLDivElement>(null);
 
-  // Function to scroll to the bottom of the analysis
-  const scrollToBottom = () => {
-    if (analysisContainerRef.current) {
-      analysisContainerRef.current.scrollIntoView({
-        behavior: "smooth",
-        block: "end"
-      });
-    }
-  };
 
   return (
     <div className="space-y-6 relative">
@@ -663,78 +652,41 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.4 }}
             className="mt-6 rounded-lg p-4 bg-card shadow-md"
-            ref={analysisContainerRef}
           >
-
-            <motion.div
-              initial={{ y: 30, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.3, duration: 0.4 }}
-              className="prose prose-sm max-w-none dark:prose-invert"
+            <ReactMarkdown
+              remarkPlugins={[remarkGfm]}
+              components={{
+                h1: ({ node, ...props }) => <h1 className="text-xl font-bold mt-6 mb-3 pb-1 border-b" {...props} />,
+                h2: ({ node, ...props }) => <h2 className="text-lg font-bold mt-4 mb-2" {...props} />,
+                h3: ({ node, ...props }) => <h3 className="text-base font-semibold mt-3 mb-2" {...props} />,
+                h4: ({ node, ...props }) => <h4 className="text-sm font-semibold mt-3 mb-1" {...props} />,
+                a: ({ node, href, ...props }) => (
+                  <a href={href} className="text-blue-600 dark:text-blue-400 underline" target="_blank" rel="noopener noreferrer" {...props} />
+                ),
+                p: ({ node, ...props }) => <p className="my-2 text-sm" {...props} />,
+                ul: ({ node, ...props }) => <ul className="list-disc pl-5 my-2" {...props} />,
+                ol: ({ node, ...props }) => <ol className="list-decimal pl-5 my-2" {...props} />,
+                li: ({ node, ...props }) => <li className="my-1 text-sm" {...props} />,
+                blockquote: ({ node, ...props }) => <blockquote className="border-l-4 border-primary/30 pl-3 py-1 my-3 italic text-sm" {...props} />,
+                table: ({ node, ...props }) => (
+                  <div className="overflow-x-auto my-4 border rounded">
+                    <table className="w-full text-sm" {...props} />
+                  </div>
+                ),
+                thead: ({ node, ...props }) => <thead className="border-b" {...props} />,
+                tr: ({ node, ...props }) => <tr className="border-b" {...props} />,
+                th: ({ node, ...props }) => <th className="border-r last:border-r-0 px-3 py-2 text-left font-medium" {...props} />,
+                td: ({ node, ...props }) => <td className="border-r last:border-r-0 px-3 py-2" {...props} />,
+                hr: ({ node, ...props }) => <hr className="my-4" {...props} />,
+              }}
             >
-              <ReactMarkdown
-                remarkPlugins={[remarkGfm]}
-                components={{
-                  h1: ({ node, ...props }) => <h1 className="text-xl font-bold mt-6 mb-3 pb-1 border-b" {...props} />,
-                  h2: ({ node, ...props }) => <h2 className="text-lg font-bold mt-4 mb-2" {...props} />,
-                  h3: ({ node, ...props }) => <h3 className="text-base font-semibold mt-3 mb-2" {...props} />,
-                  h4: ({ node, ...props }) => <h4 className="text-sm font-semibold mt-3 mb-1" {...props} />,
-                  a: ({ node, href, ...props }) => (
-                    <a href={href} className="text-blue-600 dark:text-blue-400 underline" target="_blank" rel="noopener noreferrer" {...props} />
-                  ),
-                  p: ({ node, ...props }) => <p className="my-2 text-sm" {...props} />,
-                  ul: ({ node, ...props }) => <ul className="list-disc pl-5 my-2" {...props} />,
-                  ol: ({ node, ...props }) => <ol className="list-decimal pl-5 my-2" {...props} />,
-                  li: ({ node, ...props }) => <li className="my-1 text-sm" {...props} />,
-                  blockquote: ({ node, ...props }) => <blockquote className="border-l-4 border-primary/30 pl-3 py-1 my-3 italic text-sm" {...props} />,
-                  table: ({ node, ...props }) => (
-                    <div className="overflow-x-auto my-4 border rounded">
-                      <table className="w-full text-sm" {...props} />
-                    </div>
-                  ),
-                  thead: ({ node, ...props }) => <thead className="border-b" {...props} />,
-                  tr: ({ node, ...props }) => <tr className="border-b" {...props} />,
-                  th: ({ node, ...props }) => <th className="border-r last:border-r-0 px-3 py-2 text-left font-medium" {...props} />,
-                  td: ({ node, ...props }) => <td className="border-r last:border-r-0 px-3 py-2" {...props} />,
-                  hr: ({ node, ...props }) => <hr className="my-4" {...props} />,
-                }}
-              >
-                {analysisResult}
-              </ReactMarkdown>
-            </motion.div>
-
-            {analysisError && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.5 }}
-              >
-                <Alert variant="destructive" className="mt-4 rounded-lg py-2">
-                  <AlertCircle className="h-3.5 w-3.5" />
-                  <AlertDescription className="text-xs">{analysisError}</AlertDescription>
-                </Alert>
-              </motion.div>
-            )}
+              {analysisResult}
+            </ReactMarkdown>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Scroll to bottom button - only shows during analysis */}
-      <AnimatePresence>
-        {isAnalyzing && (
-          <motion.button
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 10 }}
-            transition={{ duration: 0.2 }}
-            onClick={scrollToBottom}
-            className="fixed bottom-6 right-6 p-2 rounded-full bg-primary text-primary-foreground shadow-lg hover:bg-primary/90 hover:shadow-xl transition-all z-50 flex items-center justify-center"
-            aria-label="Scroll to bottom of analysis"
-          >
-            <ArrowDown className="h-4 w-4" />
-          </motion.button>
-        )}
-      </AnimatePresence>
+
 
       {/* Modern confirmation dialog */}
       <Dialog
