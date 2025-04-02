@@ -442,17 +442,9 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
   };
 
   // Add a reference to the analysis results container
-  const analysisContainerRef = useRef<HTMLDivElement>(null);
 
-  // Function to scroll to the bottom of the analysis
-  const scrollToBottom = () => {
-    if (analysisContainerRef.current) {
-      analysisContainerRef.current.scrollIntoView({
-        behavior: "smooth",
-        block: "end"
-      });
-    }
-  };
+
+
 
   return (
     <div className="space-y-6 relative">
@@ -727,7 +719,7 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.4 }}
             className="mt-6 rounded-lg p-4 bg-card shadow-md"
-            ref={analysisContainerRef}
+
           >
             {/* Add tabs for text view and data visualization */}
             {structuredData && (
@@ -820,22 +812,7 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
         )}
       </AnimatePresence>
 
-      {/* Scroll to bottom button - only shows during analysis */}
-      <AnimatePresence>
-        {isAnalyzing && (
-          <motion.button
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 10 }}
-            transition={{ duration: 0.2 }}
-            onClick={scrollToBottom}
-            className="fixed bottom-6 right-6 p-2 rounded-full bg-primary text-primary-foreground shadow-lg hover:bg-primary/90 hover:shadow-xl transition-all z-50 flex items-center justify-center"
-            aria-label="Scroll to bottom of analysis"
-          >
-            <ArrowDown className="h-4 w-4" />
-          </motion.button>
-        )}
-      </AnimatePresence>
+
 
       {/* Modern confirmation dialog */}
       <Dialog

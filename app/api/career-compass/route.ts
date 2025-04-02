@@ -18,19 +18,35 @@ Format the information exactly according to these rules:
 
 ## A. Core Competency Identification
 - 🏅 **Technical Strengths**: List the technical strengths from the data
-- 📊 **Skill Frequency Analysis**: Format the skill frequency data as a list with percentages
+- 🤝 **Soft Skills**: List the soft skills identified in the resume
+- 🧰 **Tools & Technologies**: List specific software, platforms, and frameworks
+- 📊 **Most Used Skills**: Format the most used skill 
 - 🧩 **Unique Value Proposition**: Present the unique value proposition
 - 🎗️ **Certifications**: List all certifications, or indicate if none
 
 ## B. Work Experience Summary
 - ⏳ **Total Professional Tenure Breakdown**: Show the tenure summary by role/industry
+- 🔼 **Seniority Level Assessment**: Indicate the candidate's career level
 - 🔀 **Multi-Industry Transfer Potential**: List industries where skills transfer
-- 📌 **Highlight: Most Impactful Project/Initiative**: Describe the project with its impact and relevance
+- 🏆 **Key Accomplishments**: Highlight notable achievements from work history
+- 👥 **Team Leadership Experience**: Mention team size managed if applicable
+- 🌐 **Remote/International Experience**: Note any remote or global work experience
+- 📌 **Highlight: Most Impactful Project/Initiative**: Describe the project with its impact, relevance and technologies used
 
 ## C. Educational Pathway Analysis
-- 🎓 **Degree Utilization Spectrum**: Show applications of degree to careers
+- 🎓 **Highest Degree**: State the highest level of education attained
+- 📚 **Relevant Coursework**: List courses that align with career goals
+- 🏆 **Academic Achievements**: Mention notable educational accomplishments
+- 🔄 **Degree Utilization Spectrum**: Show applications of degree to careers
 - 📜 **Certification Opportunities**: List recommended certifications
+- 🌱 **Continuing Education**: Note recent learning or ongoing education
 - 🌐 **Emerging Tech Alignment**: List emerging technologies relevant to the candidate
+
+## D. Career Progression Assessment
+- 📈 **Growth Trajectory**: Analyze career progression speed and direction
+- 🪜 **Promotion History**: Describe advancement patterns in previous roles
+- 🔍 **Gap Analysis**: Identify skill or experience gaps for desired roles
+- 🔄 **Transition Readiness**: Assess readiness for career change if applicable
 
 ---
 # 2. Job Recommendations
@@ -41,15 +57,24 @@ For each role, format as follows:
 | Assessment Metric     | Details |
 |-----------------------|---------|
 | 🔍 Skills Match       | List the matching skills |
+| 🚫 Skill Gaps         | List skills needed but not yet acquired |
 | 👤 Experience Match   | Show the experience alignment |
 | 📖 Education Match    | Show the education relevance |
+| 🏢 Culture Fit        | Indicate alignment with typical organizational culture |
+| 💼 Workplace Type     | Note remote/hybrid/onsite nature of the role |
+| 🏭 Industry Focus     | Specify the primary industry for this position |
 
 ### 💵 Salary Benchmarks
-- Present the salary range and factors
+- Present the salary range and median
+- List the factors affecting compensation (location, experience, etc.)
+
+### 📈 Growth Potential
+- Market Demand: Specify the expected job growth rate
+- Upward Mobility: Describe promotion potential
 
 ### 🔗 Current Opportunities
 - Format each opportunity as a markdown link with the platform name:
-  - [Platform: Search Query](URL)
+- [Platform: Search Query](URL)
 
 ### 📚 Skill Development
 Format exactly as follows:
@@ -59,17 +84,33 @@ Format exactly as follows:
 | Course name          | Skills covered                       | Duration | URL  |
 
 ### 🌟 Career Path Projections
-- List the potential career paths and Include required steps
+- List the potential career paths
+- Include required steps
+- Note estimated timeline to achieve the next level
+
+### ⚖️ Work-Life Balance
+- Describe typical work-life balance for this role
 
 ### 🎲 Random Forest Insights
 - Include the random forest explanation
 
 ---
-## 3. Overall Random Forest Data Evaluation
+## 3. Overall Evaluation
 
-### Overall Job Fit Score Per Role
+### 📊 Job Fit Score Per Role
 Format as:
 - Job Title: Percentage
+
+### 💪 Market Positioning
+- **Competitive Advantages**: List the candidate's strongest selling points
+- **Improvement Areas**: Note areas that would strengthen marketability
+
+### 🎯 Interview Readiness
+- **Common Questions**: List likely interview questions
+- **Suggested Talking Points**: Key experiences to highlight
+
+### 🌐 Personal Branding Suggestions
+- Ways to strengthen professional presence
 
 ---
 **Formatting Rules:**
@@ -78,13 +119,19 @@ Format as:
    - Keep descriptions under 25 words.
    - Show durations as Xh Ym.
 2. Order Enforcement:
-   - Profile Analysis → Job Recommendations → Overall Random Forest Data Evaluation.
+   - Profile Analysis → Job Recommendations → Overall Evaluation.
 3. Link Rules:
    - Clean formatting: [Display Text](URL).
    - No broken links.
 4. Language:
-   - Ensure language is clear and accessible. Avoid overly technical terms unless necessary, and define them if used.
-5. Dont use any Code blocks or code formatting in the markdown output.
+   - Use professional, clear, concise language.
+   - Be specific with percentages and numbers.
+   - Avoid platitudes and general advice.
+   - Use action verbs for achievements.
+   - Dont use Code Blocks.
+5. Emoji Usage:
+   - Begin each major section with an appropriate emoji.
+   - Consistent emoji use for similar section types.
 `;
 
 

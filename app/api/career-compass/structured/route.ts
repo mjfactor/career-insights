@@ -9,30 +9,49 @@ Output ONLY a valid JSON object with the following structure (no other text or e
 {
   "candidateProfile": {
     "coreCompetencies": {
-      "technicalStrengths": ["list of key technical strengths"],
-      "skillFrequencyAnalysis": {
-        "JavaScript": 75,
-        "React": 60,
-        "TypeScript": 45
-        // Include actual skill names as keys and numeric values (not strings) representing frequency/proficiency
+      "technicalStrengths": ["list of key technical strengths, programming languages, tools, methodologies"],
+      "softSkills": ["list of soft skills like communication, leadership, teamwork"],
+      "toolsAndTechnologies": ["list of software, platforms, tools the candidate has experience with"]
+      "mostUsedSkill": {
+        "Typescript",
+        "Communication",
+        // Only 3 or 4 skills should be listed here
       },
-      "uniqueValueProposition": "what makes the candidate distinct",
-      "certifications": ["list of certifications if any"]
+      "uniqueValueProposition": "what makes the candidate distinct and valuable in the job market",
+      "certifications": ["list of certifications if any, with dates if provided"]
+      
     },
     "workExperience": {
       "totalProfessionalTenure": "summary of years by role/industry",
+      "seniorityLevel": "junior, mid-level, senior, executive, etc. based on experience",
       "industryTransferPotential": ["list of industries where skills transfer"],
+      "keyAccomplishments": ["list of major achievements from work history"],
+      "projectManagementExperience": "description of project management experience if any",
+      "teamSizeManaged": "indication of team management experience if applicable",
       "mostImpactfulProject": {
         "title": "project name",
         "description": "brief description",
-        "impact": "measurable outcomes",
-        "relevance": "to career goals"
-      }
+        "impact": "measurable outcomes, metrics, ROI",
+        "relevance": "to career goals",
+        "technologies": ["technologies used in this project"]
+      },
+      "remoteWorkExperience": "experience with remote/distributed teams if any",
+      "internationalExperience": "global/international work experience if any"
     },
     "education": {
+      "highestDegree": "highest level of education attained",
+      "relevantCoursework": ["courses relevant to career goals"],
+      "academicAchievements": ["notable academic accomplishments"],
       "degreeUtilization": ["possible applications of degree to careers"],
       "certificationOpportunities": ["suggested certifications based on skills"],
+      "continuingEducation": ["recent coursework or ongoing learning"],
       "emergingTechAlignment": ["emerging technologies relevant to candidate"]
+    },
+    "careerProgression": {
+      "growthTrajectory": "analysis of career progression speed and direction",
+      "promotionHistory": "pattern of advancement in previous roles",
+      "gapAnalysis": ["skill or experience gaps for desired roles"],
+      "transitionReadiness": "assessment of readiness for career change if applicable"
     }
   },
   "jobRecommendations": [
@@ -40,34 +59,29 @@ Output ONLY a valid JSON object with the following structure (no other text or e
     {
       "roleTitle": "job title",
       "experienceLevel": "entry/mid/senior",
+      "industryFocus": "primary industry for this role",
+      "workplaceType": "remote/hybrid/onsite preferences",
       "assessment": {
         "skillsMatch": ["matching skills"],
+        "skillGaps": ["skills needed for this role that candidate lacks"],
         "experienceMatch": "experience alignment description",
-        "educationMatch": "education relevance description"
+        "educationMatch": "education relevance description",
+        "cultureFit": "alignment with typical culture for this role"
       },
       "salaryBenchmarks": {
-        "range": "salary range",
-        "factors": ["industry", "location", "company size"]
+        "range": "salary range in Philippine Peso Monthly",
+        "medianSalary": "median salary figure",
+        "factors": ["industry", "location", "company size", "experience level"]
+        "Source": "link to source of salary data (PayScale, Glassdoor, etc.)"
+      },
+      "growthPotential": {
+        "marketDemand": "expected job growth rate",
+        "upwardMobility": "promotion potential"
       },
       "currentOpportunities": [
         // IMPORTANT: Include exactly 4 platforms with searchable links
         {
-          "platform": "LinkedIn",
-          "searchQuery": "search query text",
-          "url": "direct URL to search"
-        },
-        {
-          "platform": "Indeed",
-          "searchQuery": "search query text", 
-          "url": "direct URL to search"
-        },
-        {
-          "platform": "Glassdoor",
-          "searchQuery": "search query text",
-          "url": "direct URL to search"
-        },
-        {
-          "platform": "AngelList",
+          "platform": "LinkedIn, Glasdoor, Indeed, etc.",
           "searchQuery": "search query text",
           "url": "direct URL to search"
         }
@@ -102,86 +116,97 @@ Output ONLY a valid JSON object with the following structure (no other text or e
       ],
       "careerPathProjections": {
         "potentialPaths": ["possible career trajectories"],
-        "requiredSteps": ["certifications", "additional experience needed"]
+        "requiredSteps": ["certifications", "additional experience needed"],
+        "timelineEstimate": "estimated time to achieve next level"
       },
-      "randomForestInsights": "explanation of how the model matched this role"
+      "randomForestInsights": "explanation of how the model matched this role",
+      "workLifeBalance": "typical work-life balance for this role"
     }
   ],
   "overallEvaluation": {
     "jobFitScores": {
       "jobTitle": "percentage as number"
-    }
+    },
+    "marketPositioning": {
+      "competitiveAdvantages": ["candidate's strongest competitive advantages"],
+      "improvementAreas": ["areas that would strengthen marketability"]
+    },
+    "interviewReadiness": {
+      "commonQuestions": ["likely interview questions based on roles"],
+      "suggestedTalking Points": ["key experiences to highlight"]
+    },
+    "personalBrandingSuggestions": ["ways to strengthen professional presence"]
   }
 }`
 
 export async function POST(request: NextRequest) {
-    try {
-        const formData = await request.formData();
+  try {
+    const formData = await request.formData();
 
-        // Check for inputs - either file or text
-        const file = formData.get('file') as File | null;
-        const text = formData.get('text') as string | null;
+    // Check for inputs - either file or text
+    const file = formData.get('file') as File | null;
+    const text = formData.get('text') as string | null;
 
-        // Initialize the model
-        const model = google('gemini-2.0-flash');
+    // Initialize the model
+    const model = google('gemini-2.0-flash');
 
-        // Handle PDF file uploads
-        if (file && file.name.toLowerCase().endsWith('.pdf')) {
-            const fileBuffer = await file.arrayBuffer();
+    // Handle PDF file uploads
+    if (file && file.name.toLowerCase().endsWith('.pdf')) {
+      const fileBuffer = await file.arrayBuffer();
 
-            // Create message with file content for PDFs
-            const messages = [{
-                role: 'user' as const,
-                content: [
-                    {
-                        type: 'text' as const,
-                        text: `${STRUCTURED_COMPASS_PROMPT}\n\nAnalyze the resume in the attached PDF file for structured object generation:`
-                    },
-                    {
-                        type: 'file' as const,
-                        data: fileBuffer,
-                        mimeType: 'application/pdf'
-                    }
-                ]
-            }];
+      // Create message with file content for PDFs
+      const messages = [{
+        role: 'user' as const,
+        content: [
+          {
+            type: 'text' as const,
+            text: `${STRUCTURED_COMPASS_PROMPT}\n\nAnalyze the resume in the attached PDF file for structured object generation:`
+          },
+          {
+            type: 'file' as const,
+            data: fileBuffer,
+            mimeType: 'application/pdf'
+          }
+        ]
+      }];
 
-            // Generate streaming object response with file input
-            const response = streamObject({
-                model,
-                output: 'no-schema',
-                messages,
-            });
+      // Generate streaming object response with file input
+      const response = streamObject({
+        model,
+        output: 'no-schema',
+        messages,
+      });
 
-            // Return the streaming response
-            return response.toTextStreamResponse();
-        }
-        // Handle text input (manually entered details or extracted from DOCX)
-        else if (text) {
-            // Generate streaming object response with text input
-            const response = streamObject({
-                model,
-                output: 'no-schema',
-                prompt: `${STRUCTURED_COMPASS_PROMPT}\n\nRESUME CONTENT TO ANALYZE:\n${text}`,
-            });
-
-            // Return the streaming response
-            return response.toTextStreamResponse();
-        } else {
-            throw new Error('No file or text provided');
-        }
-
-    } catch (error) {
-        console.error('Error generating structured career compass answer:', error);
-        return new Response(
-            JSON.stringify({
-                error: error instanceof Error ? error.message : 'Failed to generate structured career compass answer'
-            }),
-            {
-                status: 500,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        );
+      // Return the streaming response
+      return response.toTextStreamResponse();
     }
+    // Handle text input (manually entered details or extracted from DOCX)
+    else if (text) {
+      // Generate streaming object response with text input
+      const response = streamObject({
+        model,
+        output: 'no-schema',
+        prompt: `${STRUCTURED_COMPASS_PROMPT}\n\nRESUME CONTENT TO ANALYZE:\n${text}`,
+      });
+
+      // Return the streaming response
+      return response.toTextStreamResponse();
+    } else {
+      throw new Error('No file or text provided');
+    }
+
+  } catch (error) {
+    console.error('Error generating structured career compass answer:', error);
+    return new Response(
+      JSON.stringify({
+        error: error instanceof Error ? error.message : 'Failed to generate structured career compass answer'
+      }),
+      {
+        status: 500,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+  }
 }
