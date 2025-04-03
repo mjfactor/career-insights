@@ -1,6 +1,6 @@
 import { Chat } from '@/components/chatBot/chat'
 import { getChat } from '@/lib/actions/chat'
-import { getModels } from '@/lib/config/models'
+
 import { convertToUIMessages } from '@/lib/utils/index'
 import { notFound, redirect } from 'next/navigation'
 import AuthSidebarWrapper from "@/components/sidebar/auth-sidebar-wrapper"
@@ -52,7 +52,7 @@ export default async function SearchPage(props: {
         notFound()
     }
 
-    const models = await getModels()
+
     return (<SidebarProvider>
         <AuthSidebarWrapper />
         <SidebarInset>
@@ -74,7 +74,7 @@ export default async function SearchPage(props: {
                     </Breadcrumb>
                 </div>
             </header>
-            <Chat id={id} savedMessages={messages} models={models} userId={userId} />
+            <Chat id={id} savedMessages={messages} userId={userId} />
         </SidebarInset>
     </SidebarProvider>)
 }

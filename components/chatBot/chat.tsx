@@ -2,7 +2,7 @@
 
 import React, { useEffect } from 'react'
 
-import { Model } from '@/lib/types/models'
+
 import { Message, useChat } from 'ai/react'
 import { toast } from 'sonner'
 import { ChatMessages } from './chat-messages'
@@ -13,13 +13,12 @@ export function Chat({
   id,
   savedMessages = [],
   query,
-  models,
   userId = 'anonymous'
 }: {
   id: string
   savedMessages?: Message[]
   query?: string
-  models?: Model[]
+
   userId?: string
 }) {
 
@@ -105,7 +104,7 @@ export function Chat({
               stop={stop}
               query={query}
               append={append}
-              models={models}
+
             />
           </div>
         )}
@@ -121,7 +120,7 @@ export function Chat({
             stop={stop}
             query={query}
             append={append}
-            models={models}
+
           />
         )}
       </div>
