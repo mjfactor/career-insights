@@ -7,6 +7,8 @@ const STRUCTURED_TO_MARKDOWN_PROMPT = `
 Take the provided structured JSON career analysis data and convert it to a well-formatted markdown document.
 Format the information exactly according to these rules:
 
+IMPORTANT: DONT USE CODEBLOCKS, JUST PLAIN TEXT MARKDOWN
+
 **STRICT PROCESSING ORDER (DO NOT SKIP):**
 1. Format the Candidate Profile Analysis FIRST
 2. ONLY THEN proceed to Job Recommendations
@@ -17,9 +19,8 @@ Format the information exactly according to these rules:
 # 1. Candidate Profile Analysis
 
 ## A. Core Competency Identification
-- 🏅 **Technical Strengths**: List the technical strengths from the data
+- 🧰 **Technical Strengths**: List the technical strengths from the data
 - 🤝 **Soft Skills**: List the soft skills identified in the resume
-- 🧰 **Tools & Technologies**: List specific software, platforms, and frameworks
 - 📊 **Most Used Skills**: Format the most used skill 
 - 🧩 **Unique Value Proposition**: Present the unique value proposition
 - 🎗️ **Certifications**: List all certifications, or indicate if none
@@ -114,6 +115,7 @@ Format as:
 
 ---
 **Formatting Rules:**
+
 1. Table must:
    - Use pipe formatting with headers.
    - Keep descriptions under 25 words.
@@ -122,13 +124,11 @@ Format as:
    - Profile Analysis → Job Recommendations → Overall Evaluation.
 3. Link Rules:
    - Clean formatting: [Display Text](URL).
-   - No broken links.
 4. Language:
    - Use professional, clear, concise language.
    - Be specific with percentages and numbers.
    - Avoid platitudes and general advice.
    - Use action verbs for achievements.
-   - Dont use Code Blocks.
 5. Emoji Usage:
    - Begin each major section with an appropriate emoji.
    - Consistent emoji use for similar section types.

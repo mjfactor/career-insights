@@ -1,7 +1,7 @@
 import { streamObject } from 'ai';
 import { google } from '@ai-sdk/google';
 import { NextRequest } from 'next/server';
-
+import { CareerCompassSchema } from '@/lib/schema/career-compass-schema';
 // Structured object generation prompt that extracts the same data points as the Career Compass
 const STRUCTURED_COMPASS_PROMPT = `Generate a structured JSON object with comprehensive career analysis data based on the resume.
 Output ONLY a valid JSON object with the following structure (no other text or explanation):
@@ -18,7 +18,6 @@ Output ONLY a valid JSON object with the following structure (no other text or e
       },
       "uniqueValueProposition": "what makes the candidate distinct and valuable in the job market",
       "certifications": ["list of certifications if any, with dates if provided"]
-      
     },
     "workExperience": {
       "totalProfessionalTenure": "summary of years by role/industry",
@@ -70,7 +69,7 @@ Output ONLY a valid JSON object with the following structure (no other text or e
       "salaryBenchmarks": {
         "range": "salary range in Philippine Peso Monthly",
         "medianSalary": "median salary figure",
-        "factors": ["industry", "location", "company size", "experience level"]
+        "factors": ["industry", "location", "company size", "experience level"],
         "Source": "link to source of salary data (PayScale, Glassdoor, etc.)"
       },
       "growthPotential": {
@@ -185,7 +184,7 @@ export async function POST(request: NextRequest) {
       const response = streamObject({
         model,
         output: 'no-schema',
-        prompt: `${STRUCTURED_COMPASS_PROMPT}\n\nRESUME CONTENT TO ANALYZE:\n${text}`,
+        prompt: `${STRUCTURED_COMPASS_PROMPT}\n\nAnalyze the resume for structured object generation:\n${text}`,
       });
 
       // Return the streaming response
