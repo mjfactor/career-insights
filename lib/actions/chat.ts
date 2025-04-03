@@ -162,3 +162,34 @@ export async function shareChat(id: string, userId: string = 'anonymous') {
 
     return payload
 }
+
+export async function deleteChat(
+    chatId: string,
+    userId: string = 'anonymous'
+): Promise<{ error?: string; success?: boolean }> {
+    try {
+        const redis = await getRedisClient()
+        const userChatKey = getUserChatKey(userId)
+        const chatKey = `chat:${chatId}`
+
+        // Check if the chat exists and belongs to the user
+        const chat = await redis.hgetall<Chat>(chatKey)
+        if (!chat || chat.userId !== userId) {
+            return { error: 'Chat not found or access denied' }
+        }
+
+        const pipeline = redis.pipeline()
+
+        // Delete the chat and remove from the user's chat list
+        pipeline.del(chatKey)
+        pipeline.zrem(userChatKey, chatKey)
+
+        await pipeline.exec()
+        revalidatePath('/dashboard/chat/')
+
+        return { success: true }
+    } catch (error) {
+        console.error('Error deleting chat:', error)
+        return { error: 'Failed to delete chat' }
+    }
+}
