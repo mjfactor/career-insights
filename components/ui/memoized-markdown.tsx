@@ -28,13 +28,32 @@ export const ReadableMemoizedMarkdown = memo(
                             ul: ({ children }) => <ul className="my-4 ml-6 list-disc">{children}</ul>,
                             ol: ({ children }) => <ol className="my-4 ml-6 list-decimal">{children}</ol>,
                             li: ({ children }) => <li className="my-2">{children}</li>,
-                            // Add custom table styling
-                            table: ({ children }) => <table className="border-collapse table-auto w-full my-6">{children}</table>,
-                            thead: ({ children }) => <thead className="bg-muted">{children}</thead>,
-                            tbody: ({ children }) => <tbody>{children}</tbody>,
-                            tr: ({ children }) => <tr className="border-b border-muted">{children}</tr>,
-                            th: ({ children, style }) => <th className="p-2 text-left font-bold" style={style}>{children}</th>,
-                            td: ({ children, style }) => <td className="p-2" style={style}>{children}</td>,
+                            // Modern table styling
+                            table: ({ children }) => (
+                                <div className="my-6 overflow-hidden rounded-lg border border-muted shadow-sm">
+                                    <table className="w-full border-collapse bg-background text-sm">{children}</table>
+                                </div>
+                            ),
+                            thead: ({ children }) => <thead className="bg-muted/80 text-muted-foreground">{children}</thead>,
+                            tbody: ({ children }) => <tbody className="divide-y divide-muted">{children}</tbody>,
+                            tr: ({ children, className, ...props }) => (
+                                <tr
+                                    className={`hover:bg-muted/50 transition-colors ${className || ''}`}
+                                    {...props}
+                                >{children}</tr>
+                            ),
+                            th: ({ children, style }) => (
+                                <th
+                                    className="px-4 py-3 text-left font-medium text-muted-foreground"
+                                    style={style}
+                                >{children}</th>
+                            ),
+                            td: ({ children, style }) => (
+                                <td
+                                    className="px-4 py-3 align-middle"
+                                    style={style}
+                                >{children}</td>
+                            ),
                             // Existing code component
                             code: ({ className, children, ...props }: {
                                 className?: string;

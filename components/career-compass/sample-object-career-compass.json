@@ -25,10 +25,10 @@
             ],
             "softSkills": [
                 "Problem-solving",
-                "Teamwork",
+                "Collaboration",
                 "Communication",
                 "Project Leadership",
-                "Time Management"
+                "Technical Support"
             ],
             "mostUsedSkill": [
                 "Java",
@@ -36,7 +36,7 @@
                 "Typescript",
                 "Communication"
             ],
-            "uniqueValueProposition": "A highly motivated and versatile computer science student with hands-on experience in full-stack development, AI, and database management. Proven ability to lead projects, collaborate effectively, and quickly adapt to new technologies.",
+            "uniqueValueProposition": "A versatile and proactive computer science student with hands-on experience in full-stack development, AI, and technical support, demonstrated through project leadership and a commitment to continuous learning.",
             "certifications": [
                 "12th International Conference of Frontiers of Intelligent Computing: Theory and application (2024)",
                 "AI Engineering Path (2024)",
@@ -45,27 +45,26 @@
         },
         "workExperience": {
             "totalProfessionalTenure": "3 months (Internship)",
-            "seniorityLevel": "Entry-level",
+            "seniorityLevel": "Entry-Level",
             "industryTransferPotential": [
                 "Software Development",
-                "Data Science",
                 "AI Engineering",
-                "Web Development",
-                "Database Administration"
+                "IT Support",
+                "Web Development"
             ],
             "keyAccomplishments": [
-                "Developed an Inventory Management System using JavaFX, SQL, and Maven, including user authentication and report generation.",
+                "Developed an Inventory Management System using JavaFX, SQL, and Maven.",
                 "Developed a web-based AI agent for career insights using Python, Streamlit, and LangGraph.",
-                "Diagnosed and resolved computer hardware and software issues during an IT internship.",
-                "Presented a research paper on the impact of robotics and automation at an international conference."
+                "Diagnosed and resolved computer hardware and software issues during internship.",
+                "Presented a research paper at an international conference."
             ],
-            "projectManagementExperience": "Led the development of the Inventory Management System, coordinating with an independent developer.",
-            "teamSizeManaged": "Small team (2 people)",
+            "projectManagementExperience": "Led the development of the Inventory Management System project, coordinating with an independent developer.",
+            "teamSizeManaged": "2 (including self)",
             "mostImpactfulProject": {
                 "title": "Employment Opportunities AI Agent",
                 "description": "A web-based AI agent that provides career insights to students using Python, Streamlit, Langchain, and Generative AI.",
                 "impact": "Provides students with personalized career recommendations and insights, potentially improving their job search outcomes.",
-                "relevance": "Demonstrates skills in AI, web development, and data analysis, aligning with current industry trends.",
+                "relevance": "Demonstrates skills in AI, web development, and user interface design, aligning with current industry trends.",
                 "technologies": [
                     "Python",
                     "Streamlit",
@@ -75,11 +74,11 @@
                     "Tavily API"
                 ]
             },
-            "remoteWorkExperience": "Experience collaborating with an independent developer on the Inventory Management System using GitHub.",
+            "remoteWorkExperience": "Collaborated with an independent developer on the Inventory Management System project using GitHub.",
             "internationalExperience": "Presented a research paper at an international conference in London, United Kingdom."
         },
         "education": {
-            "highestDegree": "Bachelor of Science in Computer Science (Ongoing)",
+            "highestDegree": "Bachelor of Science in Computer Science (In Progress)",
             "relevantCoursework": [
                 "Introduction to Java",
                 "Introduction to Python",
@@ -92,21 +91,19 @@
                 "Networking"
             ],
             "academicAchievements": [
-                "Author and presenter at the 12th International Conference of Frontiers of Intelligent Computing"
+                "Author and presenter at the 12th International Conference of Frontiers of Intelligent Computing."
             ],
             "degreeUtilization": [
                 "Software Development",
-                "Data Science",
                 "AI Engineering",
-                "Web Development",
-                "Database Administration",
+                "Data Science",
                 "Cybersecurity",
                 "Networking"
             ],
             "certificationOpportunities": [
                 "AWS Certified Developer",
-                "Microsoft Certified: Azure Developer Associate",
-                "Certified Information Systems Security Professional (CISSP)"
+                "Microsoft Certified Azure Developer",
+                "CompTIA Security+"
             ],
             "continuingEducation": [
                 "AI Engineering Path from Scrimba",
@@ -115,24 +112,23 @@
             "emergingTechAlignment": [
                 "Generative AI",
                 "Cloud Computing",
-                "Cybersecurity",
-                "Robotics and Automation"
+                "Cybersecurity"
             ]
         },
         "careerProgression": {
-            "growthTrajectory": "Early career stage with a focus on gaining practical experience and expanding technical skills.",
-            "promotionHistory": "N/A (Early career stage)",
+            "growthTrajectory": "Demonstrates a clear interest in software development and AI, with a progression from foundational coursework to practical project experience and certifications.",
+            "promotionHistory": "N/A (Student)",
             "gapAnalysis": [
-                "Lack of extensive professional experience in specific industries.",
-                "Need for deeper expertise in specialized areas like AI or cybersecurity."
+                "Lack of extensive professional experience in a specific industry.",
+                "Limited experience with large-scale software projects."
             ],
-            "transitionReadiness": "Ready for entry-level roles and internships. Requires further development for more advanced positions."
+            "transitionReadiness": "Well-prepared for entry-level roles in software development, AI, or IT support."
         }
     },
     "jobRecommendations": [
         {
             "roleTitle": "Junior Software Developer",
-            "experienceLevel": "Entry-level",
+            "experienceLevel": "Entry-Level",
             "industryFocus": "Software Development",
             "workplaceType": "Hybrid",
             "assessment": {
@@ -140,645 +136,662 @@
                     "Java",
                     "Python",
                     "Javascript",
-                    "SQL",
+                    "HTML",
+                    "CSS",
                     "Git"
                 ],
                 "skillGaps": [
-                    "Experience with specific frameworks (e.g., React, Angular)",
+                    "Experience with specific software development frameworks (e.g., React, Angular)",
                     "Knowledge of software testing methodologies"
                 ],
-                "experienceMatch": "Matches entry-level requirements with project experience and internship.",
-                "educationMatch": "Relevant coursework in computer science and programming.",
-                "cultureFit": "Adaptable and eager to learn, fitting well in collaborative development environments."
+                "experienceMatch": "Relevant project experience demonstrates foundational software development skills.",
+                "educationMatch": "Coursework in computer science provides a strong theoretical foundation.",
+                "cultureFit": "Adaptable and eager to learn, fitting well into a collaborative software development environment."
             },
             "salaryBenchmarks": {
-                "range": "₱20,000 - ₱40,000",
-                "medianSalary": "₱30,000",
-                "factors": [
-                    "Industry",
-                    "Location",
-                    "Company Size",
-                    "Experience Level"
-                ],
-                "Source": "https://www.glassdoor.com/Salaries/philippines-junior-software-developer-salary-SRDS_IL.0,10_IN195_KO11,37.htm"
+                "description": "For more accurate salary estimates, consider using the following resources:",
+                "links": [
+                    {
+                        "platform": "Glasdoor",
+                        "searchQuery": "Junior Software Developer Salary",
+                        "url": "https://www.glassdoor.com/Salaries/junior-software-developer-salary-SRCH_KO0,26.htm"
+                    },
+                    {
+                        "platform": "Payscale",
+                        "searchQuery": "Junior Software Developer Salary",
+                        "url": "https://www.payscale.com/research/US/Job=Junior_Software_Developer/Salary"
+                    }
+                ]
             },
             "growthPotential": {
-                "marketDemand": "High demand for software developers in the Philippines.",
-                "upwardMobility": "Potential to advance to mid-level and senior developer roles with experience."
+                "marketDemand": "High",
+                "upwardMobility": "Significant potential for advancement to mid-level and senior developer roles."
             },
             "currentOpportunities": [
                 {
                     "platform": "LinkedIn",
-                    "searchQuery": "Junior Software Developer Philippines",
-                    "url": "https://www.linkedin.com/jobs/search/?keywords=Junior%20Software%20Developer&location=Philippines"
-                },
-                {
-                    "platform": "Glassdoor",
-                    "searchQuery": "Junior Software Developer Philippines",
-                    "url": "https://www.glassdoor.com/Job/philippines-junior-software-developer-jobs-SRCH_IL.0,10_IN195_KO11,37.htm"
+                    "searchQuery": "Junior Software Developer",
+                    "url": "https://www.linkedin.com/jobs/search/?keywords=Junior%20Software%20Developer"
                 },
                 {
                     "platform": "Indeed",
-                    "searchQuery": "Junior Software Developer Philippines",
-                    "url": "https://ph.indeed.com/jobs?q=junior%20software%20developer&l=Philippines"
+                    "searchQuery": "Junior Software Developer",
+                    "url": "https://www.indeed.com/jobs?q=junior%20software%20developer"
                 },
                 {
-                    "platform": "JobStreet",
-                    "searchQuery": "Junior Software Developer Philippines",
-                    "url": "https://www.jobstreet.com.ph/en/job-search/junior-software-developer-jobs-in-philippines/"
+                    "platform": "Glassdoor",
+                    "searchQuery": "Junior Software Developer",
+                    "url": "https://www.glassdoor.com/Job/junior-software-developer-jobs-SRCH_KO0,26.htm"
+                },
+                {
+                    "platform": "ZipRecruiter",
+                    "searchQuery": "Junior Software Developer",
+                    "url": "https://www.ziprecruiter.com/jobs/junior-software-developer"
                 }
             ],
             "skillDevelopment": [
                 {
-                    "title": "FreeCodeCamp: Responsive Web Design Certification",
-                    "description": "Learn HTML, CSS, and responsive design principles.",
+                    "title": "FreeCodeCamp Responsive Web Design Certification",
+                    "description": "Learn HTML, CSS and Responsive Design",
                     "duration": "300h 0m",
-                    "link": "https://www.freecodecamp.org/learn/responsive-web-design/"
+                    "link": "https://www.freecodecamp.org/learn/2022/responsive-web-design/"
                 },
                 {
-                    "title": "Udemy: The Complete JavaScript Course 2024: Build Real Projects",
-                    "description": "Master JavaScript with hands-on projects.",
-                    "duration": "66h 0m",
-                    "link": "https://www.udemy.com/course/the-complete-javascript-course/"
+                    "title": "Microsoft Certified: Azure Fundamentals",
+                    "description": "Cloud fundamentals certification covering core Azure services",
+                    "duration": "40h 0m",
+                    "link": "https://learn.microsoft.com/en-us/certifications/azure-fundamentals/"
                 },
                 {
-                    "title": "Coursera: Software Design and Architecture Specialization",
-                    "description": "Learn software design principles and architecture patterns.",
-                    "duration": "6 months",
-                    "link": "https://www.coursera.org/specializations/software-design-architecture"
+                    "title": "React Tutorial",
+                    "description": "Learn React fundamentals",
+                    "duration": "8h 0m",
+                    "link": "https://react.dev/learn"
                 },
                 {
-                    "title": "Book: Design Patterns: Elements of Reusable Object-Oriented Software",
-                    "description": "Classic book on design patterns in software development.",
-                    "duration": "30h 0m",
-                    "link": "https://www.amazon.com/Design-Patterns-Elements-Reusable-Object-Oriented/dp/0201633612"
+                    "title": "Book: The Pragmatic Programmer by Andrew Hunt and David Thomas",
+                    "description": "Tips for writing maintainable code",
+                    "duration": "20h 0m",
+                    "link": "https://pragprog.com/titles/tpp20/the-pragmatic-programmer-20th-anniversary-edition/"
                 }
             ],
             "careerPathProjections": {
                 "potentialPaths": [
-                    "Mid-level Software Developer",
+                    "Mid-Level Software Developer",
                     "Senior Software Developer",
                     "Software Architect",
                     "Team Lead"
                 ],
                 "requiredSteps": [
-                    "Gain 2-3 years of professional experience",
-                    "Develop expertise in specific technologies",
-                    "Obtain relevant certifications",
-                    "Demonstrate leadership skills"
+                    "Gain experience with different software development methodologies (e.g., Agile, Scrum).",
+                    "Develop expertise in specific programming languages and frameworks.",
+                    "Obtain certifications relevant to chosen specialization."
                 ],
-                "timelineEstimate": "3-5 years"
+                "timelineEstimate": "3-5 years to reach mid-level, 5-7 years to reach senior level."
             },
-            "randomForestInsights": "The model identified a strong match based on the candidate's programming skills, project experience, and educational background, aligning with the requirements for entry-level software development roles.",
-            "workLifeBalance": "Generally good work-life balance, especially in larger companies with established processes."
+            "randomForestInsights": "The model identified a strong match based on the candidate's programming skills, project experience, and educational background, indicating a high potential for success in a junior software developer role.",
+            "workLifeBalance": "Generally good, with opportunities for flexible work arrangements depending on the company."
         },
         {
-            "roleTitle": "AI Engineer Intern",
-            "experienceLevel": "Entry-level",
+            "roleTitle": "AI Engineer",
+            "experienceLevel": "Entry-Level",
             "industryFocus": "Artificial Intelligence",
-            "workplaceType": "Remote",
+            "workplaceType": "Hybrid",
             "assessment": {
                 "skillsMatch": [
                     "Python",
-                    "Langchain",
                     "Streamlit",
+                    "Langchain",
+                    "LangGraph",
                     "Generative AI"
                 ],
                 "skillGaps": [
                     "Deep learning frameworks (TensorFlow, PyTorch)",
-                    "Experience with cloud platforms (AWS, Azure, GCP)"
+                    "Experience with deploying AI models in production"
                 ],
-                "experienceMatch": "Project experience with AI agent development is relevant.",
-                "educationMatch": "Coursework in data structures and algorithms is beneficial.",
-                "cultureFit": "Innovative and research-oriented, fitting well in AI-focused teams."
+                "experienceMatch": "Project experience with AI agent development demonstrates relevant skills.",
+                "educationMatch": "Coursework in computer science and AI provides a solid foundation.",
+                "cultureFit": "Innovative and research-oriented, fitting well into a dynamic AI development environment."
             },
             "salaryBenchmarks": {
-                "range": "₱15,000 - ₱30,000",
-                "medianSalary": "₱22,500",
-                "factors": [
-                    "Industry",
-                    "Location",
-                    "Company Size",
-                    "Experience Level"
-                ],
-                "Source": "https://www.glassdoor.com/Salaries/ai-engineer-intern-salary-SRDS_KO0,17.htm"
+                "description": "For more accurate salary estimates, consider using the following resources:",
+                "links": [
+                    {
+                        "platform": "Glasdoor",
+                        "searchQuery": "AI Engineer Salary",
+                        "url": "https://www.glassdoor.com/Salaries/ai-engineer-salary-SRCH_KO0,11.htm"
+                    },
+                    {
+                        "platform": "Payscale",
+                        "searchQuery": "AI Engineer Salary",
+                        "url": "https://www.payscale.com/research/US/Job=AI_Engineer/Salary"
+                    }
+                ]
             },
             "growthPotential": {
-                "marketDemand": "Very high demand for AI engineers globally.",
-                "upwardMobility": "Potential to advance to AI Engineer, Senior AI Engineer, and Research Scientist roles."
+                "marketDemand": "Very High",
+                "upwardMobility": "Significant potential for advancement to senior AI engineer, research scientist, or AI architect roles."
             },
             "currentOpportunities": [
                 {
                     "platform": "LinkedIn",
-                    "searchQuery": "AI Engineer Intern Philippines",
-                    "url": "https://www.linkedin.com/jobs/search/?keywords=AI%20Engineer%20Intern&location=Philippines"
+                    "searchQuery": "AI Engineer",
+                    "url": "https://www.linkedin.com/jobs/search/?keywords=AI%20Engineer"
                 },
                 {
                     "platform": "Indeed",
-                    "searchQuery": "AI Engineer Intern Philippines",
-                    "url": "https://ph.indeed.com/jobs?q=ai%20engineer%20intern&l=Philippines"
+                    "searchQuery": "AI Engineer",
+                    "url": "https://www.indeed.com/jobs?q=ai%20engineer"
                 },
                 {
                     "platform": "Glassdoor",
-                    "searchQuery": "AI Engineer Intern Philippines",
-                    "url": "https://www.glassdoor.com/Job/philippines-ai-engineer-intern-jobs-SRCH_IL.0,10_IN195_KO11,28.htm"
+                    "searchQuery": "AI Engineer",
+                    "url": "https://www.glassdoor.com/Job/ai-engineer-jobs-SRCH_KO0,11.htm"
                 },
                 {
-                    "platform": "Kalibrr",
-                    "searchQuery": "AI Engineer Intern Philippines",
-                    "url": "https://www.kalibrr.com/job-board/search?q=AI+Engineer+Intern&l=Philippines"
+                    "platform": "ZipRecruiter",
+                    "searchQuery": "AI Engineer",
+                    "url": "https://www.ziprecruiter.com/jobs/ai-engineer"
                 }
             ],
             "skillDevelopment": [
                 {
-                    "title": "Coursera: Deep Learning Specialization",
-                    "description": "Learn deep learning algorithms and neural networks.",
-                    "duration": "5 months",
+                    "title": "Deep Learning Specialization on Coursera",
+                    "description": "Learn deep learning fundamentals",
+                    "duration": "120h 0m",
                     "link": "https://www.coursera.org/specializations/deep-learning"
                 },
                 {
-                    "title": "Fast.ai: Practical Deep Learning for Coders",
-                    "description": "Hands-on course on deep learning with PyTorch.",
-                    "duration": "7 weeks",
-                    "link": "https://course.fast.ai/"
-                },
-                {
-                    "title": "AWS Certified Machine Learning - Specialty",
-                    "description": "Certification for machine learning on AWS.",
+                    "title": "TensorFlow Developer Certificate",
+                    "description": "Certification for TensorFlow developers",
                     "duration": "80h 0m",
-                    "link": "https://aws.amazon.com/certification/certified-machine-learning-specialty/"
+                    "link": "https://www.tensorflow.org/certificate"
                 },
                 {
-                    "title": "Book: Hands-On Machine Learning with Scikit-Learn, Keras & TensorFlow",
-                    "description": "Comprehensive guide to machine learning with Python.",
-                    "duration": "40h 0m",
-                    "link": "https://www.amazon.com/Hands-Machine-Learning-Scikit-Learn-TensorFlow/dp/1492032646"
+                    "title": "PyTorch Tutorials",
+                    "description": "Learn PyTorch fundamentals",
+                    "duration": "10h 0m",
+                    "link": "https://pytorch.org/tutorials/"
+                },
+                {
+                    "title": "Book: Hands-On Machine Learning with Scikit-Learn, Keras & TensorFlow by Aurélien Géron",
+                    "description": "Tips for writing maintainable code",
+                    "duration": "20h 0m",
+                    "link": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781492032632/"
                 }
             ],
             "careerPathProjections": {
                 "potentialPaths": [
-                    "AI Engineer",
-                    "Machine Learning Engineer",
-                    "Data Scientist",
-                    "Research Scientist"
+                    "Senior AI Engineer",
+                    "Research Scientist",
+                    "AI Architect",
+                    "Machine Learning Engineer"
                 ],
                 "requiredSteps": [
-                    "Gain experience with deep learning frameworks",
-                    "Develop expertise in cloud platforms",
-                    "Obtain relevant certifications",
-                    "Contribute to research projects"
+                    "Develop expertise in deep learning frameworks (TensorFlow, PyTorch).",
+                    "Gain experience with deploying AI models in production.",
+                    "Obtain certifications relevant to chosen specialization."
                 ],
-                "timelineEstimate": "2-4 years"
+                "timelineEstimate": "3-5 years to reach senior level, 5-7 years to reach research scientist or architect level."
             },
-            "randomForestInsights": "The model identified a match based on the candidate's AI project experience and Python skills, aligning with the requirements for AI engineering internships.",
-            "workLifeBalance": "Varies depending on the company, but generally flexible, especially in remote roles."
+            "randomForestInsights": "The model identified a strong match based on the candidate's AI project experience, programming skills, and educational background, indicating a high potential for success in an AI engineer role.",
+            "workLifeBalance": "Can vary depending on the company and project, but generally offers good work-life balance."
         },
         {
-            "roleTitle": "Data Analyst",
-            "experienceLevel": "Entry-level",
-            "industryFocus": "Data Science",
+            "roleTitle": "IT Support Specialist",
+            "experienceLevel": "Entry-Level",
+            "industryFocus": "Information Technology",
             "workplaceType": "Onsite",
             "assessment": {
                 "skillsMatch": [
-                    "Python",
-                    "SQL",
-                    "Data Structures"
+                    "Technical Support",
+                    "Hardware Troubleshooting",
+                    "Software Troubleshooting"
                 ],
                 "skillGaps": [
-                    "Data visualization tools (Tableau, Power BI)",
-                    "Statistical analysis techniques"
+                    "Experience with specific IT support tools (e.g., ticketing systems)",
+                    "Knowledge of network administration"
                 ],
-                "experienceMatch": "Relevant coursework and project experience in data analysis.",
-                "educationMatch": "Computer Science background is beneficial.",
-                "cultureFit": "Analytical and detail-oriented, fitting well in data-driven environments."
+                "experienceMatch": "Internship experience demonstrates relevant technical support skills.",
+                "educationMatch": "Coursework in computer science provides a solid foundation.",
+                "cultureFit": "Patient and helpful, fitting well into a customer-focused IT support environment."
             },
             "salaryBenchmarks": {
-                "range": "₱25,000 - ₱45,000",
-                "medianSalary": "₱35,000",
-                "factors": [
-                    "Industry",
-                    "Location",
-                    "Company Size",
-                    "Experience Level"
-                ],
-                "Source": "https://www.glassdoor.com/Salaries/philippines-data-analyst-salary-SRDS_IL.0,10_IN195_KO11,23.htm"
+                "description": "For more accurate salary estimates, consider using the following resources:",
+                "links": [
+                    {
+                        "platform": "Glasdoor",
+                        "searchQuery": "IT Support Specialist Salary",
+                        "url": "https://www.glassdoor.com/Salaries/it-support-specialist-salary-SRCH_KO0,22.htm"
+                    },
+                    {
+                        "platform": "Payscale",
+                        "searchQuery": "IT Support Specialist Salary",
+                        "url": "https://www.payscale.com/research/US/Job=IT_Support_Specialist/Salary"
+                    }
+                ]
             },
             "growthPotential": {
-                "marketDemand": "High demand for data analysts in various industries.",
-                "upwardMobility": "Potential to advance to Senior Data Analyst, Data Scientist, and Data Architect roles."
+                "marketDemand": "Moderate",
+                "upwardMobility": "Potential for advancement to senior IT support specialist, network administrator, or systems administrator roles."
             },
             "currentOpportunities": [
                 {
                     "platform": "LinkedIn",
-                    "searchQuery": "Data Analyst Philippines",
-                    "url": "https://www.linkedin.com/jobs/search/?keywords=Data%20Analyst&location=Philippines"
-                },
-                {
-                    "platform": "JobStreet",
-                    "searchQuery": "Data Analyst Philippines",
-                    "url": "https://www.jobstreet.com.ph/en/job-search/data-analyst-jobs-in-philippines/"
+                    "searchQuery": "IT Support Specialist",
+                    "url": "https://www.linkedin.com/jobs/search/?keywords=IT%20Support%20Specialist"
                 },
                 {
                     "platform": "Indeed",
-                    "searchQuery": "Data Analyst Philippines",
-                    "url": "https://ph.indeed.com/jobs?q=data%20analyst&l=Philippines"
+                    "searchQuery": "IT Support Specialist",
+                    "url": "https://www.indeed.com/jobs?q=it%20support%20specialist"
                 },
                 {
-                    "platform": "Kalibrr",
-                    "searchQuery": "Data Analyst Philippines",
-                    "url": "https://www.kalibrr.com/job-board/search?q=Data+Analyst&l=Philippines"
+                    "platform": "Glassdoor",
+                    "searchQuery": "IT Support Specialist",
+                    "url": "https://www.glassdoor.com/Job/it-support-specialist-jobs-SRCH_KO0,22.htm"
+                },
+                {
+                    "platform": "ZipRecruiter",
+                    "searchQuery": "IT Support Specialist",
+                    "url": "https://www.ziprecruiter.com/jobs/it-support-specialist"
                 }
             ],
             "skillDevelopment": [
                 {
-                    "title": "DataCamp: Data Analyst with Python Career Track",
-                    "description": "Comprehensive career track for data analysis with Python.",
-                    "duration": "60h 0m",
-                    "link": "https://www.datacamp.com/career-tracks/data-analyst-with-python"
+                    "title": "CompTIA A+ Certification",
+                    "description": "IT support certification",
+                    "duration": "80h 0m",
+                    "link": "https://www.comptia.org/certifications/a"
                 },
                 {
-                    "title": "Tableau Desktop Specialist Certification",
-                    "description": "Certification for Tableau proficiency.",
-                    "duration": "40h 0m",
-                    "link": "https://www.tableau.com/learn/certification"
+                    "title": "Network Administration Basics",
+                    "description": "Learn network administration fundamentals",
+                    "duration": "20h 0m",
+                    "link": "https://www.udemy.com/course/network-administration-basics/"
                 },
                 {
-                    "title": "Google Data Analytics Professional Certificate",
-                    "description": "Learn in-demand data analytics skills.",
-                    "duration": "6 months",
-                    "link": "https://www.coursera.org/professional-certificates/google-data-analytics"
+                    "title": "Microsoft 365 Fundamentals",
+                    "description": "Learn Microsoft 365 fundamentals",
+                    "duration": "10h 0m",
+                    "link": "https://learn.microsoft.com/en-us/certifications/m365-fundamentals/"
                 },
                 {
-                    "title": "Book: Python for Data Analysis by Wes McKinney",
-                    "description": "Guide to data analysis with Python and Pandas.",
-                    "duration": "30h 0m",
-                    "link": "https://www.amazon.com/Python-Data-Analysis-Wes-McKinney/dp/1491957662"
+                    "title": "Book: The Practice of System and Network Administration by Thomas A. Limoncelli, Christina J. Hogan, Strata R. Chalup",
+                    "description": "Tips for writing maintainable code",
+                    "duration": "20h 0m",
+                    "link": "https://everythingsysadmin.com/books.html"
                 }
             ],
             "careerPathProjections": {
                 "potentialPaths": [
-                    "Senior Data Analyst",
-                    "Data Scientist",
-                    "Business Intelligence Analyst",
-                    "Data Architect"
+                    "Senior IT Support Specialist",
+                    "Network Administrator",
+                    "Systems Administrator",
+                    "IT Manager"
                 ],
                 "requiredSteps": [
-                    "Develop expertise in data visualization tools",
-                    "Gain experience with statistical analysis",
-                    "Obtain relevant certifications",
-                    "Improve communication skills"
+                    "Gain experience with specific IT support tools (e.g., ticketing systems).",
+                    "Develop knowledge of network administration.",
+                    "Obtain certifications relevant to chosen specialization."
                 ],
-                "timelineEstimate": "3-5 years"
+                "timelineEstimate": "3-5 years to reach senior level, 5-7 years to reach network administrator or systems administrator level."
             },
-            "randomForestInsights": "The model identified a match based on the candidate's Python and SQL skills, aligning with the requirements for entry-level data analyst roles.",
-            "workLifeBalance": "Generally good work-life balance, especially in larger companies with established processes."
+            "randomForestInsights": "The model identified a strong match based on the candidate's technical support experience, hardware/software troubleshooting skills, and educational background, indicating a high potential for success in an IT support specialist role.",
+            "workLifeBalance": "Generally good, with opportunities for flexible work arrangements depending on the company."
         },
         {
             "roleTitle": "Web Developer",
-            "experienceLevel": "Entry-level",
+            "experienceLevel": "Entry-Level",
             "industryFocus": "Web Development",
             "workplaceType": "Remote",
             "assessment": {
                 "skillsMatch": [
+                    "Javascript",
                     "HTML",
                     "CSS",
-                    "JavaScript",
-                    "Python",
-                    "Streamlit"
+                    "Typescript",
+                    "Git"
                 ],
                 "skillGaps": [
-                    "Frontend frameworks (React, Angular, Vue.js)",
-                    "Backend frameworks (Node.js, Django, Flask)"
+                    "Experience with front-end frameworks (React, Angular, Vue.js)",
+                    "Experience with back-end technologies (Node.js, Express.js)"
                 ],
-                "experienceMatch": "Project experience with web-based AI agent is relevant.",
-                "educationMatch": "Computer Science background is beneficial.",
-                "cultureFit": "Creative and collaborative, fitting well in web development teams."
+                "experienceMatch": "Project experience demonstrates relevant web development skills.",
+                "educationMatch": "Coursework in computer science provides a solid foundation.",
+                "cultureFit": "Creative and detail-oriented, fitting well into a collaborative web development environment."
             },
             "salaryBenchmarks": {
-                "range": "₱20,000 - ₱40,000",
-                "medianSalary": "₱30,000",
-                "factors": [
-                    "Industry",
-                    "Location",
-                    "Company Size",
-                    "Experience Level"
-                ],
-                "Source": "https://www.glassdoor.com/Salaries/philippines-web-developer-salary-SRDS_IL.0,10_IN195_KO11,23.htm"
+                "description": "For more accurate salary estimates, consider using the following resources:",
+                "links": [
+                    {
+                        "platform": "Glasdoor",
+                        "searchQuery": "Web Developer Salary",
+                        "url": "https://www.glassdoor.com/Salaries/web-developer-salary-SRCH_KO0,13.htm"
+                    },
+                    {
+                        "platform": "Payscale",
+                        "searchQuery": "Web Developer Salary",
+                        "url": "https://www.payscale.com/research/US/Job=Web_Developer/Salary"
+                    }
+                ]
             },
             "growthPotential": {
-                "marketDemand": "High demand for web developers in the Philippines.",
-                "upwardMobility": "Potential to advance to Senior Web Developer, Frontend Developer, Backend Developer, and Full-Stack Developer roles."
+                "marketDemand": "High",
+                "upwardMobility": "Potential for advancement to senior web developer, front-end developer, back-end developer, or web architect roles."
             },
             "currentOpportunities": [
                 {
                     "platform": "LinkedIn",
-                    "searchQuery": "Web Developer Philippines",
-                    "url": "https://www.linkedin.com/jobs/search/?keywords=Web%20Developer&location=Philippines"
-                },
-                {
-                    "platform": "JobStreet",
-                    "searchQuery": "Web Developer Philippines",
-                    "url": "https://www.jobstreet.com.ph/en/job-search/web-developer-jobs-in-philippines/"
+                    "searchQuery": "Web Developer",
+                    "url": "https://www.linkedin.com/jobs/search/?keywords=Web%20Developer"
                 },
                 {
                     "platform": "Indeed",
-                    "searchQuery": "Web Developer Philippines",
-                    "url": "https://ph.indeed.com/jobs?q=web%20developer&l=Philippines"
+                    "searchQuery": "Web Developer",
+                    "url": "https://www.indeed.com/jobs?q=web%20developer"
                 },
                 {
-                    "platform": "Kalibrr",
-                    "searchQuery": "Web Developer Philippines",
-                    "url": "https://www.kalibrr.com/job-board/search?q=Web+Developer&l=Philippines"
+                    "platform": "Glassdoor",
+                    "searchQuery": "Web Developer",
+                    "url": "https://www.glassdoor.com/Job/web-developer-jobs-SRCH_KO0,13.htm"
+                },
+                {
+                    "platform": "ZipRecruiter",
+                    "searchQuery": "Web Developer",
+                    "url": "https://www.ziprecruiter.com/jobs/web-developer"
                 }
             ],
             "skillDevelopment": [
                 {
-                    "title": "Codecademy: Full-Stack Engineer Career Path",
-                    "description": "Comprehensive career path for full-stack web development.",
-                    "duration": "300h 0m",
-                    "link": "https://www.codecademy.com/learn/paths/full-stack-engineer-career-path"
+                    "title": "The Complete Web Developer in 2024: Zero to Mastery",
+                    "description": "Learn web development fundamentals",
+                    "duration": "40h 0m",
+                    "link": "https://www.udemy.com/course/the-complete-web-developer-zero-to-mastery/"
                 },
                 {
                     "title": "React - The Complete Guide (incl Hooks, React Router, Redux)",
-                    "description": "Learn React with hands-on projects.",
+                    "description": "Learn React fundamentals",
                     "duration": "40h 0m",
                     "link": "https://www.udemy.com/course/react-the-complete-guide-incl-hooks-react-router-redux/"
                 },
                 {
                     "title": "Node.js, Express, MongoDB & More: The Complete Bootcamp 2024",
-                    "description": "Learn backend development with Node.js, Express, and MongoDB.",
-                    "duration": "50h 0m",
+                    "description": "Learn Node.js fundamentals",
+                    "duration": "60h 0m",
                     "link": "https://www.udemy.com/course/nodejs-express-mongodb-bootcamp/"
                 },
                 {
                     "title": "Book: Eloquent JavaScript by Marijn Haverbeke",
-                    "description": "Modern introduction to programming with JavaScript.",
+                    "description": "Tips for writing maintainable code",
                     "duration": "20h 0m",
                     "link": "https://eloquentjavascript.net/"
                 }
             ],
             "careerPathProjections": {
                 "potentialPaths": [
-                    "Frontend Developer",
-                    "Backend Developer",
-                    "Full-Stack Developer",
+                    "Senior Web Developer",
+                    "Front-End Developer",
+                    "Back-End Developer",
                     "Web Architect"
                 ],
                 "requiredSteps": [
-                    "Develop expertise in frontend and backend frameworks",
-                    "Gain experience with database management",
-                    "Obtain relevant certifications",
-                    "Improve problem-solving skills"
+                    "Gain experience with front-end frameworks (React, Angular, Vue.js).",
+                    "Develop experience with back-end technologies (Node.js, Express.js).",
+                    "Obtain certifications relevant to chosen specialization."
                 ],
-                "timelineEstimate": "3-5 years"
+                "timelineEstimate": "3-5 years to reach senior level, 5-7 years to reach front-end developer, back-end developer, or web architect level."
             },
-            "randomForestInsights": "The model identified a match based on the candidate's HTML, CSS, JavaScript, and Python skills, aligning with the requirements for entry-level web developer roles.",
-            "workLifeBalance": "Varies depending on the company, but generally flexible, especially in remote roles."
+            "randomForestInsights": "The model identified a strong match based on the candidate's web development skills, project experience, and educational background, indicating a high potential for success in a web developer role.",
+            "workLifeBalance": "Generally good, with opportunities for flexible work arrangements depending on the company."
         },
         {
-            "roleTitle": "IT Support Specialist",
-            "experienceLevel": "Entry-level",
-            "industryFocus": "Information Technology",
-            "workplaceType": "Onsite",
-            "assessment": {
-                "skillsMatch": [
-                    "Hardware Troubleshooting",
-                    "Software Troubleshooting",
-                    "Linux",
-                    "Networking"
-                ],
-                "skillGaps": [
-                    "Specific certifications (e.g., CompTIA A+)",
-                    "Experience with enterprise-level IT systems"
-                ],
-                "experienceMatch": "Internship experience in IT technical support is relevant.",
-                "educationMatch": "Computer Science background is beneficial.",
-                "cultureFit": "Patient and helpful, fitting well in customer-facing IT support roles."
-            },
-            "salaryBenchmarks": {
-                "range": "₱18,000 - ₱35,000",
-                "medianSalary": "₱26,500",
-                "factors": [
-                    "Industry",
-                    "Location",
-                    "Company Size",
-                    "Experience Level"
-                ],
-                "Source": "https://www.glassdoor.com/Salaries/philippines-it-support-specialist-salary-SRDS_IL.0,10_IN195_KO11,32.htm"
-            },
-            "growthPotential": {
-                "marketDemand": "Moderate demand for IT support specialists.",
-                "upwardMobility": "Potential to advance to System Administrator, Network Engineer, and IT Manager roles."
-            },
-            "currentOpportunities": [
-                {
-                    "platform": "LinkedIn",
-                    "searchQuery": "IT Support Specialist Philippines",
-                    "url": "https://www.linkedin.com/jobs/search/?keywords=IT%20Support%20Specialist&location=Philippines"
-                },
-                {
-                    "platform": "JobStreet",
-                    "searchQuery": "IT Support Specialist Philippines",
-                    "url": "https://www.jobstreet.com.ph/en/job-search/it-support-specialist-jobs-in-philippines/"
-                },
-                {
-                    "platform": "Indeed",
-                    "searchQuery": "IT Support Specialist Philippines",
-                    "url": "https://ph.indeed.com/jobs?q=it%20support%20specialist&l=Philippines"
-                },
-                {
-                    "platform": "Kalibrr",
-                    "searchQuery": "IT Support Specialist Philippines",
-                    "url": "https://www.kalibrr.com/job-board/search?q=IT+Support+Specialist&l=Philippines"
-                }
-            ],
-            "skillDevelopment": [
-                {
-                    "title": "CompTIA A+ Certification",
-                    "description": "Industry-standard certification for IT support professionals.",
-                    "duration": "80h 0m",
-                    "link": "https://www.comptia.org/certifications/a"
-                },
-                {
-                    "title": "Microsoft Certified: Azure Fundamentals",
-                    "description": "Certification for basic knowledge of Azure cloud services.",
-                    "duration": "40h 0m",
-                    "link": "https://docs.microsoft.com/en-us/learn/certifications/azure-fundamentals/"
-                },
-                {
-                    "title": "Cisco Certified Network Associate (CCNA)",
-                    "description": "Certification for networking fundamentals.",
-                    "duration": "80h 0m",
-                    "link": "https://www.cisco.com/c/en/us/training-events/training-certifications/certifications/associate/ccna.html"
-                },
-                {
-                    "title": "Book: The Practice of System and Network Administration by Thomas A. Limoncelli",
-                    "description": "Comprehensive guide to system and network administration.",
-                    "duration": "40h 0m",
-                    "link": "https://www.amazon.com/Practice-System-Network-Administration/dp/0321919165"
-                }
-            ],
-            "careerPathProjections": {
-                "potentialPaths": [
-                    "System Administrator",
-                    "Network Engineer",
-                    "IT Manager",
-                    "Cybersecurity Analyst"
-                ],
-                "requiredSteps": [
-                    "Obtain relevant certifications",
-                    "Gain experience with enterprise-level IT systems",
-                    "Develop expertise in networking and security",
-                    "Improve communication and leadership skills"
-                ],
-                "timelineEstimate": "3-5 years"
-            },
-            "randomForestInsights": "The model identified a match based on the candidate's hardware and software troubleshooting skills, aligning with the requirements for entry-level IT support specialist roles.",
-            "workLifeBalance": "Can vary depending on the company and the level of support required, but generally manageable."
-        },
-        {
-            "roleTitle": "Database Administrator",
-            "experienceLevel": "Entry-level",
-            "industryFocus": "Database Management",
+            "roleTitle": "Data Analyst",
+            "experienceLevel": "Entry-Level",
+            "industryFocus": "Data Science",
             "workplaceType": "Hybrid",
             "assessment": {
                 "skillsMatch": [
+                    "Python",
                     "MySQL",
-                    "PostgreSQL",
-                    "Database Design"
+                    "PostgreSQL"
                 ],
                 "skillGaps": [
-                    "Experience with cloud-based databases (AWS RDS, Azure SQL Database)",
-                    "Knowledge of database security and performance tuning"
+                    "Experience with data visualization tools (Tableau, Power BI)",
+                    "Knowledge of statistical analysis"
                 ],
-                "experienceMatch": "Project experience with database management is relevant.",
-                "educationMatch": "Computer Science background is beneficial.",
-                "cultureFit": "Detail-oriented and analytical, fitting well in database administration teams."
+                "experienceMatch": "Project experience demonstrates relevant data analysis skills.",
+                "educationMatch": "Coursework in computer science provides a solid foundation.",
+                "cultureFit": "Analytical and detail-oriented, fitting well into a data-driven environment."
             },
             "salaryBenchmarks": {
-                "range": "₱25,000 - ₱45,000",
-                "medianSalary": "₱35,000",
-                "factors": [
-                    "Industry",
-                    "Location",
-                    "Company Size",
-                    "Experience Level"
-                ],
-                "Source": "https://www.glassdoor.com/Salaries/philippines-database-administrator-salary-SRDS_IL.0,10_IN195_KO11,33.htm"
+                "description": "For more accurate salary estimates, consider using the following resources:",
+                "links": [
+                    {
+                        "platform": "Glasdoor",
+                        "searchQuery": "Data Analyst Salary",
+                        "url": "https://www.glassdoor.com/Salaries/data-analyst-salary-SRCH_KO0,12.htm"
+                    },
+                    {
+                        "platform": "Payscale",
+                        "searchQuery": "Data Analyst Salary",
+                        "url": "https://www.payscale.com/research/US/Job=Data_Analyst/Salary"
+                    }
+                ]
             },
             "growthPotential": {
-                "marketDemand": "Moderate demand for database administrators.",
-                "upwardMobility": "Potential to advance to Senior Database Administrator, Database Architect, and Data Engineer roles."
+                "marketDemand": "High",
+                "upwardMobility": "Potential for advancement to senior data analyst, data scientist, or data engineer roles."
             },
             "currentOpportunities": [
                 {
                     "platform": "LinkedIn",
-                    "searchQuery": "Database Administrator Philippines",
-                    "url": "https://www.linkedin.com/jobs/search/?keywords=Database%20Administrator&location=Philippines"
-                },
-                {
-                    "platform": "JobStreet",
-                    "searchQuery": "Database Administrator Philippines",
-                    "url": "https://www.jobstreet.com.ph/en/job-search/database-administrator-jobs-in-philippines/"
+                    "searchQuery": "Data Analyst",
+                    "url": "https://www.linkedin.com/jobs/search/?keywords=Data%20Analyst"
                 },
                 {
                     "platform": "Indeed",
-                    "searchQuery": "Database Administrator Philippines",
-                    "url": "https://ph.indeed.com/jobs?q=database%20administrator&l=Philippines"
+                    "searchQuery": "Data Analyst",
+                    "url": "https://www.indeed.com/jobs?q=data%20analyst"
                 },
                 {
-                    "platform": "Kalibrr",
-                    "searchQuery": "Database Administrator Philippines",
-                    "url": "https://www.kalibrr.com/job-board/search?q=Database+Administrator&l=Philippines"
+                    "platform": "Glassdoor",
+                    "searchQuery": "Data Analyst",
+                    "url": "https://www.glassdoor.com/Job/data-analyst-jobs-SRCH_KO0,12.htm"
+                },
+                {
+                    "platform": "ZipRecruiter",
+                    "searchQuery": "Data Analyst",
+                    "url": "https://www.ziprecruiter.com/jobs/data-analyst"
                 }
             ],
             "skillDevelopment": [
                 {
-                    "title": "Microsoft Certified: Azure Database Administrator Associate",
-                    "description": "Certification for database administration on Azure.",
-                    "duration": "80h 0m",
-                    "link": "https://docs.microsoft.com/en-us/learn/certifications/azure-database-administrator-associate/"
+                    "title": "Google Data Analytics Professional Certificate",
+                    "description": "Learn data analysis fundamentals",
+                    "duration": "120h 0m",
+                    "link": "https://www.coursera.org/professional-certificates/google-data-analytics"
                 },
                 {
-                    "title": "Oracle Database Administration I",
-                    "description": "Certification for Oracle database administration.",
-                    "duration": "80h 0m",
-                    "link": "https://education.oracle.com/oracle-database-administration-i/pexam_1Z0-082"
-                },
-                {
-                    "title": "SQLZoo",
-                    "description": "Interactive SQL tutorial.",
-                    "duration": "20h 0m",
-                    "link": "https://sqlzoo.net/"
-                },
-                {
-                    "title": "Book: Database Systems: The Complete Book by Hector Garcia-Molina",
-                    "description": "Comprehensive guide to database systems.",
+                    "title": "Tableau Desktop Specialist Certification",
+                    "description": "Certification for Tableau users",
                     "duration": "40h 0m",
-                    "link": "https://www.amazon.com/Database-Systems-Complete-Hector-Garcia-Molina/dp/0131873253"
+                    "link": "https://www.tableau.com/learn/certification"
+                },
+                {
+                    "title": "Power BI Tutorials",
+                    "description": "Learn Power BI fundamentals",
+                    "duration": "10h 0m",
+                    "link": "https://learn.microsoft.com/en-us/power-bi/"
+                },
+                {
+                    "title": "Book: Python for Data Analysis by Wes McKinney",
+                    "description": "Tips for writing maintainable code",
+                    "duration": "20h 0m",
+                    "link": "https://wesmckinney.com/pages/book.html"
                 }
             ],
             "careerPathProjections": {
                 "potentialPaths": [
-                    "Senior Database Administrator",
-                    "Database Architect",
+                    "Senior Data Analyst",
+                    "Data Scientist",
                     "Data Engineer",
-                    "Data Scientist"
+                    "Business Intelligence Analyst"
                 ],
                 "requiredSteps": [
-                    "Gain experience with cloud-based databases",
-                    "Develop expertise in database security and performance tuning",
-                    "Obtain relevant certifications",
-                    "Improve problem-solving skills"
+                    "Gain experience with data visualization tools (Tableau, Power BI).",
+                    "Develop knowledge of statistical analysis.",
+                    "Obtain certifications relevant to chosen specialization."
                 ],
-                "timelineEstimate": "3-5 years"
+                "timelineEstimate": "3-5 years to reach senior level, 5-7 years to reach data scientist, data engineer, or business intelligence analyst level."
             },
-            "randomForestInsights": "The model identified a match based on the candidate's MySQL and PostgreSQL skills, aligning with the requirements for entry-level database administrator roles.",
-            "workLifeBalance": "Can vary depending on the company and the level of support required, but generally manageable."
+            "randomForestInsights": "The model identified a strong match based on the candidate's data analysis skills, database knowledge, and educational background, indicating a high potential for success in a data analyst role.",
+            "workLifeBalance": "Generally good, with opportunities for flexible work arrangements depending on the company."
+        },
+        {
+            "roleTitle": "Cybersecurity Analyst",
+            "experienceLevel": "Entry-Level",
+            "industryFocus": "Cybersecurity",
+            "workplaceType": "Onsite",
+            "assessment": {
+                "skillsMatch": [
+                    "Cybersecurity",
+                    "Networking"
+                ],
+                "skillGaps": [
+                    "Experience with security tools (SIEM, IDS/IPS)",
+                    "Knowledge of security frameworks (NIST, ISO 27001)"
+                ],
+                "experienceMatch": "Coursework in cybersecurity provides a solid foundation.",
+                "educationMatch": "Coursework in computer science provides a solid foundation.",
+                "cultureFit": "Detail-oriented and security-conscious, fitting well into a security-focused environment."
+            },
+            "salaryBenchmarks": {
+                "description": "For more accurate salary estimates, consider using the following resources:",
+                "links": [
+                    {
+                        "platform": "Glasdoor",
+                        "searchQuery": "Cybersecurity Analyst Salary",
+                        "url": "https://www.glassdoor.com/Salaries/cybersecurity-analyst-salary-SRCH_KO0,21.htm"
+                    },
+                    {
+                        "platform": "Payscale",
+                        "searchQuery": "Cybersecurity Analyst Salary",
+                        "url": "https://www.payscale.com/research/US/Job=Cybersecurity_Analyst/Salary"
+                    }
+                ]
+            },
+            "growthPotential": {
+                "marketDemand": "Very High",
+                "upwardMobility": "Potential for advancement to senior cybersecurity analyst, security engineer, or security architect roles."
+            },
+            "currentOpportunities": [
+                {
+                    "platform": "LinkedIn",
+                    "searchQuery": "Cybersecurity Analyst",
+                    "url": "https://www.linkedin.com/jobs/search/?keywords=Cybersecurity%20Analyst"
+                },
+                {
+                    "platform": "Indeed",
+                    "searchQuery": "Cybersecurity Analyst",
+                    "url": "https://www.indeed.com/jobs?q=cybersecurity%20analyst"
+                },
+                {
+                    "platform": "Glassdoor",
+                    "searchQuery": "Cybersecurity Analyst",
+                    "url": "https://www.glassdoor.com/Job/cybersecurity-analyst-jobs-SRCH_KO0,21.htm"
+                },
+                {
+                    "platform": "ZipRecruiter",
+                    "searchQuery": "Cybersecurity Analyst",
+                    "url": "https://www.ziprecruiter.com/jobs/cybersecurity-analyst"
+                }
+            ],
+            "skillDevelopment": [
+                {
+                    "title": "CompTIA Security+ Certification",
+                    "description": "Cybersecurity certification",
+                    "duration": "80h 0m",
+                    "link": "https://www.comptia.org/certifications/security"
+                },
+                {
+                    "title": "Certified Ethical Hacker (CEH)",
+                    "description": "Cybersecurity certification",
+                    "duration": "80h 0m",
+                    "link": "https://www.eccouncil.org/ethical-hacking/ceh/"
+                },
+                {
+                    "title": "Security Information and Event Management (SIEM) Tools",
+                    "description": "Learn SIEM fundamentals",
+                    "duration": "20h 0m",
+                    "link": "https://www.splunk.com/en_us/training/courses/splunk-fundamentals-1.html"
+                },
+                {
+                    "title": "Book: Practical Packet Analysis by Chris Sanders",
+                    "description": "Tips for writing maintainable code",
+                    "duration": "20h 0m",
+                    "link": "https://nostarch.com/packet2e"
+                }
+            ],
+            "careerPathProjections": {
+                "potentialPaths": [
+                    "Senior Cybersecurity Analyst",
+                    "Security Engineer",
+                    "Security Architect",
+                    "Security Consultant"
+                ],
+                "requiredSteps": [
+                    "Gain experience with security tools (SIEM, IDS/IPS).",
+                    "Develop knowledge of security frameworks (NIST, ISO 27001).",
+                    "Obtain certifications relevant to chosen specialization."
+                ],
+                "timelineEstimate": "3-5 years to reach senior level, 5-7 years to reach security engineer, security architect, or security consultant level."
+            },
+            "randomForestInsights": "The model identified a strong match based on the candidate's cybersecurity coursework, networking knowledge, and educational background, indicating a high potential for success in a cybersecurity analyst role.",
+            "workLifeBalance": "Can vary depending on the company and project, but generally offers good work-life balance."
         }
     ],
     "overallEvaluation": {
         "jobFitScores": {
             "Junior Software Developer": "85%",
-            "AI Engineer Intern": "80%",
-            "Data Analyst": "75%",
-            "Web Developer": "70%",
-            "IT Support Specialist": "65%",
-            "Database Administrator": "60%"
+            "AI Engineer": "80%",
+            "IT Support Specialist": "75%",
+            "Web Developer": "78%",
+            "Data Analyst": "70%",
+            "Cybersecurity Analyst": "65%"
         },
         "marketPositioning": {
             "competitiveAdvantages": [
-                "Strong programming skills in multiple languages",
-                "Project experience in AI and web development",
-                "Presentation experience at an international conference",
+                "Strong programming skills in multiple languages.",
+                "Experience with AI and web development projects.",
+                "Presentation experience at an international conference.",
                 "Github Foundations Certification"
             ],
             "improvementAreas": [
-                "Gain more professional experience in specific industries",
-                "Develop deeper expertise in specialized areas like AI or cybersecurity",
-                "Obtain industry-recognized certifications"
+                "Gain more professional experience in a specific industry.",
+                "Develop expertise in specific software development frameworks.",
+                "Obtain certifications relevant to chosen specialization."
             ]
         },
         "interviewReadiness": {
             "commonQuestions": [
-                "Tell me about yourself.",
-                "Why are you interested in this role?",
-                "What are your strengths and weaknesses?",
-                "Describe a challenging project you worked on and how you overcame the challenges.",
-                "How do you stay up-to-date with the latest technologies?"
+                "Tell me about a time you faced a technical challenge and how you overcame it.",
+                "Describe your experience with project management and collaboration.",
+                "What are your strengths and weaknesses as a software developer?",
+                "Why are you interested in this role?"
             ],
             "suggestedTalkingPoints": [
-                "Highlight project experience, especially the AI agent and inventory management system.",
-                "Emphasize problem-solving skills and ability to learn new technologies quickly.",
-                "Showcase presentation experience at the international conference.",
-                "Mention certifications and ongoing learning efforts."
+                "Highlight your project experience, emphasizing the technologies used and the outcomes achieved.",
+                "Discuss your internship experience, focusing on the skills you developed and the challenges you overcame.",
+                "Showcase your presentation experience at the international conference, demonstrating your communication skills.",
+                "Express your enthusiasm for continuous learning and your eagerness to contribute to the company's success."
             ]
         },
         "personalBrandingSuggestions": [
-            "Create a professional online portfolio showcasing projects and skills.",
-            "Contribute to open-source projects on GitHub.",
-            "Network with professionals in the desired industry on LinkedIn.",
-            "Write blog posts or articles about technical topics of interest."
+            "Create a professional website or online portfolio to showcase your projects and skills.",
+            "Contribute to open-source projects to gain more experience and build your reputation.",
+            "Network with professionals in your field through LinkedIn and other online communities.",
+            "Attend industry events and conferences to learn about the latest trends and technologies."
         ]
     }
 }

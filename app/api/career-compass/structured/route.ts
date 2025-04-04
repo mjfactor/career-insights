@@ -1,20 +1,28 @@
-import { streamObject, generateObject } from 'ai';
+import { generateObject } from 'ai';
 import { google } from '@ai-sdk/google';
 import { NextRequest } from 'next/server';
 
 // Structured object generation prompt that extracts the same data points as the Career Compass
 const STRUCTURED_COMPASS_PROMPT = `Generate a structured JSON object with comprehensive career analysis data based on the resume.
 
+IMPORTANT: This system supports ALL career fields, not just IT or Computer Science. Adapt your analysis to the specific industry and career path evident in the resume.
+
+IF the resume lacks very basic data of skills and education:
+1. ONLY generate the "resumeImprovement" section
+2. Do NOT generate other sections
+3. Focus on explaining what essential information is missing and how to add it
+
 {
   "candidateProfile": {
     "coreCompetencies": {
       "technicalSkills": ["list of key technical skills, tools, methodologies"],
       "softSkills": ["list of soft skills like communication, leadership, teamwork"],
-      "mostUsedSkill": {
-        "Typescript",
-        "Communication",
+      "mostUsedSkill": [
+        "Skill 1",
+        "Skill 2",
+        "Skill 3"
         // Only 3 or 4 skills should be listed here
-      },
+      ],
       "uniqueValueProposition": "what makes the candidate distinct and valuable in the job market",
       "certifications": ["list of certifications if any, with dates if provided"]
     },
@@ -52,7 +60,8 @@ const STRUCTURED_COMPASS_PROMPT = `Generate a structured JSON object with compre
     }
   },
   "jobRecommendations": [
-    // IMPORTANT: Generate 5-7 job recommendations total, not just one
+    // IMPORTANT: Generate 4-7 job recommendations total, not just one
+    // LEAVE THIS ARRAY EMPTY if the resume lacks basic data
     {
       "roleTitle": "job title",
       "experienceLevel": "entry/mid/senior",
@@ -66,10 +75,14 @@ const STRUCTURED_COMPASS_PROMPT = `Generate a structured JSON object with compre
         "cultureFit": "alignment with typical culture for this role"
       },
       "salaryBenchmarks": {
-        "range": "salary range in Philippine Peso Monthly",
-        "medianSalary": "median salary figure",
-        "factors": ["industry", "location", "company size", "experience level"],
-        "Source": "link to source of salary data (PayScale, Glassdoor, etc.)"
+        "description": "For more accurate salary estimates, consider using the following resources:",
+        "links": [
+          {
+            "platform": "Glassdoor or Payscale",
+            "searchQuery": "search query text",
+            "url": "direct URL to search"
+          }
+        ]
       },
       "growthPotential": {
         "marketDemand": "expected job growth rate",
@@ -78,7 +91,7 @@ const STRUCTURED_COMPASS_PROMPT = `Generate a structured JSON object with compre
       "currentOpportunities": [
         // IMPORTANT: Include exactly 4 platforms with searchable links
         {
-          "platform": "LinkedIn, Glasdoor, Indeed, etc.",
+          "platform": "LinkedIn, Glassdoor, Indeed, etc.",
           "searchQuery": "search query text",
           "url": "direct URL to search"
         }
@@ -133,6 +146,26 @@ const STRUCTURED_COMPASS_PROMPT = `Generate a structured JSON object with compre
       "suggestedTalking Points": ["key experiences to highlight"]
     },
     "personalBrandingSuggestions": ["ways to strengthen professional presence"]
+  },
+  // Add this section when the resume lacks basic information
+  "resumeImprovement": {
+    "overallAssessment": "brief assessment of how incomplete the resume is",
+    "missingElements": ["list of critical information that's missing from the resume"],
+    "formattingIssues": ["any issues with layout, organization, or presentation"],
+    "contentWeaknesses": ["areas where the content could be strengthened"],
+    "actionableSteps": [
+      "specific steps to improve the resume",
+      "format guidance",
+      "content recommendations",
+      "key sections to add or expand"
+    ],
+    "professionalResourceLinks": [
+      {
+        "title": "Resource title",
+        "description": "Brief description of how this resource helps",
+        "link": "URL to helpful resource"
+      }
+    ]
   }
 }`
 

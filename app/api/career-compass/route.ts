@@ -7,13 +7,10 @@ const STRUCTURED_TO_MARKDOWN_PROMPT = `
 Take the provided structured JSON career analysis data and convert it to a well-formatted markdown document.
 Format the information exactly according to these rules:
 
-IMPORTANT: DONT USE CODEBLOCKS, JUST PLAIN TEXT MARKDOWN
-
-**STRICT PROCESSING ORDER (DO NOT SKIP):**
-1. Format the Candidate Profile Analysis FIRST
-2. ONLY THEN proceed to Job Recommendations
-3. Confirm all profile analysis sections are complete before continuing.
-
+IMPORTANT: 
+- This system supports ALL career fields, not just IT or Computer Science - adapt your analysis accordingly
+- DONT USE CODEBLOCKS, JUST PLAIN TEXT MARKDOWN
+- IF the structuredData ONLY contains a resumeImprovement section and other sections are empty, SKIP directly to the "Resume Improvement Guidance" section
 ---
 
 # 1. Candidate Profile Analysis
@@ -51,6 +48,8 @@ IMPORTANT: DONT USE CODEBLOCKS, JUST PLAIN TEXT MARKDOWN
 
 ---
 # 2. Job Recommendations
+**IMPORTANT: If the JSON contains a "resumeImprovement" section instead of job recommendations, SKIP this entire section and jump to "Resume Improvement Guidance" below**
+
 For each role, format as follows:
 
 ## [Role Title] + Experience Level
@@ -66,8 +65,8 @@ For each role, format as follows:
 | 🏭 Industry Focus     | Specify the primary industry for this position |
 
 ### 💵 Salary Benchmarks
-- Present the salary range and median
-- List the factors affecting compensation (location, experience, etc.)
+  For more accurate salary estimates, consider using the following resources
+  - List the links
 
 ### 📈 Growth Potential
 - Market Demand: Specify the expected job growth rate
@@ -112,6 +111,29 @@ Format as:
 
 ### 🌐 Personal Branding Suggestions
 - Ways to strengthen professional presence
+
+---
+## Resume Improvement Guidance
+**ONLY INCLUDE THIS SECTION when the JSON contains a "resumeImprovement" section**
+
+### 📝 Resume Assessment
+- Overall assessment of the resume's current state
+- Critical missing elements
+- Formatting and presentation issues
+
+### 🚩 Content Weaknesses
+- List specific areas where content could be strengthened
+- Examples of vague statements that could be made more concrete
+- Missing quantifiable achievements
+
+### ✅ Actionable Steps to Improve
+- Format each step clearly as a numbered list
+- Include specific guidance for improving each section
+- Provide examples of stronger resume content where possible
+
+### 📚 Professional Resources
+Format resources as links:
+- [Resource Title](Link) - Brief description
 
 ---
 **Formatting Rules:**

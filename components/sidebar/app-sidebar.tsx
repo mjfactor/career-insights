@@ -6,10 +6,11 @@ import {
   LayoutDashboard,
   FileText,
   Trash2,
-  BotMessageSquareIcon
+  BotMessageSquareIcon,
+  Clock
 } from "lucide-react"
 import { usePathname } from "next/navigation"
-import { Suspense } from "react"
+import { Suspense, useState, useEffect } from "react"
 
 import { NavMain } from "./nav-main"
 import { NavUser } from "./nav-user"
@@ -17,6 +18,62 @@ import { ChatHistory } from "./chat-history"
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarRail, SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarSeparator } from "@/components/ui/sidebar"
 
 import { Skeleton } from "@/components/ui/skeleton"
+
+// Real-time clock component - Client-side only rendering
+function RealtimeClock() {
+  const [dateTime, setDateTime] = useState<Date>(new Date());
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    // Mark component as mounted to prevent hydration mismatch
+    setIsMounted(true);
+
+    // Update time every second
+    const interval = setInterval(() => {
+      setDateTime(new Date());
+    }, 1000);
+
+    // Cleanup interval on component unmount
+    return () => clearInterval(interval);
+  }, []);
+
+  // Don't render anything on the server or during hydration
+  if (!isMounted) {
+    return (
+      <div className="flex items-center justify-between w-full px-4 py-3 mt-2  border-t border-border">
+        <div className="flex items-center gap-2">
+          <Clock className="w-4 h-4 text-primary" />
+          <span className="font-medium">Loading...</span>
+        </div>
+        <span className="text-xs text-muted-foreground">Loading...</span>
+      </div>
+    );
+  }
+
+  // Format date and time
+  const formattedDate = dateTime.toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric'
+  });
+
+  const formattedTime = dateTime.toLocaleTimeString('en-US', {
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: true
+  });
+
+  return (
+    <div className="flex items-center justify-between w-full px-4 py-3 mt-2 border-b border-t border-border">
+      <div className="flex items-center gap-2">
+        <Clock className="w-4 h-4 text-primary" />
+        <span className="font-medium">{formattedTime}</span>
+      </div>
+      <span className="text-xs text-muted-foreground">{formattedDate}</span>
+    </div>
+  );
+}
 
 export function AppSidebar({
   userData,
@@ -43,16 +100,16 @@ export function AppSidebar({
     navMain: [
       // Direct access to Career Compass and Aggregator
       {
-        title: "Chat Bot",
-        url: "/dashboard/chat",
-        icon: BotMessageSquareIcon,
-        isActive: isChatPage,
-      },
-      {
         title: "Career Compass",
         url: "/dashboard/career-compass",
         icon: Compass,
         isActive: isCareerCompassPage,
+      },
+      {
+        title: "Chat Bot",
+        url: "/dashboard/chat",
+        icon: BotMessageSquareIcon,
+        isActive: isChatPage,
       },
       {
         title: "Aggregator",
@@ -103,7 +160,9 @@ export function AppSidebar({
         )}
       </SidebarContent>
       <SidebarFooter>
+        <RealtimeClock />
         <NavUser user={data.user} />
+
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

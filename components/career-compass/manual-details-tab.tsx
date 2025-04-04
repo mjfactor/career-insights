@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
-import { Trash2, Plus, AlertCircle, Briefcase, ArrowDown } from "lucide-react"
+import { Trash2, Plus, AlertCircle, Briefcase, ArrowDown, Info as InfoIcon, CheckCircle } from "lucide-react"
 import { Separator } from "@/components/ui/separator"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { motion, AnimatePresence } from "framer-motion"
@@ -18,6 +18,7 @@ import remarkGfm from 'remark-gfm'
 
 import { Switch } from "@/components/ui/switch"
 import StructuredDataPlaceholder from "./StructuredDataPlaceholder"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 
 interface JobExperience {
   id: string
@@ -489,7 +490,26 @@ const ManualDetailsTab = forwardRef(function ManualDetailsTab(props, ref) {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div>
-        <h2 className="text-xl font-semibold mb-3">Enter Your Details Manually</h2>
+        <h2 className="text-2xl font-bold bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent text-center">Manual Details Entry</h2>
+        <p className="text-muted-foreground text-base text-center mx-auto max-w-2xl mb-4">
+          Manually enter your professional details to receive AI-powered career insights. For the best and most comprehensive analysis, we recommend <span className="text-primary font-medium">uploading your resume</span> instead.
+        </p>
+
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <div className="flex items-center justify-center gap-1.5 text-xs text-muted-foreground border px-2 py-1 rounded-full cursor-help w-fit mx-auto mb-6">
+                <InfoIcon className="h-3 w-3 text-primary" />
+                <span>How this works</span>
+              </div>
+            </TooltipTrigger>
+            <TooltipContent className="max-w-[300px] p-3">
+              <p className="text-xs">
+                Our AI analyzes your input to create a structured profile of your professional experience, then generates customized career insights, skill recommendations, and growth opportunities.
+              </p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
 
         <div className="space-y-4">
           <div className="space-y-1.5" data-error={!!errors.courseInfo && isFieldTouched("courseInfo")}>
@@ -841,70 +861,84 @@ const ManualDetailsTab = forwardRef(function ManualDetailsTab(props, ref) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.4 }}
-            className="mt-6 border rounded-lg p-4 bg-card shadow-md"
+            className="mt-6"
             ref={analysisContainerRef}
           >
-            <motion.div
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.2, duration: 0.3 }}
-              className="flex justify-between items-center mb-3 pb-2 border-b"
-            >
-              <h3 className="text-xl font-bold text-primary">
-                {isStreaming ? "Streaming Analysis..." : "Your Career Analysis"}
-              </h3>
-            </motion.div>
+            {/* Modern visual separator for analysis results */}
+            <div className="relative flex items-center py-4">
+              <div className="flex-grow border-t border-gray-200 dark:border-gray-700"></div>
+              <span className="flex-shrink-0 mx-4 text-sm font-medium text-muted-foreground bg-gradient-to-r from-primary/20 to-blue-500/20 text-primary px-4 py-1 rounded-full">Analysis Results</span>
+              <div className="flex-grow border-t border-gray-200 dark:border-gray-700"></div>
+            </div>
 
-            {/* Markdown rendering component */}
-            <motion.div
-              initial={{ y: 30, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.3, duration: 0.4 }}
-              className="prose prose-sm max-w-none dark:prose-invert"
-            >
-              <ReactMarkdown
-                remarkPlugins={[remarkGfm]}
-                components={{
-                  h1: ({ node, ...props }) => <h1 className="text-xl font-bold mt-6 mb-3 pb-1 border-b" {...props} />,
-                  h2: ({ node, ...props }) => <h2 className="text-lg font-bold mt-4 mb-2" {...props} />,
-                  h3: ({ node, ...props }) => <h3 className="text-base font-semibold mt-3 mb-2" {...props} />,
-                  h4: ({ node, ...props }) => <h4 className="text-sm font-semibold mt-3 mb-1" {...props} />,
-                  a: ({ node, href, ...props }) => (
-                    <a href={href} className="text-blue-600 dark:text-blue-400 underline" target="_blank" rel="noopener noreferrer" {...props} />
-                  ),
-                  p: ({ node, ...props }) => <p className="my-2 text-sm" {...props} />,
-                  ul: ({ node, ...props }) => <ul className="list-disc pl-5 my-2" {...props} />,
-                  ol: ({ node, ...props }) => <ol className="list-decimal pl-5 my-2" {...props} />,
-                  li: ({ node, ...props }) => <li className="my-1 text-sm" {...props} />,
-                  blockquote: ({ node, ...props }) => <blockquote className="border-l-4 border-primary/30 pl-3 py-1 my-3 italic text-sm" {...props} />,
-                  table: ({ node, ...props }) => (
-                    <div className="overflow-x-auto my-4 border rounded">
-                      <table className="w-full text-sm" {...props} />
-                    </div>
-                  ),
-                  thead: ({ node, ...props }) => <thead className="border-b" {...props} />,
-                  tr: ({ node, ...props }) => <tr className="border-b" {...props} />,
-                  th: ({ node, ...props }) => <th className="border-r last:border-r-0 px-3 py-2 text-left font-medium" {...props} />,
-                  td: ({ node, ...props }) => <td className="border-r last:border-r-0 px-3 py-2" {...props} />,
-                  hr: ({ node, ...props }) => <hr className="my-4" {...props} />,
-                }}
-              >
-                {analysisResult || "No analysis content available."}
-              </ReactMarkdown>
-            </motion.div>
+            <div className="rounded-lg p-5 bg-card shadow-lg border border-gray-100 dark:border-gray-800 backdrop-blur-sm">
+              {/* Header badge showing analysis is complete */}
+              <div className="mb-4 flex justify-between items-center">
+                <h3 className="text-xl font-bold text-primary">
+                  {isStreaming ? "Streaming Analysis..." : "Your Career Analysis"}
+                </h3>
 
-            {analysisError && (
+                {!isStreaming && analysisResult && (
+                  <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 border border-green-200 dark:border-green-800/50">
+                    <CheckCircle className="h-3 w-3" />
+                    Analysis Complete
+                  </div>
+                )}
+              </div>
+
+              {/* Markdown rendering component */}
               <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.5 }}
+                initial={{ y: 30, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.3, duration: 0.4 }}
+                className="prose prose-sm max-w-none dark:prose-invert"
               >
-                <Alert variant="destructive" className="mt-4 rounded-lg py-2">
-                  <AlertCircle className="h-3.5 w-3.5" />
-                  <AlertDescription className="text-xs">{analysisError}</AlertDescription>
-                </Alert>
+                <ReactMarkdown
+                  remarkPlugins={[remarkGfm]}
+                  components={{
+                    h1: ({ node, ...props }) => <h1 className="text-xl font-bold mt-8 mb-4 pb-2 border-b border-gray-200 dark:border-gray-700" {...props} />,
+                    h2: ({ node, ...props }) => <h2 className="text-lg font-bold mt-6 mb-3 pb-1 text-primary/90 dark:text-primary/80" {...props} />,
+                    h3: ({ node, ...props }) => <h3 className="text-base font-semibold mt-5 mb-3 text-gray-800 dark:text-gray-200" {...props} />,
+                    h4: ({ node, ...props }) => <h4 className="text-sm font-semibold mt-4 mb-2 text-gray-700 dark:text-gray-300" {...props} />,
+                    a: ({ node, href, ...props }) => (
+                      <a href={href} className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 underline decoration-1 underline-offset-2 transition-colors" target="_blank" rel="noopener noreferrer" {...props} />
+                    ),
+                    p: ({ node, ...props }) => <p className="my-4 text-sm leading-relaxed" {...props} />,
+                    ul: ({ node, ...props }) => <ul className="list-disc pl-6 my-4 space-y-2" {...props} />,
+                    ol: ({ node, ...props }) => <ol className="list-decimal pl-6 my-4 space-y-2" {...props} />,
+                    li: ({ node, ...props }) => <li className="my-1.5 text-sm pl-1 leading-relaxed" {...props} />,
+                    blockquote: ({ node, ...props }) => <blockquote className="border-l-4 border-primary/50 pl-4 py-2 my-5 italic text-sm bg-primary/5 rounded-r-md pr-3" {...props} />,
+                    table: ({ node, ...props }) => (
+                      <div className="overflow-x-auto my-6 border rounded-md shadow-sm">
+                        <table className="w-full text-sm border-collapse" {...props} />
+                      </div>
+                    ),
+                    thead: ({ node, ...props }) => <thead className="bg-gray-50 dark:bg-gray-800/50" {...props} />,
+                    tr: ({ node, ...props }) => <tr className="border-b dark:border-gray-700 hover:bg-gray-50/50 dark:hover:bg-gray-800/30 transition-colors" {...props} />,
+                    th: ({ node, ...props }) => <th className="border-r last:border-r-0 px-4 py-3 text-left font-medium text-gray-700 dark:text-gray-300" {...props} />,
+                    td: ({ node, ...props }) => <td className="border-r last:border-r-0 px-4 py-3" {...props} />,
+                    hr: ({ node, ...props }) => <hr className="my-6 border-gray-200 dark:border-gray-700" {...props} />,
+                    pre: ({ node, ...props }) => <pre className="bg-transparent p-0 my-4 overflow-x-auto" {...props} />,
+                    img: ({ node, ...props }) => <img className="rounded-md max-w-full my-6 shadow-sm border border-gray-200 dark:border-gray-700" {...props} />,
+                  }}
+                >
+                  {analysisResult || "No analysis content available."}
+                </ReactMarkdown>
               </motion.div>
-            )}
+
+              {analysisError && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.5 }}
+                >
+                  <Alert variant="destructive" className="mt-4 rounded-lg py-2">
+                    <AlertCircle className="h-3.5 w-3.5" />
+                    <AlertDescription className="text-xs">{analysisError}</AlertDescription>
+                  </Alert>
+                </motion.div>
+              )}
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
