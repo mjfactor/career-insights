@@ -21,7 +21,7 @@ interface ChatPanelProps {
   query?: string
   stop: () => void
   append: (message: any) => void
-  models?: Model[]
+
 }
 
 export function ChatPanel({

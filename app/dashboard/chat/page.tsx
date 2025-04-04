@@ -1,4 +1,4 @@
-import { getModels } from '@/lib/config/models'
+
 import { redirect } from "next/navigation"
 import AuthSidebarWrapper from "@/components/sidebar/auth-sidebar-wrapper"
 import { Chat } from '@/components/chatBot/chat'
@@ -27,7 +27,7 @@ export default async function ChatPage() {
   }
 
   const id = generateId()
-  const models = await getModels()
+
   const userId = session.user?.id || 'anonymous'
 
   return (
@@ -52,7 +52,7 @@ export default async function ChatPage() {
             </Breadcrumb>
           </div>
         </header>
-        <Chat id={id} models={models} userId={userId} />
+        <Chat id={id} userId={userId} />
       </SidebarInset>
     </SidebarProvider>
   )

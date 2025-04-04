@@ -4,7 +4,7 @@ import type React from "react"
 import { useState, useEffect, useRef, forwardRef, useImperativeHandle } from "react"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
-import { Upload, FileText, AlertCircle, CheckCircle, Eye, X, StopCircle, AlertTriangle, ArrowDown } from "lucide-react"
+import { Upload, FileText, AlertCircle, CheckCircle, Eye, X, StopCircle, AlertTriangle, ArrowDown, InfoIcon } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Progress } from "@/components/ui/progress"
@@ -19,6 +19,14 @@ import remarkGfm from 'remark-gfm'
 import StructuredDataPlaceholder from "./StructuredDataPlaceholder"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import CareerDataVisualizer from "@/components/career-compass/CareerDataVisualizer"
+
+// Import tooltip components for enhanced UI
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 
 // Import dialog components for modern confirmation dialogs
 import {
@@ -360,15 +368,11 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
       if (!structuredResponse.ok) {
         throw new Error(`Error getting structured data: ${structuredResponse.status}`);
       }
-
-      // Parse the structured data
       const structuredData = await structuredResponse.json();
       console.log("Structured data received:", structuredData);
 
       // Save the structured data for visualization
       setStructuredData(structuredData);
-
-
 
       // STEP 2: Now pass the structured data to the main endpoint for markdown formatting
       console.log("Step 2: Getting formatted markdown...");
@@ -442,24 +446,34 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
   };
 
   // Add a reference to the analysis results container
-  const analysisContainerRef = useRef<HTMLDivElement>(null);
 
-  // Function to scroll to the bottom of the analysis
-  const scrollToBottom = () => {
-    if (analysisContainerRef.current) {
-      analysisContainerRef.current.scrollIntoView({
-        behavior: "smooth",
-        block: "end"
-      });
-    }
-  };
+
+
 
   return (
     <div className="space-y-6 relative">
       <div className="flex flex-col gap-3">
-        <h2 className="text-2xl font-bold bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent">Resume Upload</h2>
-        <p className="text-muted-foreground text-base">Upload your resume and let our AI analyze your skills, experience, and potential. Get personalized insights to accelerate your career journey.</p>
-        <p className="text-xs text-muted-foreground">Our system uses a sophisticated <span className="font-medium text-primary">Random Forest model</span> to identify key qualifications and skills from your resume, combined with a state-of-the-art <span className="font-medium text-primary">Large Language Model (LLM)</span> to provide detailed career insights and recommendations tailored specifically to your professional background.</p>
+        <h2 className="text-2xl font-bold bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent text-center">Resume Upload</h2>
+        <p className="text-muted-foreground text-base text-center mx-auto max-w-2xl">
+          Upload your resume to discover personalized career insights. Our AI will analyze your skills, experience, and potential to provide tailored recommendations for your professional growth journey.
+        </p>
+        <div className="flex justify-center items-center gap-2 mb-2">
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <div className="flex items-center gap-1.5 text-xs text-muted-foreground border px-2 py-1 rounded-full cursor-help">
+                  <InfoIcon className="h-3 w-3 text-primary" />
+                  <span>How it works</span>
+                </div>
+              </TooltipTrigger>
+              <TooltipContent className="max-w-[300px] p-3">
+                <p className="text-xs">
+                  Our system uses a Random Forest model to extract key qualifications, combined with a state-of-the-art Large Language Model (LLM) to generate personalized insights tailored to your professional background.
+                </p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        </div>
       </div>
 
       <AnimatePresence mode="wait">
@@ -726,116 +740,121 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.4 }}
-            className="mt-6 rounded-lg p-4 bg-card shadow-md"
-            ref={analysisContainerRef}
+            className="mt-6"
           >
-            {/* Add tabs for text view and data visualization */}
-            {structuredData && (
-              <div className="mb-4">
-                <Tabs value={resultsView} onValueChange={(v) => setResultsView(v as "text" | "visualization")}>
-                  <TabsList className="grid w-full grid-cols-2 max-w-[400px] mx-auto">
-                    <TabsTrigger value="text" className="text-sm">
-                      <span className="flex items-center gap-1.5">
-                        <FileText className="h-3.5 w-3.5" />
-                        Text Analysis
-                      </span>
-                    </TabsTrigger>
-                    <TabsTrigger value="visualization" className="text-sm">
-                      <span className="flex items-center gap-1.5">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-bar-chart">
-                          <line x1="12" x2="12" y1="20" y2="10"></line>
-                          <line x1="18" x2="18" y1="20" y2="4"></line>
-                          <line x1="6" x2="6" y1="20" y2="16"></line>
-                        </svg>
-                        Data Visualization
-                      </span>
-                    </TabsTrigger>
-                  </TabsList>
-                </Tabs>
+            {/* Modern visual separator for analysis results */}
+            <div className="relative flex items-center py-4">
+              <div className="flex-grow border-t border-gray-200 dark:border-gray-700"></div>
+              <span className="flex-shrink-0 mx-4 text-sm font-medium text-muted-foreground bg-gradient-to-r from-primary/20 to-blue-500/20 text-primary px-4 py-1 rounded-full">Analysis Results</span>
+              <div className="flex-grow border-t border-gray-200 dark:border-gray-700"></div>
+            </div>
+
+            <div className="rounded-lg p-5 bg-card shadow-lg border border-gray-100 dark:border-gray-800 backdrop-blur-sm">
+              {/* Header badge showing analysis is complete */}
+              <div className="mb-4 flex justify-center">
+                <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 border border-green-200 dark:border-green-800/50">
+                  <CheckCircle className="h-3 w-3" />
+                  Analysis Complete
+                </div>
               </div>
-            )}
 
-            {(!structuredData || resultsView === "text") && (
-              <motion.div
-                initial={{ y: 30, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.3, duration: 0.4 }}
-                className="prose prose-sm max-w-none dark:prose-invert"
-              >
-                <ReactMarkdown
-                  remarkPlugins={[remarkGfm]}
-                  components={{
-                    h1: ({ node, ...props }) => <h1 className="text-xl font-bold mt-6 mb-3 pb-1 border-b" {...props} />,
-                    h2: ({ node, ...props }) => <h2 className="text-lg font-bold mt-4 mb-2" {...props} />,
-                    h3: ({ node, ...props }) => <h3 className="text-base font-semibold mt-3 mb-2" {...props} />,
-                    h4: ({ node, ...props }) => <h4 className="text-sm font-semibold mt-3 mb-1" {...props} />,
-                    a: ({ node, href, ...props }) => (
-                      <a href={href} className="text-blue-600 dark:text-blue-400 underline" target="_blank" rel="noopener noreferrer" {...props} />
-                    ),
-                    p: ({ node, ...props }) => <p className="my-2 text-sm" {...props} />,
-                    ul: ({ node, ...props }) => <ul className="list-disc pl-5 my-2" {...props} />,
-                    ol: ({ node, ...props }) => <ol className="list-decimal pl-5 my-2" {...props} />,
-                    li: ({ node, ...props }) => <li className="my-1 text-sm" {...props} />,
-                    blockquote: ({ node, ...props }) => <blockquote className="border-l-4 border-primary/30 pl-3 py-1 my-3 italic text-sm" {...props} />,
-                    table: ({ node, ...props }) => (
-                      <div className="overflow-x-auto my-4 border rounded">
-                        <table className="w-full text-sm" {...props} />
-                      </div>
-                    ),
-                    thead: ({ node, ...props }) => <thead className="border-b" {...props} />,
-                    tr: ({ node, ...props }) => <tr className="border-b" {...props} />,
-                    th: ({ node, ...props }) => <th className="border-r last:border-r-0 px-3 py-2 text-left font-medium" {...props} />,
-                    td: ({ node, ...props }) => <td className="border-r last:border-r-0 px-3 py-2" {...props} />,
-                    hr: ({ node, ...props }) => <hr className="my-4" {...props} />,
-                  }}
+              {/* Tab */}
+              {structuredData && (
+                <div className="mb-5">
+                  <Tabs value={resultsView} onValueChange={(v) => setResultsView(v as "text" | "visualization")}>
+                    <TabsList className="grid w-full grid-cols-2 max-w-[400px] mx-auto">
+                      <TabsTrigger value="text" className="text-sm">
+                        <span className="flex items-center gap-1.5">
+                          <FileText className="h-3.5 w-3.5" />
+                          Text Analysis
+                        </span>
+                      </TabsTrigger>
+                      <TabsTrigger value="visualization" className="text-sm">
+                        <span className="flex items-center gap-1.5">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-bar-chart">
+                            <line x1="12" x2="12" y1="20" y2="10"></line>
+                            <line x1="18" x2="18" y1="20" y2="4"></line>
+                            <line x1="6" x2="6" y1="20" y2="16"></line>
+                          </svg>
+                          Data Visualization
+                        </span>
+                      </TabsTrigger>
+                    </TabsList>
+                  </Tabs>
+                </div>
+              )}
+
+              {(!structuredData || resultsView === "text") && (
+                <motion.div
+                  initial={{ y: 30, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ delay: 0.3, duration: 0.4 }}
+                  className="prose prose-sm max-w-none dark:prose-invert"
                 >
-                  {analysisResult}
-                </ReactMarkdown>
-              </motion.div>
-            )}
+                  <ReactMarkdown
+                    remarkPlugins={[remarkGfm]}
+                    components={{
+                      h1: ({ node, ...props }) => <h1 className="text-xl font-bold mt-8 mb-4 pb-2 border-b border-gray-200 dark:border-gray-700" {...props} />,
+                      h2: ({ node, ...props }) => <h2 className="text-lg font-bold mt-6 mb-3 pb-1 text-primary/90 dark:text-primary/80" {...props} />,
+                      h3: ({ node, ...props }) => <h3 className="text-base font-semibold mt-5 mb-3 text-gray-800 dark:text-gray-200" {...props} />,
+                      h4: ({ node, ...props }) => <h4 className="text-sm font-semibold mt-4 mb-2 text-gray-700 dark:text-gray-300" {...props} />,
+                      a: ({ node, href, ...props }) => (
+                        <a href={href} className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 underline decoration-1 underline-offset-2 transition-colors" target="_blank" rel="noopener noreferrer" {...props} />
+                      ),
+                      p: ({ node, ...props }) => <p className="my-4 text-sm leading-relaxed" {...props} />,
+                      ul: ({ node, ...props }) => <ul className="list-disc pl-6 my-4 space-y-2" {...props} />,
+                      ol: ({ node, ...props }) => <ol className="list-decimal pl-6 my-4 space-y-2" {...props} />,
+                      li: ({ node, ...props }) => <li className="my-1.5 text-sm pl-1 leading-relaxed" {...props} />,
+                      blockquote: ({ node, ...props }) => <blockquote className="border-l-4 border-primary/50 pl-4 py-2 my-5 italic text-sm bg-primary/5 rounded-r-md pr-3" {...props} />,
+                      table: ({ node, ...props }) => (
+                        <div className="overflow-x-auto my-6 border rounded-md shadow-sm">
+                          <table className="w-full text-sm border-collapse" {...props} />
+                        </div>
+                      ),
+                      thead: ({ node, ...props }) => <thead className="bg-gray-50 dark:bg-gray-800/50" {...props} />,
+                      tr: ({ node, ...props }) => <tr className="border-b dark:border-gray-700 hover:bg-gray-50/50 dark:hover:bg-gray-800/30 transition-colors" {...props} />,
+                      th: ({ node, ...props }) => <th className="border-r last:border-r-0 px-4 py-3 text-left font-medium text-gray-700 dark:text-gray-300" {...props} />,
+                      td: ({ node, ...props }) => <td className="border-r last:border-r-0 px-4 py-3" {...props} />,
+                      hr: ({ node, ...props }) => <hr className="my-6 border-gray-200 dark:border-gray-700" {...props} />,
 
-            {structuredData && resultsView === "visualization" && (
-              <motion.div
-                initial={{ y: 30, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.3, duration: 0.4 }}
-              >
-                <CareerDataVisualizer structuredData={structuredData} />
-              </motion.div>
-            )}
+                      pre: ({ node, ...props }) => <pre className="bg-transparent p-0 my-4 overflow-x-auto" {...props} />,
+                      // Add styling for images
+                      img: ({ node, ...props }) => <img className="rounded-md max-w-full my-6 shadow-sm border border-gray-200 dark:border-gray-700" {...props} />,
+                    }}
+                  >
+                    {analysisResult}
+                  </ReactMarkdown>
+                </motion.div>
+              )}
 
-            {analysisError && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.5 }}
-              >
-                <Alert variant="destructive" className="mt-4 rounded-lg py-2">
-                  <AlertCircle className="h-3.5 w-3.5" />
-                  <AlertDescription className="text-xs">{analysisError}</AlertDescription>
-                </Alert>
-              </motion.div>
-            )}
+              {structuredData && resultsView === "visualization" && (
+                <motion.div
+                  initial={{ y: 30, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ delay: 0.3, duration: 0.4 }}
+                >
+                  <CareerDataVisualizer structuredData={structuredData} />
+                </motion.div>
+              )}
+
+              {analysisError && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.5 }}
+                >
+                  <Alert variant="destructive" className="mt-4 rounded-lg py-2">
+                    <AlertCircle className="h-3.5 w-3.5" />
+                    <AlertDescription className="text-xs">{analysisError}</AlertDescription>
+                  </Alert>
+                </motion.div>
+              )}
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Scroll to bottom button - only shows during analysis */}
-      <AnimatePresence>
-        {isAnalyzing && (
-          <motion.button
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 10 }}
-            transition={{ duration: 0.2 }}
-            onClick={scrollToBottom}
-            className="fixed bottom-6 right-6 p-2 rounded-full bg-primary text-primary-foreground shadow-lg hover:bg-primary/90 hover:shadow-xl transition-all z-50 flex items-center justify-center"
-            aria-label="Scroll to bottom of analysis"
-          >
-            <ArrowDown className="h-4 w-4" />
-          </motion.button>
-        )}
-      </AnimatePresence>
+
 
       {/* Modern confirmation dialog */}
       <Dialog

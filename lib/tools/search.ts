@@ -27,51 +27,26 @@ export const searchTool = tool({
     const searchAPI =
       (process.env.SEARCH_API as 'tavily' | 'exa' | 'searxng') || 'tavily'
 
-    const effectiveSearchDepth =
-      searchAPI === 'searxng' &&
-      process.env.SEARXNG_DEFAULT_DEPTH === 'advanced'
-        ? 'advanced'
-        : search_depth || 'basic'
+    // Always force basic search depth regardless of input
+    const effectiveSearchDepth = 'basic'
 
     console.log(
       `Using search API: ${searchAPI}, Search Depth: ${effectiveSearchDepth}`
     )
 
     try {
-      if (searchAPI === 'searxng' && effectiveSearchDepth === 'advanced') {
-        // API route for advanced SearXNG search
-        const baseUrl =
-          process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'
-        const response = await fetch(`${baseUrl}/api/advanced-search`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            query: filledQuery,
-            maxResults: max_results,
-            searchDepth: effectiveSearchDepth,
-            includeDomains: include_domains,
-            excludeDomains: exclude_domains
-          })
-        })
-        if (!response.ok) {
-          throw new Error(
-            `Advanced search API error: ${response.status} ${response.statusText}`
-          )
-        }
-        searchResult = await response.json()
-      } else {
-        searchResult = await (searchAPI === 'tavily'
-          ? tavilySearch
-          : searchAPI === 'exa'
+      // Always use standard search approach
+      searchResult = await (searchAPI === 'tavily'
+        ? tavilySearch
+        : searchAPI === 'exa'
           ? exaSearch
           : searxngSearch)(
-          filledQuery,
-          max_results,
-          effectiveSearchDepth === 'advanced' ? 'advanced' : 'basic',
-          include_domains,
-          exclude_domains
-        )
-      }
+            filledQuery,
+            max_results,
+            'basic', // Always pass 'basic' here
+            include_domains,
+            exclude_domains
+          )
     } catch (error) {
       console.error('Search API error:', error)
       searchResult = {
@@ -98,7 +73,7 @@ export async function search(
     {
       query,
       max_results: maxResults,
-      search_depth: searchDepth,
+      search_depth: 'basic', // Always use basic
       include_domains: includeDomains,
       exclude_domains: excludeDomains
     },
@@ -148,18 +123,18 @@ async function tavilySearch(
   const data = await response.json()
   const processedImages = includeImageDescriptions
     ? data.images
-        .map(({ url, description }: { url: string; description: string }) => ({
-          url: sanitizeUrl(url),
-          description
-        }))
-        .filter(
-          (
-            image: SearchResultImage
-          ): image is { url: string; description: string } =>
-            typeof image === 'object' &&
-            image.description !== undefined &&
-            image.description !== ''
-        )
+      .map(({ url, description }: { url: string; description: string }) => ({
+        url: sanitizeUrl(url),
+        description
+      }))
+      .filter(
+        (
+          image: SearchResultImage
+        ): image is { url: string; description: string } =>
+          typeof image === 'object' &&
+          image.description !== undefined &&
+          image.description !== ''
+      )
     : data.images.map((url: string) => sanitizeUrl(url))
 
   return {

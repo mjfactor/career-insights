@@ -2,14 +2,14 @@
 
 import { useState, useEffect } from "react"
 import { useRouter, usePathname } from "next/navigation"
-import { FileText, Trash2, Loader2 } from "lucide-react"
+import { ChevronsRight, FileText, Trash2, Loader2, MoreHorizontal } from "lucide-react"
 import { format, isToday, isYesterday } from "date-fns"
 import { toast } from "sonner"
 
 const HISTORY_UPDATE_EVENT = "chat-history-update"
 
 import { SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuItem, SidebarMenuButton } from "@/components/ui/sidebar"
-import { clearChats, getChats } from "@/lib/actions/chat"
+import { clearChats, getChats, deleteChat } from "@/lib/actions/chat"
 import {
     AlertDialog,
     AlertDialogAction,
@@ -21,6 +21,13 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 interface Chat {
     id: string
@@ -35,6 +42,7 @@ export function ChatHistory({ userId }: { userId: string }) {
     const [chatHistory, setChatHistory] = useState<Chat[]>([])
     const [isLoading, setIsLoading] = useState(true)
     const [isClearing, setIsClearing] = useState(false)
+    const [isDeletingChat, setIsDeletingChat] = useState<string | null>(null)
     const router = useRouter()
     const pathname = usePathname()
 
@@ -76,6 +84,30 @@ export function ChatHistory({ userId }: { userId: string }) {
     useEffect(() => {
         fetchChatHistory()
     }, [pathname])
+
+    const handleDeleteChat = async (chatId: string) => {
+        try {
+            setIsDeletingChat(chatId)
+            const result = await deleteChat(chatId, userId)
+
+            if (result.success) {
+                setChatHistory(prevChats => prevChats.filter(chat => chat.id !== chatId))
+                toast.success("Chat deleted successfully")
+
+                // If we're on the deleted chat page, navigate back to main chat
+                if (pathname.includes(chatId)) {
+                    router.push('/dashboard/chat/')
+                }
+            } else if (result.error) {
+                toast.error(result.error)
+            }
+        } catch (error) {
+            console.error("Failed to delete chat:", error)
+            toast.error("Failed to delete chat")
+        } finally {
+            setIsDeletingChat(null)
+        }
+    }
 
     const handleClearHistory = async () => {
         try {
@@ -120,24 +152,60 @@ export function ChatHistory({ userId }: { userId: string }) {
                     <>
                         {chatHistory.map((chat) => (
                             <SidebarMenuItem key={chat.id} className="overflow-hidden">
-                                <SidebarMenuButton
-                                    tooltip={chat.title}
-                                    className="py-2"
-                                    onClick={() => router.push(chat.path)}
-                                >
-                                    <FileText className="h-4 w-4 shrink-0" />
-                                    <span className="flex flex-col overflow-hidden">
-                                        <span className="text-sm truncate">{chat.title}</span>
-                                        <span className="text-xs text-muted-foreground">
-                                            {formatDate(new Date(chat.createdAt))}
+                                <div className="flex w-full items-center">
+                                    <SidebarMenuButton
+                                        tooltip={chat.title}
+                                        className="py-3 flex-1"
+                                        onClick={() => router.push(chat.path)}
+                                    >
+                                        <ChevronsRight className="h-4 w-4 shrink-0 text-green-500" />
+                                        <span className="flex flex-col overflow-hidden">
+                                            <span className="text-sm truncate">{chat.title}</span>
+                                            <span className="text-xs text-muted-foreground">
+                                                {formatDate(new Date(chat.createdAt))}
+                                            </span>
                                         </span>
-                                    </span>
-                                </SidebarMenuButton>
+                                    </SidebarMenuButton>
+
+                                    {/* Only show dropdown menu when sidebar is expanded */}
+                                    <div className="group-data-[collapsible=icon]:hidden">
+                                        <DropdownMenu>
+                                            <DropdownMenuTrigger asChild>
+                                                <button
+                                                    className="h-8 w-8 p-0 rounded-md flex items-center justify-center text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+                                                    onClick={(e) => e.stopPropagation()}
+                                                >
+                                                    <MoreHorizontal className="h-4 w-4" />
+                                                    <span className="sr-only">Chat options</span>
+                                                </button>
+                                            </DropdownMenuTrigger>
+                                            <DropdownMenuContent align="end">
+                                                <DropdownMenuItem
+                                                    className="text-destructive focus:text-destructive cursor-pointer"
+                                                    disabled={isDeletingChat === chat.id}
+                                                    onClick={() => handleDeleteChat(chat.id)}
+                                                >
+                                                    {isDeletingChat === chat.id ? (
+                                                        <>
+                                                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                                            <span>Deleting...</span>
+                                                        </>
+                                                    ) : (
+                                                        <>
+                                                            <Trash2 className="mr-2 h-4 w-4" />
+                                                            <span>Delete</span>
+                                                        </>
+                                                    )}
+                                                </DropdownMenuItem>
+                                            </DropdownMenuContent>
+                                        </DropdownMenu>
+                                    </div>
+                                </div>
                             </SidebarMenuItem>
                         ))}
                     </>
                 ) : (
-                    <div className="px-3 py-2 text-sm text-muted-foreground">
+                    <div className="px-3 py-2 text-sm text-muted-foreground group-data-[collapsible=icon]:hidden">
                         No chat history found
                     </div>
                 )}
