@@ -10,7 +10,6 @@ IMPORTANT: This system supports ALL career fields, not just IT or Computer Scien
 IF the resume lacks very basic data of skills and education:
 1. ONLY generate the "resumeImprovement" section
 2. Do NOT generate other sections
-3. Focus on explaining what essential information is missing and how to add it
 
 {
   "candidateProfile": {
@@ -61,15 +60,14 @@ IF the resume lacks very basic data of skills and education:
   },
   "jobRecommendations": [
     // IMPORTANT: Generate 4-7 job recommendations total, not just one
-    // LEAVE THIS ARRAY EMPTY if the resume lacks basic data
     {
       "roleTitle": "job title",
       "experienceLevel": "entry/mid/senior",
       "industryFocus": "primary industry for this role",
       "workplaceType": "remote/hybrid/onsite preferences",
       "assessment": {
-        "skillsMatch": ["matching skills"],
-        "skillGaps": ["skills needed for this role that candidate lacks"],
+        "skillsMatch": ["skill1", "skill2", "skill3"],
+        "skillGaps": ["missing skill1", "missing skill2"],
         "experienceMatch": "experience alignment description",
         "educationMatch": "education relevance description",
         "cultureFit": "alignment with typical culture for this role"
@@ -167,7 +165,7 @@ IF the resume lacks very basic data of skills and education:
       }
     ]
   }
-}`
+}`;
 
 export async function POST(request: NextRequest) {
   try {
@@ -200,27 +198,67 @@ export async function POST(request: NextRequest) {
         ]
       }];
 
-      // Generate streaming object response with file input
-      const response = await generateObject({
-        model,
-        output: 'no-schema',
-        messages,
-      });
+      try {
+        // Generate streaming object response with file input
+        const response = await generateObject({
+          model,
+          output: 'no-schema',
+          messages,
+          experimental_repairText: async ({ text, error }) => {
+            // example: add a closing brace to the text
+            return text + '}';
+          },
+        });
 
-      // Return the streaming response
-      return response.toJsonResponse();
+
+        return response.toJsonResponse();
+      } catch (objError) {
+        console.error('Error generating object from PDF:', objError);
+        return new Response(
+          JSON.stringify({
+            error: 'Failed to generate valid JSON data from the PDF. There might be an issue with the resume format or content.',
+            details: objError instanceof Error ? objError.message : 'Unknown error'
+          }),
+          {
+            status: 422,
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          }
+        );
+      }
     }
     // Handle text input (manually entered details or extracted from DOCX)
     else if (text) {
-      // Generate streaming object response with text input
-      const response = await generateObject({
-        model,
-        output: 'no-schema',
-        prompt: `${STRUCTURED_COMPASS_PROMPT}\n\nAnalyze the resume for structured object generation:\n${text}`,
-      });
+      try {
+        // Generate streaming object response with text input
+        const response = await generateObject({
+          model,
+          output: 'no-schema',
+          prompt: `${STRUCTURED_COMPASS_PROMPT}\n\nAnalyze the resume for structured object generation:\n${text}`,
+          experimental_repairText: async ({ text, error }) => {
+            // example: add a closing brace to the text
+            return text + '}';
+          },
+        });
 
-      // Return the streaming response
-      return response.toJsonResponse();
+        // Return the streaming response
+        return response.toJsonResponse();
+      } catch (objError) {
+        console.error('Error generating object from text:', objError);
+        return new Response(
+          JSON.stringify({
+            error: 'Failed to generate valid JSON data from the text. Please check the format and content of your resume.',
+            details: objError instanceof Error ? objError.message : 'Unknown error'
+          }),
+          {
+            status: 422,
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          }
+        );
+      }
     } else {
       throw new Error('No file or text provided');
     }
