@@ -19,7 +19,7 @@ IMPORTANT: DONT USE CODEBLOCKS, JUST PLAIN TEXT MARKDOWN
 # 1. Candidate Profile Analysis
 
 ## A. Core Competency Identification
-- 🧰 **Technical Strengths**: List the technical strengths from the data
+- 🧰 **Technical Skills**: List the technical skills from the data
 - 🤝 **Soft Skills**: List the soft skills identified in the resume
 - 📊 **Most Used Skills**: Format the most used skill 
 - 🧩 **Unique Value Proposition**: Present the unique value proposition

@@ -1,10 +1,9 @@
-import { streamObject } from 'ai';
+import { streamObject, generateObject } from 'ai';
 import { google } from '@ai-sdk/google';
 import { NextRequest } from 'next/server';
-import { CareerCompassSchema } from '@/lib/schema/career-compass-schema';
+
 // Structured object generation prompt that extracts the same data points as the Career Compass
 const STRUCTURED_COMPASS_PROMPT = `Generate a structured JSON object with comprehensive career analysis data based on the resume.
-Output ONLY a valid JSON object with the following structure (no other text or explanation):
 
 {
   "candidateProfile": {
@@ -169,26 +168,26 @@ export async function POST(request: NextRequest) {
       }];
 
       // Generate streaming object response with file input
-      const response = streamObject({
+      const response = await generateObject({
         model,
         output: 'no-schema',
         messages,
       });
 
       // Return the streaming response
-      return response.toTextStreamResponse();
+      return response.toJsonResponse();
     }
     // Handle text input (manually entered details or extracted from DOCX)
     else if (text) {
       // Generate streaming object response with text input
-      const response = streamObject({
+      const response = await generateObject({
         model,
         output: 'no-schema',
         prompt: `${STRUCTURED_COMPASS_PROMPT}\n\nAnalyze the resume for structured object generation:\n${text}`,
       });
 
       // Return the streaming response
-      return response.toTextStreamResponse();
+      return response.toJsonResponse();
     } else {
       throw new Error('No file or text provided');
     }

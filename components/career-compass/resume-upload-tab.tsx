@@ -360,15 +360,11 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
       if (!structuredResponse.ok) {
         throw new Error(`Error getting structured data: ${structuredResponse.status}`);
       }
-
-      // Parse the structured data
       const structuredData = await structuredResponse.json();
       console.log("Structured data received:", structuredData);
 
       // Save the structured data for visualization
       setStructuredData(structuredData);
-
-
 
       // STEP 2: Now pass the structured data to the main endpoint for markdown formatting
       console.log("Step 2: Getting formatted markdown...");
@@ -721,7 +717,7 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
             className="mt-6 rounded-lg p-4 bg-card shadow-md"
 
           >
-            {/* Add tabs for text view and data visualization */}
+            {/* Add tabs for text view and data visualization
             {structuredData && (
               <div className="mb-4">
                 <Tabs value={resultsView} onValueChange={(v) => setResultsView(v as "text" | "visualization")}>
@@ -745,7 +741,7 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
                   </TabsList>
                 </Tabs>
               </div>
-            )}
+            )} */}
 
             {(!structuredData || resultsView === "text") && (
               <motion.div
@@ -757,28 +753,32 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
                 <ReactMarkdown
                   remarkPlugins={[remarkGfm]}
                   components={{
-                    h1: ({ node, ...props }) => <h1 className="text-xl font-bold mt-6 mb-3 pb-1 border-b" {...props} />,
-                    h2: ({ node, ...props }) => <h2 className="text-lg font-bold mt-4 mb-2" {...props} />,
-                    h3: ({ node, ...props }) => <h3 className="text-base font-semibold mt-3 mb-2" {...props} />,
-                    h4: ({ node, ...props }) => <h4 className="text-sm font-semibold mt-3 mb-1" {...props} />,
+                    h1: ({ node, ...props }) => <h1 className="text-xl font-bold mt-8 mb-4 pb-2 border-b border-gray-200 dark:border-gray-700" {...props} />,
+                    h2: ({ node, ...props }) => <h2 className="text-lg font-bold mt-6 mb-3 pb-1 text-primary/90 dark:text-primary/80" {...props} />,
+                    h3: ({ node, ...props }) => <h3 className="text-base font-semibold mt-5 mb-3 text-gray-800 dark:text-gray-200" {...props} />,
+                    h4: ({ node, ...props }) => <h4 className="text-sm font-semibold mt-4 mb-2 text-gray-700 dark:text-gray-300" {...props} />,
                     a: ({ node, href, ...props }) => (
-                      <a href={href} className="text-blue-600 dark:text-blue-400 underline" target="_blank" rel="noopener noreferrer" {...props} />
+                      <a href={href} className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 underline decoration-1 underline-offset-2 transition-colors" target="_blank" rel="noopener noreferrer" {...props} />
                     ),
-                    p: ({ node, ...props }) => <p className="my-2 text-sm" {...props} />,
-                    ul: ({ node, ...props }) => <ul className="list-disc pl-5 my-2" {...props} />,
-                    ol: ({ node, ...props }) => <ol className="list-decimal pl-5 my-2" {...props} />,
-                    li: ({ node, ...props }) => <li className="my-1 text-sm" {...props} />,
-                    blockquote: ({ node, ...props }) => <blockquote className="border-l-4 border-primary/30 pl-3 py-1 my-3 italic text-sm" {...props} />,
+                    p: ({ node, ...props }) => <p className="my-4 text-sm leading-relaxed" {...props} />,
+                    ul: ({ node, ...props }) => <ul className="list-disc pl-6 my-4 space-y-2" {...props} />,
+                    ol: ({ node, ...props }) => <ol className="list-decimal pl-6 my-4 space-y-2" {...props} />,
+                    li: ({ node, ...props }) => <li className="my-1.5 text-sm pl-1 leading-relaxed" {...props} />,
+                    blockquote: ({ node, ...props }) => <blockquote className="border-l-4 border-primary/50 pl-4 py-2 my-5 italic text-sm bg-primary/5 rounded-r-md pr-3" {...props} />,
                     table: ({ node, ...props }) => (
-                      <div className="overflow-x-auto my-4 border rounded">
-                        <table className="w-full text-sm" {...props} />
+                      <div className="overflow-x-auto my-6 border rounded-md shadow-sm">
+                        <table className="w-full text-sm border-collapse" {...props} />
                       </div>
                     ),
-                    thead: ({ node, ...props }) => <thead className="border-b" {...props} />,
-                    tr: ({ node, ...props }) => <tr className="border-b" {...props} />,
-                    th: ({ node, ...props }) => <th className="border-r last:border-r-0 px-3 py-2 text-left font-medium" {...props} />,
-                    td: ({ node, ...props }) => <td className="border-r last:border-r-0 px-3 py-2" {...props} />,
-                    hr: ({ node, ...props }) => <hr className="my-4" {...props} />,
+                    thead: ({ node, ...props }) => <thead className="bg-gray-50 dark:bg-gray-800/50" {...props} />,
+                    tr: ({ node, ...props }) => <tr className="border-b dark:border-gray-700 hover:bg-gray-50/50 dark:hover:bg-gray-800/30 transition-colors" {...props} />,
+                    th: ({ node, ...props }) => <th className="border-r last:border-r-0 px-4 py-3 text-left font-medium text-gray-700 dark:text-gray-300" {...props} />,
+                    td: ({ node, ...props }) => <td className="border-r last:border-r-0 px-4 py-3" {...props} />,
+                    hr: ({ node, ...props }) => <hr className="my-6 border-gray-200 dark:border-gray-700" {...props} />,
+                    // Add styling for code blocks
+                    pre: ({ node, ...props }) => <pre className="bg-transparent p-0 my-4 overflow-x-auto" {...props} />,
+                    // Add styling for images
+                    img: ({ node, ...props }) => <img className="rounded-md max-w-full my-6 shadow-sm border border-gray-200 dark:border-gray-700" {...props} />,
                   }}
                 >
                   {analysisResult}
