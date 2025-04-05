@@ -891,7 +891,7 @@ const ManualDetailsTab = forwardRef(function ManualDetailsTab(props, ref) {
                 initial={{ y: 30, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.3, duration: 0.4 }}
-                className="prose prose-sm max-w-none dark:prose-invert"
+                className="prose max-w-none dark:prose-invert"
               >
                 <ReactMarkdown
                   remarkPlugins={[remarkGfm]}
@@ -903,14 +903,14 @@ const ManualDetailsTab = forwardRef(function ManualDetailsTab(props, ref) {
                     a: ({ node, href, ...props }) => (
                       <a href={href} className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 underline decoration-1 underline-offset-2 transition-colors" target="_blank" rel="noopener noreferrer" {...props} />
                     ),
-                    p: ({ node, ...props }) => <p className="my-4 text-sm leading-relaxed" {...props} />,
+                    p: ({ node, ...props }) => <p className="my-4 text-base leading-relaxed" {...props} />,
                     ul: ({ node, ...props }) => <ul className="list-disc pl-6 my-4 space-y-2" {...props} />,
                     ol: ({ node, ...props }) => <ol className="list-decimal pl-6 my-4 space-y-2" {...props} />,
-                    li: ({ node, ...props }) => <li className="my-1.5 text-sm pl-1 leading-relaxed" {...props} />,
-                    blockquote: ({ node, ...props }) => <blockquote className="border-l-4 border-primary/50 pl-4 py-2 my-5 italic text-sm bg-primary/5 rounded-r-md pr-3" {...props} />,
+                    li: ({ node, ...props }) => <li className="my-1.5 text-base pl-1 leading-relaxed" {...props} />,
+                    blockquote: ({ node, ...props }) => <blockquote className="border-l-4 border-primary/50 pl-4 py-2 my-5 italic text-base bg-primary/5 rounded-r-md pr-3" {...props} />,
                     table: ({ node, ...props }) => (
                       <div className="overflow-x-auto my-6 border rounded-md shadow-sm">
-                        <table className="w-full text-sm border-collapse" {...props} />
+                        <table className="w-full text-base border-collapse" {...props} />
                       </div>
                     ),
                     thead: ({ node, ...props }) => <thead className="bg-gray-50 dark:bg-gray-800/50" {...props} />,

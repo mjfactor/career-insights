@@ -4,23 +4,19 @@ import type React from "react"
 import { useState, useEffect, useRef, forwardRef, useImperativeHandle } from "react"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
-import { Upload, FileText, AlertCircle, CheckCircle, Eye, X, StopCircle, AlertTriangle, ArrowDown, InfoIcon } from "lucide-react"
+import { Upload, FileText, AlertCircle, CheckCircle, X, StopCircle, AlertTriangle, InfoIcon } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Progress } from "@/components/ui/progress"
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { motion, AnimatePresence } from "framer-motion"
 import mammoth from 'mammoth'
-// Import the server actions for validation only
 import { validateResumeFile, validateResumeText } from "@/lib/actions/resume-validator"
-// Import markdown renderer
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
-// Import the placeholder component
 import StructuredDataPlaceholder from "./StructuredDataPlaceholder"
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import CareerDataVisualizer from "@/components/career-compass/CareerDataVisualizer"
 
-// Import tooltip components for enhanced UI
 import {
   Tooltip,
   TooltipContent,
@@ -28,7 +24,6 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip"
 
-// Import dialog components for modern confirmation dialogs
 import {
   Dialog,
   DialogContent,
@@ -51,11 +46,8 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
   const [analysisError, setAnalysisError] = useState<string | null>(null)
   const [isStreaming, setIsStreaming] = useState(false);
   const [fileSizeError, setFileSizeError] = useState<boolean>(false)
-  // Add state for structured data
   const [structuredData, setStructuredData] = useState<any>(null)
-  // Add state for results view tab
   const [resultsView, setResultsView] = useState<"text" | "visualization">("text")
-  // Add state to control placeholder visibility
   const [showPlaceholder, setShowPlaceholder] = useState<boolean>(false)
 
   // Ref to track if component is mounted
@@ -250,8 +242,6 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
     setFile(selectedFile);
     setIsValidResume(null);
 
-    // Remove text file preview logic since we no longer accept txt files
-
   }
 
   const removeFile = () => {
@@ -335,9 +325,7 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
       setAnalysisResult("");
       setAnalysisError(null);
       setStructuredData(null);
-      // Show the placeholder while analyzing
       setShowPlaceholder(true);
-      // Reset to text view for new analysis
       setResultsView("text");
 
       // Create an AbortController for this request
@@ -353,8 +341,6 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
       } else if (resumeContent) {
         // For DOCX or extracted text content
         formData.append('text', resumeContent);
-      } else {
-        throw new Error("No valid content available for analysis");
       }
 
       // STEP 1: First call the structured endpoint to get structured data
@@ -362,7 +348,7 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
       const structuredResponse = await fetch('/api/career-compass/structured', {
         method: 'POST',
         body: formData,
-        signal, // Pass the abort signal
+        signal,
       });
 
       if (!structuredResponse.ok) {
@@ -445,13 +431,16 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
     }
   };
 
-  // Add a reference to the analysis results container
-
-
-
-
+  // ===================================================
+  // COMPONENT RENDER
+  // ===================================================
   return (
     <div className="space-y-6 relative">
+      {/* 
+       * ==============================================
+       * HEADER SECTION
+       * ==============================================
+       */}
       <div className="flex flex-col gap-3">
         <h2 className="text-2xl font-bold bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent text-center">Resume Upload</h2>
         <p className="text-muted-foreground text-base text-center mx-auto max-w-2xl">
@@ -789,7 +778,7 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
                   initial={{ y: 30, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ delay: 0.3, duration: 0.4 }}
-                  className="prose prose-sm max-w-none dark:prose-invert"
+                  className="prose max-w-none dark:prose-invert"
                 >
                   <ReactMarkdown
                     remarkPlugins={[remarkGfm]}
@@ -801,14 +790,14 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
                       a: ({ node, href, ...props }) => (
                         <a href={href} className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 underline decoration-1 underline-offset-2 transition-colors" target="_blank" rel="noopener noreferrer" {...props} />
                       ),
-                      p: ({ node, ...props }) => <p className="my-4 text-sm leading-relaxed" {...props} />,
+                      p: ({ node, ...props }) => <p className="my-4 text-base leading-relaxed" {...props} />,
                       ul: ({ node, ...props }) => <ul className="list-disc pl-6 my-4 space-y-2" {...props} />,
                       ol: ({ node, ...props }) => <ol className="list-decimal pl-6 my-4 space-y-2" {...props} />,
-                      li: ({ node, ...props }) => <li className="my-1.5 text-sm pl-1 leading-relaxed" {...props} />,
-                      blockquote: ({ node, ...props }) => <blockquote className="border-l-4 border-primary/50 pl-4 py-2 my-5 italic text-sm bg-primary/5 rounded-r-md pr-3" {...props} />,
+                      li: ({ node, ...props }) => <li className="my-1.5 text-base pl-1 leading-relaxed" {...props} />,
+                      blockquote: ({ node, ...props }) => <blockquote className="border-l-4 border-primary/50 pl-4 py-2 my-5 italic text-base bg-primary/5 rounded-r-md pr-3" {...props} />,
                       table: ({ node, ...props }) => (
                         <div className="overflow-x-auto my-6 border rounded-md shadow-sm">
-                          <table className="w-full text-sm border-collapse" {...props} />
+                          <table className="w-full text-base border-collapse" {...props} />
                         </div>
                       ),
                       thead: ({ node, ...props }) => <thead className="bg-gray-50 dark:bg-gray-800/50" {...props} />,

@@ -15,7 +15,7 @@ import { Suspense, useState, useEffect } from "react"
 import { NavMain } from "./nav-main"
 import { NavUser } from "./nav-user"
 import { ChatHistory } from "./chat-history"
-import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarRail, SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarSeparator } from "@/components/ui/sidebar"
+import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarRail, SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarSeparator, useSidebar } from "@/components/ui/sidebar"
 
 import { Skeleton } from "@/components/ui/skeleton"
 
@@ -23,6 +23,8 @@ import { Skeleton } from "@/components/ui/skeleton"
 function RealtimeClock() {
   const [dateTime, setDateTime] = useState<Date>(new Date());
   const [isMounted, setIsMounted] = useState(false);
+  const { state } = useSidebar();
+  const isCollapsed = state === "collapsed";
 
   useEffect(() => {
     // Mark component as mounted to prevent hydration mismatch
@@ -40,7 +42,7 @@ function RealtimeClock() {
   // Don't render anything on the server or during hydration
   if (!isMounted) {
     return (
-      <div className="flex items-center justify-between w-full px-4 py-3 mt-2  border-t border-border">
+      <div className="flex items-center justify-between w-full px-4 py-3 mt-2 border-t border-border">
         <div className="flex items-center gap-2">
           <Clock className="w-4 h-4 text-primary" />
           <span className="font-medium">Loading...</span>
@@ -64,8 +66,18 @@ function RealtimeClock() {
     hour12: true
   });
 
+  // If sidebar is collapsed, either hide the clock or only show the icon
+  if (isCollapsed) {
+    return (
+      <div className="hidden group-data-[collapsible=icon]:flex items-center justify-center w-full py-3 mt-2 border-t border-border">
+        <Clock className="w-4 h-4 text-primary" />
+      </div>
+    );
+  }
+
+  // Full clock when sidebar is expanded
   return (
-    <div className="flex items-center justify-between w-full px-4 py-3 mt-2 border-b border-t border-border">
+    <div className="flex items-center justify-between w-full px-4 py-3 mt-2 border-b border-t border-border group-data-[collapsible=icon]:hidden">
       <div className="flex items-center gap-2">
         <Clock className="w-4 h-4 text-primary" />
         <span className="font-medium">{formattedTime}</span>
