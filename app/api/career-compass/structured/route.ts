@@ -237,8 +237,46 @@ export async function POST(request: NextRequest) {
           output: 'no-schema',
           prompt: `${STRUCTURED_COMPASS_PROMPT}\n\nAnalyze the resume for structured object generation:\n${text}`,
           experimental_repairText: async ({ text, error }) => {
-            // example: add a closing brace to the text
-            return text + '}';
+            // More robust JSON repair logic
+            if (!text) return "{}";
+
+            try {
+              // Try to parse the JSON to identify issues
+              JSON.parse(text);
+              return text; // If it parses successfully, return as is
+            } catch (parseError: any) {
+              console.log("JSON parse error:", parseError.message);
+
+              // Common JSON syntax issues and their fixes
+              if (parseError.message.includes("Unexpected token")) {
+                // Try to fix common syntax errors
+                // 1. Fix trailing commas in arrays/objects
+                let repaired = text.replace(/,(\s*[\]}])/g, "$1");
+
+                // 2. Fix mismatched closing brackets
+                const openBraces = (text.match(/\{/g) || []).length;
+                const closeBraces = (text.match(/\}/g) || []).length;
+                if (openBraces > closeBraces) {
+                  repaired = repaired + "}".repeat(openBraces - closeBraces);
+                }
+
+                // 3. Fix issue with comma after closing brackets
+                repaired = repaired.replace(/\}([^,\}\]])/g, "},$1");
+
+                // Try to parse the repaired JSON
+                try {
+                  JSON.parse(repaired);
+                  return repaired;
+                } catch (repairError: unknown) {
+                  console.log("Repair attempt failed:", repairError instanceof Error ? repairError.message : String(repairError));
+                  // If all repair attempts fail, return a minimal valid object
+                  return "{}";
+                }
+              }
+
+              // Default fallback
+              return "{}";
+            }
           },
         });
 
