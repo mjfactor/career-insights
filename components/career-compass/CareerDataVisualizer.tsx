@@ -85,6 +85,19 @@ interface CareerData {
             technicalStrengths?: string[];
             softSkills?: string[];
             mostUsedSkill?: string[];
+            certifications?: string[];
+        };
+        workExperience?: {
+            mostImpactfulProject?: {
+                title: string;
+                description: string;
+                impact: string;
+                relevance: string;
+                technologies: string[];
+            }
+        };
+        education?: {
+            certifications?: string[];
         };
     };
     overallEvaluation: {
@@ -129,6 +142,15 @@ export default function CareerDataVisualizer({ structuredData }: CareerDataVisua
     // ==========================================================================
     const softSkills = useMemo(() => {
         return data.candidateProfile.coreCompetencies.softSkills || []
+    }, [data])
+
+    // ==========================================================================
+    // Certifications
+    // ==========================================================================
+    const certifications = useMemo(() => {
+        // Check both possible locations for certifications data
+        return data.candidateProfile.education?.certifications ||
+            data.candidateProfile.coreCompetencies?.certifications || []
     }, [data])
 
     // ==========================================================================
@@ -206,6 +228,94 @@ export default function CareerDataVisualizer({ structuredData }: CareerDataVisua
 
     return (
         <div className="space-y-8">
+            {/* Most Impactful Project Card */}
+            {data.candidateProfile.workExperience?.mostImpactfulProject && (
+                <Card className="shadow-md hover:shadow-lg transition-shadow">
+                    <CardHeader>
+                        <CardTitle>Most Impactful Project</CardTitle>
+                        <CardDescription>Your most significant project achievement</CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                        <div>
+                            <h3 className="text-xl font-semibold text-primary">
+                                {data.candidateProfile.workExperience.mostImpactfulProject.title}
+                            </h3>
+                            <p className="mt-2 text-muted-foreground">
+                                {data.candidateProfile.workExperience.mostImpactfulProject.description}
+                            </p>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                            <div className="space-y-2">
+                                <h4 className="font-medium text-sm uppercase tracking-wide text-muted-foreground">Impact</h4>
+                                <p>{data.candidateProfile.workExperience.mostImpactfulProject.impact}</p>
+                            </div>
+                            <div className="space-y-2">
+                                <h4 className="font-medium text-sm uppercase tracking-wide text-muted-foreground">Relevance</h4>
+                                <p>{data.candidateProfile.workExperience.mostImpactfulProject.relevance}</p>
+                            </div>
+                        </div>
+
+                        <div className="mt-4">
+                            <h4 className="font-medium text-sm uppercase tracking-wide text-muted-foreground mb-2">Technologies Used</h4>
+                            <div className="flex flex-wrap gap-2">
+                                {data.candidateProfile.workExperience.mostImpactfulProject.technologies.map((tech) => (
+                                    <Badge
+                                        key={tech}
+                                        className="bg-primary/20 text-primary hover:bg-primary/30 border-none"
+                                    >
+                                        {tech}
+                                    </Badge>
+                                ))}
+                            </div>
+                        </div>
+                    </CardContent>
+                </Card>
+            )}
+
+            {/* Certifications Timeline Card */}
+            {certifications && certifications.length > 0 && (
+                <Card className="shadow-md hover:shadow-lg transition-shadow overflow-hidden">
+                    <CardHeader>
+                        <CardTitle>Certifications Timeline</CardTitle>
+                        <CardDescription>Professional certifications achieved</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <div className="relative">
+                            {/* Vertical timeline line */}
+                            <div className="absolute left-3 top-0 bottom-0 w-0.5 bg-primary/30" />
+
+                            <div className="space-y-6 ml-2">
+                                {certifications.map((cert, idx) => {
+                                    // Extract year from certification (assuming format includes a year in parenthesis like "Certification Name (2024)")
+                                    const yearMatch = cert.match(/\((\d{4})\)$/);
+                                    const year = yearMatch ? yearMatch[1] : "";
+                                    const certName = yearMatch ? cert.replace(yearMatch[0], "").trim() : cert;
+
+                                    return (
+                                        <div key={idx} className="relative pl-8">
+                                            {/* Timeline dot */}
+                                            <div className="absolute left-0 w-6 h-6 rounded-full bg-primary flex items-center justify-center">
+                                                <div className="w-2 h-2 rounded-full bg-background" />
+                                            </div>
+
+                                            <div className="bg-muted/30 rounded-lg p-4 border border-border/50">
+                                                <h3 className="font-medium text-foreground">{certName}</h3>
+                                                {year && (
+                                                    <div className="text-sm text-muted-foreground mt-1">
+                                                        Achieved in {year}
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        </div>
+                    </CardContent>
+                </Card>
+            )}
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* Technical Skills Card */}
                 <Card className="shadow-md hover:shadow-lg transition-shadow">
