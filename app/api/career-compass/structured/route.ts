@@ -205,8 +205,75 @@ export async function POST(request: NextRequest) {
           output: 'no-schema',
           messages,
           experimental_repairText: async ({ text, error }) => {
-            // example: add a closing brace to the text
-            return text + '}';
+            // Return empty object if no text is provided
+            if (!text) return "{}";
+
+            // If the error is specifically a type validation error
+            if (error && 'type' in error && error.type === 'validation') {
+              console.log("Type validation error:", error.message);
+              // Handle type validation errors differently from parse errors
+              // For type errors, try to correct the specific field mentioned in the error
+              // This is a simplified approach, more sophisticated repair would analyze the error path
+              return text; // Return original text for now, as type errors require specific schema knowledge
+            }
+
+            try {
+              // Try to parse the JSON to identify issues
+              JSON.parse(text);
+              return text; // If it parses successfully, return as is
+            } catch (parseError: any) {
+              console.log("JSON parse error:", parseError.message);
+
+              // Common JSON syntax issues and their fixes
+              if (parseError.message.includes("Unexpected token")) {
+                // Try to fix common syntax errors
+                // 1. Fix trailing commas in arrays/objects
+                let repaired = text.replace(/,(\s*[\]}])/g, "$1");
+
+                // 2. Add missing commas between properties
+                repaired = repaired.replace(/}(\s*"){/g, '},$1{');
+                repaired = repaired.replace(/"](\s*"){/g, '"],$1{');
+                repaired = repaired.replace(/"}(\s*"){/g, '"},$1"');
+                repaired = repaired.replace(/"}(\s*\[)/g, '"},$1');
+
+                // 3. Fix mismatched closing brackets
+                const openBraces = (text.match(/\{/g) || []).length;
+                const closeBraces = (text.match(/\}/g) || []).length;
+                if (openBraces > closeBraces) {
+                  repaired = repaired + "}".repeat(openBraces - closeBraces);
+                }
+
+                // 4. Fix missing quotes around property names
+                repaired = repaired.replace(/([{,]\s*)([a-zA-Z0-9_]+)(\s*:)/g, '$1"$2"$3');
+
+                // Try to parse the repaired JSON
+                try {
+                  JSON.parse(repaired);
+                  return repaired;
+                } catch (repairError: unknown) {
+                  console.log("First repair attempt failed:", repairError instanceof Error ? repairError.message : String(repairError));
+
+                  // Last resort: try to extract valid JSON by finding the outermost matching braces
+                  try {
+                    const match = repaired.match(/\{(?:[^{}]|(\{(?:[^{}]|(\{(?:[^{}])*\}))*\}))*\}/);
+                    if (match && match[0]) {
+                      const extracted = match[0];
+                      // Verify the extracted content is valid JSON
+                      JSON.parse(extracted);
+                      return extracted;
+                    }
+                  } catch (extractError) {
+                    console.log("Extraction attempt failed:", extractError instanceof Error ? extractError.message : String(extractError));
+                  }
+
+                  // If all repair attempts fail, return a minimal valid object
+                  return "{}";
+                }
+              }
+
+              // Default fallback
+              return "{}";
+            }
           },
         });
 
@@ -237,8 +304,17 @@ export async function POST(request: NextRequest) {
           output: 'no-schema',
           prompt: `${STRUCTURED_COMPASS_PROMPT}\n\nAnalyze the resume for structured object generation:\n${text}`,
           experimental_repairText: async ({ text, error }) => {
-            // More robust JSON repair logic
+            // Return empty object if no text is provided
             if (!text) return "{}";
+
+            // If the error is specifically a type validation error
+            if (error && 'type' in error && error.type === 'validation') {
+              console.log("Type validation error:", error.message);
+              // Handle type validation errors differently from parse errors
+              // For type errors, try to correct the specific field mentioned in the error
+              // This is a simplified approach, more sophisticated repair would analyze the error path
+              return text; // Return original text for now, as type errors require specific schema knowledge
+            }
 
             try {
               // Try to parse the JSON to identify issues
@@ -253,22 +329,42 @@ export async function POST(request: NextRequest) {
                 // 1. Fix trailing commas in arrays/objects
                 let repaired = text.replace(/,(\s*[\]}])/g, "$1");
 
-                // 2. Fix mismatched closing brackets
+                // 2. Add missing commas between properties
+                repaired = repaired.replace(/}(\s*"){/g, '},$1{');
+                repaired = repaired.replace(/"](\s*"){/g, '"],$1{');
+                repaired = repaired.replace(/"}(\s*"){/g, '"},$1"');
+                repaired = repaired.replace(/"}(\s*\[)/g, '"},$1');
+
+                // 3. Fix mismatched closing brackets
                 const openBraces = (text.match(/\{/g) || []).length;
                 const closeBraces = (text.match(/\}/g) || []).length;
                 if (openBraces > closeBraces) {
                   repaired = repaired + "}".repeat(openBraces - closeBraces);
                 }
 
-                // 3. Fix issue with comma after closing brackets
-                repaired = repaired.replace(/\}([^,\}\]])/g, "},$1");
+                // 4. Fix missing quotes around property names
+                repaired = repaired.replace(/([{,]\s*)([a-zA-Z0-9_]+)(\s*:)/g, '$1"$2"$3');
 
                 // Try to parse the repaired JSON
                 try {
                   JSON.parse(repaired);
                   return repaired;
                 } catch (repairError: unknown) {
-                  console.log("Repair attempt failed:", repairError instanceof Error ? repairError.message : String(repairError));
+                  console.log("First repair attempt failed:", repairError instanceof Error ? repairError.message : String(repairError));
+
+                  // Last resort: try to extract valid JSON by finding the outermost matching braces
+                  try {
+                    const match = repaired.match(/\{(?:[^{}]|(\{(?:[^{}]|(\{(?:[^{}])*\}))*\}))*\}/);
+                    if (match && match[0]) {
+                      const extracted = match[0];
+                      // Verify the extracted content is valid JSON
+                      JSON.parse(extracted);
+                      return extracted;
+                    }
+                  } catch (extractError) {
+                    console.log("Extraction attempt failed:", extractError instanceof Error ? extractError.message : String(extractError));
+                  }
+
                   // If all repair attempts fail, return a minimal valid object
                   return "{}";
                 }
