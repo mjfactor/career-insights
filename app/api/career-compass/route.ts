@@ -10,7 +10,6 @@ Format the information exactly according to these rules:
 IMPORTANT: 
 - This system supports ALL career fields, not just IT or Computer Science - adapt your analysis accordingly
 - DONT USE CODEBLOCKS, JUST PLAIN TEXT MARKDOWN
-- IF the structuredData ONLY contains a resumeImprovement section and other sections are empty, SKIP directly to the "Resume Improvement Guidance" section
 ---
 
 # 1. Candidate Profile Analysis

@@ -101,7 +101,7 @@ interface CareerData {
         };
     };
     overallEvaluation: {
-        jobFitScores: Record<string, string | number>;
+        jobFitScores: Record<string, string | number> | Array<{ jobTitle: string; score: string | number }>;
         marketPositioning?: {
             competitiveAdvantages: string[];
             improvementAreas: string[];
@@ -157,15 +157,34 @@ export default function CareerDataVisualizer({ structuredData }: CareerDataVisua
     // Job Fit Comparison Chart Data
     // ==========================================================================
     const jobFitData = useMemo(() => {
-        return Object.entries(data.overallEvaluation.jobFitScores)
-            .map(([name, value]) => {
-                // Handle percentage strings with % sign
-                if (typeof value === 'string' && value.endsWith('%')) {
-                    return { name, value: parseInt(value.replace('%', '')) };
-                }
-                return { name, value };
-            })
-            .sort((a, b) => Number(b.value) - Number(a.value));
+        // Check if jobFitScores is an array (new format) or object (old format)
+        if (Array.isArray(data.overallEvaluation.jobFitScores)) {
+            return data.overallEvaluation.jobFitScores
+                .map(item => ({
+                    name: item.jobTitle,
+                    value: typeof item.score === 'string' && item.score.endsWith('%')
+                        ? parseInt(item.score.replace('%', ''))
+                        : typeof item.score === 'number'
+                            ? Math.round(item.score * 100) // Convert decimal scores (0.85) to percentage
+                            : parseInt(String(item.score))
+                }))
+                .sort((a, b) => Number(b.value) - Number(a.value));
+        } else {
+            // Handle old format (Record<string, string | number>)
+            return Object.entries(data.overallEvaluation.jobFitScores)
+                .map(([name, value]) => {
+                    // Handle percentage strings with % sign
+                    if (typeof value === 'string' && value.endsWith('%')) {
+                        return { name, value: parseInt(value.replace('%', '')) };
+                    }
+                    // Handle decimal scores (e.g., 0.85)
+                    if (typeof value === 'number' && value < 1) {
+                        return { name, value: Math.round(value * 100) };
+                    }
+                    return { name, value };
+                })
+                .sort((a, b) => Number(b.value) - Number(a.value));
+        }
     }, [data])
 
     const jobFitChartConfig = {

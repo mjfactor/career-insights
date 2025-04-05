@@ -1,102 +1,139 @@
 import { z } from 'zod';
 
-// Schema for the Career Compass structured data
-export const CareerCompassSchema = z.object({
-  candidateProfile: z.object({
-    coreCompetencies: z.object({
-      technicalSkills: z.array(z.string()).describe('List of key technical skills, tools, methodologies'),
-      softSkills: z.array(z.string()).describe('List of soft skills like communication, leadership, teamwork'),
-      mostUsedSkill: z.object({}).catchall(z.string()).describe('3-4 most frequently used skills'),
-      uniqueValueProposition: z.string().describe('What makes the candidate distinct and valuable in the job market'),
-      certifications: z.array(z.string()).describe('List of certifications if any, with dates if provided')
-    }),
-    workExperience: z.object({
-      totalProfessionalTenure: z.string().describe('Summary of years by role/industry'),
-      seniorityLevel: z.string().describe('Junior, mid-level, senior, executive, etc. based on experience'),
-      industryTransferPotential: z.array(z.string()).describe('List of industries where skills transfer'),
-      keyAccomplishments: z.array(z.string()).describe('List of major achievements from work history'),
-      projectManagementExperience: z.string().describe('Description of project management experience if any'),
-      teamSizeManaged: z.string().describe('Indication of team management experience if applicable'),
-      mostImpactfulProject: z.object({
-        title: z.string().describe('Project name'),
-        description: z.string().describe('Brief description'),
-        impact: z.string().describe('Measurable outcomes, metrics, ROI'),
-        relevance: z.string().describe('To career goals'),
-        technologies: z.array(z.string()).describe('Technologies used in this project')
-      }),
-      remoteWorkExperience: z.string().describe('Experience with remote/distributed teams if any'),
-      internationalExperience: z.string().describe('Global/international work experience if any')
-    }),
-    education: z.object({
-      highestDegree: z.string().describe('Highest level of education attained'),
-      relevantCoursework: z.array(z.string()).describe('Courses relevant to career goals'),
-      academicAchievements: z.array(z.string()).describe('Notable academic accomplishments'),
-      degreeUtilization: z.array(z.string()).describe('Possible applications of degree to careers'),
-      certificationOpportunities: z.array(z.string()).describe('Suggested certifications based on skills'),
-      continuingEducation: z.array(z.string()).describe('Recent coursework or ongoing learning'),
-      emergingTechAlignment: z.array(z.string()).describe('Emerging technologies relevant to candidate')
-    }),
-    careerProgression: z.object({
-      growthTrajectory: z.string().describe('Analysis of career progression speed and direction'),
-      promotionHistory: z.string().describe('Pattern of advancement in previous roles'),
-      gapAnalysis: z.array(z.string()).describe('Skill or experience gaps for desired roles'),
-      transitionReadiness: z.string().describe('Assessment of readiness for career change if applicable')
-    })
-  }),
-  jobRecommendations: z.array(z.object({
-    roleTitle: z.string().describe('Job title'),
-    experienceLevel: z.string().describe('Entry/mid/senior'),
-    industryFocus: z.string().describe('Primary industry for this role'),
-    workplaceType: z.string().describe('Remote/hybrid/onsite preferences'),
-    assessment: z.object({
-      skillsMatch: z.array(z.string()).describe('Matching skills'),
-      skillGaps: z.array(z.string()).describe('Skills needed for this role that candidate lacks'),
-      experienceMatch: z.string().describe('Experience alignment description'),
-      educationMatch: z.string().describe('Education relevance description'),
-      cultureFit: z.string().describe('Alignment with typical culture for this role')
-    }),
-    salaryBenchmarks: z.object({
-      range: z.string().describe('Salary range in Philippine Peso Monthly'),
-      medianSalary: z.string().describe('Median salary figure'),
-      factors: z.array(z.string()).describe('Industry, location, company size, experience level'),
-      Source: z.string().describe('Link to source of salary data (PayScale, Glassdoor, etc.)')
-    }),
-    growthPotential: z.object({
-      marketDemand: z.string().describe('Expected job growth rate'),
-      upwardMobility: z.string().describe('Promotion potential')
-    }),
-    currentOpportunities: z.array(z.object({
-      platform: z.string().describe('LinkedIn, Glassdoor, Indeed, etc.'),
-      searchQuery: z.string().describe('Search query text'),
-      url: z.string().url().describe('Direct URL to search')
-    })).length(4).describe('Exactly 4 platforms with searchable links'),
-    skillDevelopment: z.array(z.object({
-      title: z.string().describe('Resource title'),
-      description: z.string().describe('Resource description'),
-      duration: z.string().describe('Estimated time to complete'),
-      link: z.string().url().describe('URL to the resource')
-    })).length(4).describe('4 skill development resources of different types'),
-    careerPathProjections: z.object({
-      potentialPaths: z.array(z.string()).describe('Possible career trajectories'),
-      requiredSteps: z.array(z.string()).describe('Certifications, additional experience needed'),
-      timelineEstimate: z.string().describe('Estimated time to achieve next level')
-    }),
-    randomForestInsights: z.string().describe('Explanation of how the model matched this role'),
-    workLifeBalance: z.string().describe('Typical work-life balance for this role')
-  })).min(5).max(7).describe('5-7 job recommendations'),
-  overallEvaluation: z.object({
-    jobFitScores: z.record(z.string(), z.number()).describe('Job titles with percentage fit scores'),
-    marketPositioning: z.object({
-      competitiveAdvantages: z.array(z.string()).describe('Candidate\'s strongest competitive advantages'),
-      improvementAreas: z.array(z.string()).describe('Areas that would strengthen marketability')
-    }),
-    interviewReadiness: z.object({
-      commonQuestions: z.array(z.string()).describe('Likely interview questions based on roles'),
-      suggestedTalking_Points: z.array(z.string()).describe('Key experiences to highlight')
-    }),
-    personalBrandingSuggestions: z.array(z.string()).describe('Ways to strengthen professional presence')
-  })
+const LinkSchema = z.object({
+  platform: z.string().describe("Name of the platform (e.g., LinkedIn, Glassdoor, Payscale)"),
+  searchQuery: z.string().describe("The search query text used or suggested"),
+  url: z.string().describe("Direct URL to the search results or resource")
 });
 
-// Type definition generated from the Zod schema
-export type CareerCompassData = z.infer<typeof CareerCompassSchema>;
+const ProfessionalResourceLinkSchema = z.object({
+  title: z.string().describe("Title of the resource"),
+  description: z.string().describe("Brief description of how this resource helps"),
+  link: z.string().describe("URL to the helpful resource")
+});
+
+const SkillDevelopmentResourceSchema = z.object({
+  title: z.string().describe("Title of the course, certification, tutorial, or book"),
+  description: z.string().describe("Brief description of the resource content"),
+  duration: z.string().describe("Estimated time commitment (e.g., '6h 30m', '80h 0m', '20h 0m')"),
+  link: z.string().describe("URL to access the resource")
+});
+
+const MostImpactfulProjectSchema = z.object({
+  title: z.string().describe("Name or title of the most significant project"),
+  description: z.string().describe("Brief description of the project's goals and the candidate's role"),
+  impact: z.string().describe("Measurable outcomes, metrics achieved, or ROI generated by the project"),
+  relevance: z.string().describe("How this project relates to the candidate's career goals or target roles"),
+  technologies: z.array(z.string()).describe("Key technologies, tools, or methodologies used in this project")
+});
+
+// --- Schema for the Resume Improvement Section (Optional within the main schema) ---
+const ResumeImprovementSchema = z.object({
+  overallAssessment: z.string().describe("Assessment of resume completeness/effectiveness"),
+  missingElements: z.array(z.string()).describe("Critical information missing from resume"),
+  formattingIssues: z.array(z.string()).describe("Layout, organization, or presentation issues"),
+  contentWeaknesses: z.array(z.string()).describe("Areas where resume content lacks impact"),
+  actionableSteps: z.array(z.string()).describe("Specific steps to improve the resume"),
+  professionalResourceLinks: z.array(ProfessionalResourceLinkSchema).optional()
+    .describe("Links to helpful resume writing resources")
+}).describe("Optional section with recommendations for resume improvement");
+
+
+// --- Main Candidate Analysis Schema (Represents the full structure) ---
+export const CandidateAnalysisSchema = z.object({
+  candidateProfile: z.object({
+    coreCompetencies: z.object({
+      technicalSkills: z.array(z.string()).describe("List of key technical skills, tools, and methodologies"),
+      softSkills: z.array(z.string()).describe("List of important soft skills"),
+      mostUsedSkill: z.array(z.string()).min(3).max(4).describe("Top 3-4 prominent skills"),
+      uniqueValueProposition: z.string().describe("Statement of candidate's distinct value"),
+      certifications: z.array(z.string()).optional().describe("List of relevant certifications, with dates if available")
+    }).describe("Candidate's core skills and value proposition"),
+
+    workExperience: z.object({
+      totalProfessionalTenure: z.string().describe("Summary of professional experience duration"),
+      seniorityLevel: z.string().describe("Assessed seniority level"), // Consider z.enum
+      industryTransferPotential: z.array(z.string()).describe("Industries where skills are transferable"),
+      keyAccomplishments: z.array(z.string()).describe("Major achievements from work history"),
+      projectManagementExperience: z.string().optional().describe("Description of project management experience"),
+      teamSizeManaged: z.string().optional().describe("Indication of team management/leadership experience"),
+      mostImpactfulProject: MostImpactfulProjectSchema.optional().describe("Details of the most significant project"),
+      remoteWorkExperience: z.string().optional().describe("Experience with remote/distributed teams"),
+      internationalExperience: z.string().optional().describe("Global/international work experience")
+    }).describe("Candidate's work history and experiences"),
+
+    education: z.object({
+      highestDegree: z.string().describe("Highest level of education attained"),
+      relevantCoursework: z.array(z.string()).optional().describe("Relevant academic courses"),
+      academicAchievements: z.array(z.string()).optional().describe("Notable academic accomplishments"),
+      degreeUtilization: z.array(z.string()).optional().describe("Potential career applications of degree"),
+      certificationOpportunities: z.array(z.string()).optional().describe("Suggested certifications based on skills"),
+      continuingEducation: z.array(z.string()).optional().describe("Recent or ongoing learning activities"),
+      emergingTechAlignment: z.array(z.string()).optional().describe("Relevant emerging technologies")
+    }).describe("Candidate's educational background"),
+
+    careerProgression: z.object({
+      growthTrajectory: z.string().describe("Analysis of career advancement speed/direction"),
+      promotionHistory: z.string().describe("Pattern of advancement in previous roles"),
+      gapAnalysis: z.array(z.string()).optional().describe("Skill or experience gaps for desired roles"),
+      transitionReadiness: z.string().optional().describe("Assessment of readiness for career change")
+    }).describe("Analysis of career path and future potential")
+  }).describe("Comprehensive candidate profile"),
+
+  jobRecommendations: z.array(
+    z.object({
+      roleTitle: z.string().describe("Recommended job title"),
+      experienceLevel: z.string().describe("Target experience level"), // Consider z.enum
+      industryFocus: z.string().describe("Primary industry for the role"),
+      workplaceType: z.string().describe("Typical workplace setting"), // Consider z.enum
+      assessment: z.object({
+        skillsMatch: z.array(z.string()).describe("Candidate skills matching the role"),
+        skillGaps: z.array(z.string()).describe("Required skills the candidate may lack"),
+        experienceMatch: z.string().describe("Alignment of work experience"),
+        educationMatch: z.string().describe("Relevance of education"),
+        cultureFit: z.string().describe("Potential alignment with typical role/industry culture")
+      }).describe("Candidate fit assessment for the role"),
+      salaryBenchmarks: z.object({
+        description: z.string().default("For more accurate salary estimates, consider using the following resources:"),
+        links: z.array(LinkSchema).describe("Links to salary comparison sites")
+      }).describe("Salary research resources"),
+      growthPotential: z.object({
+        marketDemand: z.string().describe("Expected job growth rate/demand"),
+        upwardMobility: z.string().describe("Potential for promotion")
+      }).describe("Career growth outlook"),
+      currentOpportunities: z.array(LinkSchema)
+        .length(4, "Must provide links for exactly 4 job platforms")
+        .describe("Links to job postings on 4 platforms"),
+      skillDevelopment: z.array(SkillDevelopmentResourceSchema)
+        .length(4, "Must provide exactly 4 diverse skill development resources")
+        .describe("4 curated resources for skill enhancement"),
+      careerPathProjections: z.object({
+        potentialPaths: z.array(z.string()).describe("Possible future career trajectories"),
+        requiredSteps: z.array(z.string()).describe("Steps needed for advancement"),
+        timelineEstimate: z.string().describe("Estimated time to reach next level")
+      }).describe("Future career path projections"),
+      randomForestInsights: z.string().describe("Come up with an explanation of how the model arrived at this recommendation"),
+      workLifeBalance: z.string().describe("Typical work-life balance for the role")
+    }).describe("Detailed job recommendation")
+  ).min(3).max(7).describe("List of 3 to 7 detailed job recommendations"),
+
+  overallEvaluation: z.object({
+    jobFitScores: z.object({
+      jobTitle: z.string().describe("Title of the job"),
+      score: z.number().describe("Fit score for the job"),
+    }).array().describe("Fit scores for each recommended job"),
+    marketPositioning: z.object({
+      competitiveAdvantages: z.array(z.string()).optional().describe("Candidate's strongest market advantages"),
+      improvementAreas: z.array(z.string()).optional().describe("Areas for development to improve marketability")
+    }).optional().describe("Candidate's market standing analysis"),
+    interviewReadiness: z.object({
+      commonQuestions: z.array(z.string()).optional().describe("Likely interview questions"),
+      suggestedTalkingPoints: z.array(z.string()).optional().describe("Key experiences/skills to highlight")
+    }).optional().describe("Interview preparation guidance"),
+    personalBrandingSuggestions: z.array(z.string()).optional().describe("Tips for strengthening professional presence")
+  }).describe("Overall summary, market position, and interview prep"),
+
+  // Resume improvement is optional within the main analysis structure
+  resumeImprovement: ResumeImprovementSchema.optional()
+
+}).describe("Comprehensive analysis of a candidate profile, job recommendations, and evaluations.");
