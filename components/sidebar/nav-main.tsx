@@ -16,6 +16,7 @@ import {
 
 export function NavMain({
   items,
+  groupLabel
 }: {
   items: {
     title: string
@@ -27,10 +28,11 @@ export function NavMain({
       url: string
     }[]
   }[]
+  groupLabel?: string
 }) {
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>Employment Opportunities</SidebarGroupLabel>
+      <SidebarGroupLabel>{groupLabel}</SidebarGroupLabel>
       <SidebarMenu>
         {items.map((item) => {
           // If the item has sub-items, render a collapsible menu

@@ -7,7 +7,8 @@ import {
   FileText,
   Trash2,
   BotMessageSquareIcon,
-  Clock
+  Clock,
+  Briefcase
 } from "lucide-react"
 import { usePathname } from "next/navigation"
 import { Suspense, useState, useEffect } from "react"
@@ -15,7 +16,7 @@ import { Suspense, useState, useEffect } from "react"
 import { NavMain } from "./nav-main"
 import { NavUser } from "./nav-user"
 import { ChatHistory } from "./chat-history"
-import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarRail, SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarSeparator, useSidebar } from "@/components/ui/sidebar"
+import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarRail, SidebarSeparator, useSidebar } from "@/components/ui/sidebar"
 
 import { Skeleton } from "@/components/ui/skeleton"
 
@@ -97,6 +98,8 @@ export function AppSidebar({
   const pathname = usePathname()
   const isCareerCompassPage = pathname?.includes('/dashboard/career-compass')
   const isChatPage = pathname?.includes('/dashboard/chat')
+  const { state } = useSidebar();
+  const isCollapsed = state === "collapsed";
 
   // Use userData if available, otherwise fall back to sample data
   const data = {
@@ -110,7 +113,6 @@ export function AppSidebar({
       avatar: "/avatars/shadcn.jpg",
     },
     navMain: [
-      // Direct access to Career Compass and Aggregator
       {
         title: "Career Compass",
         url: "/dashboard/career-compass",
@@ -123,21 +125,32 @@ export function AppSidebar({
         icon: BotMessageSquareIcon,
         isActive: isChatPage,
       },
+    ],
+    miscellaneous: [
       {
         title: "Aggregator",
         url: "/dashboard/aggregator",
         icon: LayoutDashboard,
         isActive: pathname?.includes('/dashboard/aggregator') || false,
       },
-    ],
+    ]
   }
 
   return (
     <Sidebar collapsible="icon" {...props}>
-      <SidebarHeader>
+      <SidebarHeader className="p-3 mt-2">
+        <div className={`flex items-center ${isCollapsed ? 'justify-center' : 'justify-between'} w-full`}>
+          <div className={`flex items-center gap-2 ${isCollapsed ? 'justify-center' : ''}`}>
+            <Briefcase className="w-5 h-5 text-primary" />
+            <h1 className={`font-semibold text-base tracking-tight transition-opacity duration-200 ${isCollapsed ? 'hidden' : 'block'}`}>
+              Employment Opportunities
+            </h1>
+          </div>
+        </div>
       </SidebarHeader>
       <SidebarContent className="overflow-hidden">
-        <NavMain items={data.navMain} />
+        <NavMain items={data.navMain} groupLabel="AI" />
+        <NavMain items={data.miscellaneous} groupLabel="Miscellaneous" />
 
         {/* Show Chat History only on Chat page */}
         {isChatPage && (
@@ -148,14 +161,14 @@ export function AppSidebar({
 
             {/* Use the ChatHistory component */}
             <Suspense fallback={
-              <SidebarGroup>
-                <SidebarGroupLabel>Recent Chat</SidebarGroupLabel>
+              <div className="px-2">
+                <div className="text-xs font-medium text-muted-foreground px-3 py-1.5">Recent Chat</div>
                 <div className="px-3 py-5">
                   <Skeleton className="h-5 w-full mb-3" />
                   <Skeleton className="h-5 w-3/4 mb-3" />
                   <Skeleton className="h-5 w-5/6" />
                 </div>
-              </SidebarGroup>
+              </div>
             }>
               <ChatHistory userId={userData?.id || 'anonymous'} />
             </Suspense>
@@ -174,7 +187,6 @@ export function AppSidebar({
       <SidebarFooter>
         <RealtimeClock />
         <NavUser user={data.user} />
-
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
