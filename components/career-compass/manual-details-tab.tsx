@@ -19,6 +19,8 @@ import remarkGfm from 'remark-gfm'
 import { Switch } from "@/components/ui/switch"
 import StructuredDataPlaceholder from "./StructuredDataPlaceholder"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
+// Import the validation function
+import { validateResumeText } from '@/lib/actions/manual-details-validator'
 
 interface JobExperience {
   id: string
@@ -302,24 +304,39 @@ const ManualDetailsTab = forwardRef(function ManualDetailsTab(props, ref) {
       return
     }
 
-    // Handle form submission
     setIsSubmitting(true)
-    setIsAnalyzing(true)
-    setIsStreaming(true)
-    setAnalysisResult("")
-    setAnalysisError(null)
-    // Set the initial analysis phase to "structured"
-    setAnalysisPhase("structured")
 
     try {
+      // Format manually entered data into a resume-like text format
+      const formattedData = formatResumeData(courseInfo, skills, jobExperiences)
+
+      // First validate if the content is suitable for career analysis
+      console.log("Validating content suitability for career analysis...")
+      const validationResult = await validateResumeText(formattedData)
+
+      if (!validationResult.isValid) {
+        toast.error("Content Validation Failed", {
+          description: "The provided information doesn't appear to be suitable for career analysis. Please add more specific details about your education and skills.",
+        })
+        setIsSubmitting(false)
+        return
+      }
+
+      console.log("Content validation successful, proceeding with analysis")
+
+      // Content is valid, proceed with analysis
+      setIsAnalyzing(true)
+      setIsStreaming(true)
+      setAnalysisResult("")
+      setAnalysisError(null)
+      // Set the initial analysis phase to "structured"
+      setAnalysisPhase("structured")
+
       // Debug logs for raw data
       console.log('--- MANUAL DETAILS FORM DATA (RAW) ---');
       console.log('Course Info:', courseInfo);
       console.log('Skills:', skills);
       console.log('Job Experiences:', jobExperiences);
-
-      // Format manually entered data into a resume-like text format
-      const formattedData = formatResumeData(courseInfo, skills, jobExperiences)
 
       // Debug log for formatted data
       console.log('--- FORMATTED TEXT FOR API ---');
@@ -335,7 +352,7 @@ const ManualDetailsTab = forwardRef(function ManualDetailsTab(props, ref) {
 
       // STEP 1: First call the structured endpoint to get structured data
       console.log("Step 1: Getting structured data...");
-      const structuredResponse = await fetch('/api/career-compass/structured', {
+      const structuredResponse = await fetch('/api/career-compass-manual/structured', {
         method: 'POST',
         body: formData,
         signal, // Pass the abort signal
@@ -351,7 +368,7 @@ const ManualDetailsTab = forwardRef(function ManualDetailsTab(props, ref) {
 
       // STEP 2: Now pass the structured data to the main endpoint for markdown formatting
       console.log("Step 2: Getting formatted markdown...");
-      const response = await fetch('/api/career-compass', {
+      const response = await fetch('/api/career-compass-manual', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

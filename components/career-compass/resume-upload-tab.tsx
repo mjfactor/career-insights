@@ -16,7 +16,7 @@ import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import StructuredDataPlaceholder from "./StructuredDataPlaceholder"
 import CareerDataVisualizer from "@/components/career-compass/CareerDataVisualizer"
-
+import { toast } from "sonner"
 import {
   Tooltip,
   TooltipContent,
@@ -140,6 +140,7 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
     if (!file) return
 
     setIsValidating(true)
+    toast.loading("Validating your resume...");
 
     try {
       const fileExtension = file.name.split('.').pop()?.toLowerCase();
@@ -153,6 +154,16 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
         const validationResult = await validateResumeFile(formData);
         setIsValidResume(validationResult.isValid);
 
+        if (validationResult.isValid) {
+          toast.success("Resume validation successful", {
+            description: "Your resume was validated successfully.",
+          });
+        } else {
+          toast.error("Resume validation failed", {
+            description: validationResult.error || "The file doesn't appear to be a valid resume.",
+          });
+        }
+
         if (validationResult.error) {
           console.error("Validation error:", validationResult.error);
         }
@@ -162,6 +173,16 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
 
         const validationResult = await validateResumeText(extractedText.substring(0, 2000));
         setIsValidResume(validationResult.isValid);
+
+        if (validationResult.isValid) {
+          toast.success("Resume validation successful", {
+            description: "Your resume was validated successfully.",
+          });
+        } else {
+          toast.error("Resume validation failed", {
+            description: validationResult.error || "The file doesn't appear to be a valid resume.",
+          });
+        }
 
         if (validationResult.error) {
           console.error("Validation error:", validationResult.error);
@@ -176,10 +197,13 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
       setIsValidating(false);
       setUploadStage("complete");
     } catch (error) {
-      console.error("Error processing file:", error)
-      setIsValidResume(false)
-      setIsValidating(false)
-      setUploadStage("complete")
+      console.error("Error processing file:", error);
+      toast.error("Error processing file", {
+        description: error instanceof Error ? error.message : "An unexpected error occurred.",
+      });
+      setIsValidResume(false);
+      setIsValidating(false);
+      setUploadStage("complete");
     }
   }
 
@@ -410,7 +434,9 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
           if (done) break;
         }
       };
-
+      toast.success("Success!", {
+        description: "Your details have been analyzed successfully.",
+      })
       await processStream(reader);
 
     } catch (error) {
