@@ -11,7 +11,7 @@ import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/s
 import { auth } from "@/auth"
 import { ModeToggle } from "@/components/dark-light-toggle/theme-toggle"
 import { Metadata } from "next"
-
+import Prepinterview from "@/components/prep-interview/PrepInterviewUI"
 export const metadata: Metadata = {
     title: "Career Compass | Employment Opportunities",
     description: "Get personalized career guidance and insights",
@@ -45,6 +45,7 @@ export default async function Page() {
                         </Breadcrumb>
                     </div>
                 </header>
+                <Prepinterview />
             </SidebarInset>
         </SidebarProvider>
     )

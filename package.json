@@ -44,6 +44,7 @@
     "@radix-ui/react-tooltip": "^1.1.8",
     "@tailwindcss/typography": "^0.5.16",
     "@upstash/redis": "^1.34.5",
+    "@vapi-ai/web": "^2.2.5",
     "ai": "^4.2.8",
     "bcrypt": "^5.1.1",
     "class-variance-authority": "^0.7.1",

@@ -114,13 +114,13 @@ export function AppSidebar({
     },
     navMain: [
       {
-        title: "Career Compass",
+        title: "Career Compass AI Agent",
         url: "/dashboard/career-compass",
         icon: Compass,
         isActive: isCareerCompassPage,
       },
       {
-        title: "Chat Bot",
+        title: "Chatbot AI Agent",
         url: "/dashboard/chat",
         icon: BotMessageSquareIcon,
         isActive: isChatPage,
@@ -138,10 +138,10 @@ export function AppSidebar({
 
   return (
     <Sidebar collapsible="icon" {...props}>
-      <SidebarHeader className="p-3 mt-2">
+      <SidebarHeader className="p-3 mt-2 ml-2">
         <div className={`flex items-center ${isCollapsed ? 'justify-center' : 'justify-between'} w-full`}>
           <div className={`flex items-center gap-2 ${isCollapsed ? 'justify-center' : ''}`}>
-            <Briefcase className="w-5 h-5 text-primary" />
+
             <h1 className={`font-semibold text-base tracking-tight transition-opacity duration-200 ${isCollapsed ? 'hidden' : 'block'}`}>
               Employment Opportunities
             </h1>
