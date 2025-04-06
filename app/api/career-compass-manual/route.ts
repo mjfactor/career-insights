@@ -5,7 +5,7 @@ import { NextRequest } from 'next/server';
 // Career compass prompt template for formatting structured data as markdown
 const STRUCTURED_TO_MARKDOWN_PROMPT = `
 
-# 2. Job Recommendations
+# Job Recommendations
 **IMPORTANT: If the JSON contains a "resumeImprovement" section instead of job recommendations, SKIP this entire section and jump to "Resume Improvement Guidance" below**
 
 For each role, format as follows:
