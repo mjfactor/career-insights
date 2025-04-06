@@ -314,22 +314,44 @@ export async function POST(request: NextRequest) {
     // Initialize the model
     const model = google('gemini-2.0-flash');
 
-    // Handle PDF file uploads
-    if (file && file.name.toLowerCase().endsWith('.pdf')) {
+    // Handle file uploads (PDF, PNG, JPEG)
+    if (file) {
       const fileBuffer = await file.arrayBuffer();
+      const fileName = file.name.toLowerCase();
 
-      // Create message with file content for PDFs
+      // Determine the correct MIME type based on file extension
+      let mimeType = 'application/pdf';
+      if (fileName.endsWith('.png')) {
+        mimeType = 'image/png';
+      } else if (fileName.endsWith('.jpg') || fileName.endsWith('.jpeg')) {
+        mimeType = 'image/jpeg';
+      } else if (!fileName.endsWith('.pdf')) {
+        // Unsupported file type
+        return new Response(
+          JSON.stringify({
+            error: 'Unsupported file format. Please upload a PDF, PNG, or JPEG file.'
+          }),
+          {
+            status: 400,
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          }
+        );
+      }
+
+      // Create message with file content
       const messages = [{
         role: 'user' as const,
         content: [
           {
             type: 'text' as const,
-            text: `${STRUCTURED_COMPASS_PROMPT}\n\nAnalyze the resume in the attached PDF file for structured object generation:`
+            text: `${STRUCTURED_COMPASS_PROMPT}\n\nAnalyze the resume in the attached file for structured object generation:`
           },
           {
             type: 'file' as const,
             data: fileBuffer,
-            mimeType: 'application/pdf'
+            mimeType: mimeType
           }
         ]
       }];
@@ -345,10 +367,10 @@ export async function POST(request: NextRequest) {
 
         return response.toJsonResponse();
       } catch (objError) {
-        console.error('Error generating object from PDF:', objError);
+        console.error('Error generating object from file:', objError);
         return new Response(
           JSON.stringify({
-            error: 'Failed to generate valid JSON data from the PDF. There might be an issue with the resume format or content.',
+            error: 'Failed to generate valid JSON data from the file. There might be an issue with the resume format or content.',
             details: objError instanceof Error ? objError.message : 'Unknown error'
           }),
           {

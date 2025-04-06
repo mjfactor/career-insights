@@ -135,22 +135,24 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
     }
   }
 
+  // Check if file is an image
+  const isImageFile = (file: File): boolean => {
+    return file.type === 'image/jpeg' || file.type === 'image/png';
+  }
+
   // Simulate validation progress after upload completes
   const validateResume = async () => {
     if (!file) return
 
     setIsValidating(true)
-    toast.loading("Validating your resume...");
-
     try {
       const fileExtension = file.name.split('.').pop()?.toLowerCase();
       let extractedText = '';
+      const formData = new FormData();
+      formData.append('file', file);
 
-      if (fileExtension === 'pdf') {
-        // For PDF files, use the server action directly
-        const formData = new FormData();
-        formData.append('file', file);
-
+      if (fileExtension === 'pdf' || isImageFile(file)) {
+        // For PDF and image files, use the server action directly
         const validationResult = await validateResumeFile(formData);
         setIsValidResume(validationResult.isValid);
 
@@ -359,8 +361,8 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
       // Create form data for the API request
       const formData = new FormData();
 
-      if (file && file.name.toLowerCase().endsWith('.pdf')) {
-        // For PDF files, upload the file directly
+      if (file && (file.name.toLowerCase().endsWith('.pdf') || isImageFile(file))) {
+        // For PDF and image files, upload the file directly
         formData.append('file', file);
       } else if (resumeContent) {
         // For DOCX or extracted text content
@@ -517,7 +519,7 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
                 type="file"
                 id="resume-upload"
                 className="hidden"
-                accept=".docx,.pdf"
+                accept=".docx,.pdf,.jpg,.jpeg,.png"
                 onChange={handleFileChange}
               />
 

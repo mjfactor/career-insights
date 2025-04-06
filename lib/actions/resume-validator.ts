@@ -44,16 +44,32 @@ export async function validateResume(input: ResumeInput): Promise<ValidationResu
         };
 
         // Prepare content to analyze based on input type
-        const contentToAnalyze: MessageContent = input.file
-            ? {
+        let contentToAnalyze: MessageContent;
+
+        if (input.file) {
+            // Determine MIME type based on filename if provided
+            let mimeType = 'application/pdf'; // Default
+
+            if (input.filename) {
+                const fileName = input.filename.toLowerCase();
+                if (fileName.endsWith('.png')) {
+                    mimeType = 'image/png';
+                } else if (fileName.endsWith('.jpg') || fileName.endsWith('.jpeg')) {
+                    mimeType = 'image/jpeg';
+                }
+            }
+
+            contentToAnalyze = {
                 type: 'file',
                 data: input.file,
-                mimeType: 'application/pdf'
-            }
-            : {
+                mimeType: mimeType
+            };
+        } else {
+            contentToAnalyze = {
                 type: 'text',
                 text: `Content to analyze: ${input.text}`
             };
+        }
 
         // Create message with both instruction and content
         const messages = [{
