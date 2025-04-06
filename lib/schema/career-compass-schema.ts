@@ -134,6 +134,6 @@ export const CandidateAnalysisSchema = z.object({
   }).describe("Overall summary, market position, and interview prep"),
 
   // Resume improvement is optional within the main analysis structure
-  resumeImprovement: ResumeImprovementSchema.optional()
+  resumeImprovement: ResumeImprovementSchema
 
 }).describe("Comprehensive analysis of a candidate profile, job recommendations, and evaluations.");

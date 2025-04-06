@@ -47,8 +47,6 @@ IMPORTANT:
 
 ---
 # 2. Job Recommendations
-**IMPORTANT: If the JSON contains a "resumeImprovement" section instead of job recommendations, SKIP this entire section and jump to "Resume Improvement Guidance" below**
-
 For each role, format as follows:
 
 ## [Role Title] + Experience Level
@@ -112,7 +110,7 @@ Format as:
 - Ways to strengthen professional presence
 
 ---
-## Resume Improvement Guidance
+## 4.  Resume Improvement Guidance
 **ONLY INCLUDE THIS SECTION when the JSON contains a "resumeImprovement" section**
 
 ### 📝 Resume Assessment

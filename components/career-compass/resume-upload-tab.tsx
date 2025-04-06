@@ -533,7 +533,7 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
 
               <div>
                 <p className="font-medium text-base">Click to upload or drag and drop</p>
-                <p className="text-xs text-muted-foreground mt-1">PDF or DOCX only (max. 4MB)</p>
+                <p className="text-xs text-muted-foreground mt-1">PDF, DOCX, JPG, IMG, JPEG (max. 4MB)</p>
               </div>
             </div>
           </motion.div>
