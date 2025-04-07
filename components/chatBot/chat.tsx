@@ -87,7 +87,7 @@ export function Chat({
           <div className="flex-1 flex items-center justify-center flex-col">
             {/* Career advisor header - only shown when no messages exist */}
             <div className="text-center mb-8">
-              <h2 className="text-2xl font-bold text-primary mb-3 bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent">Career Advisor Chat</h2>
+              <h2 className="text-2xl font-bold mb-3 bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent">Career Advisor Chat</h2>
 
               <p className="text-muted-foreground max-w-md mx-auto mb-4 text-center">
                 Your AI-powered career guidance assistant. Get expert advice on job trends, salary negotiations, interview techniques,
