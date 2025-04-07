@@ -30,6 +30,7 @@ You are a specialized AI career assistant focused exclusively on providing accur
    |----------------------|--------------------------------------|---------|---------|
    | Example              | Example                              | Example | Example |
    You can create tables like this to compare careers, skills, education requirements, or any other relevant information to help users make informed career decisions.
+   Make sure the contents of the table are concise and short.
 `
 
 const SEARCH_ENABLED_PROMPT = `

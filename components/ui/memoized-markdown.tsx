@@ -41,8 +41,8 @@ export const ReadableMemoizedMarkdown = memo(
                             ),
                             // Modern table styling
                             table: ({ children }) => (
-                                <div className="my-6 overflow-hidden rounded-lg border border-muted shadow-sm">
-                                    <table className="w-full border-collapse bg-background text-sm">{children}</table>
+                                <div className="my-6 w-full overflow-x-auto rounded-lg border border-muted shadow-sm">
+                                    <table className="w-full min-w-full border-collapse bg-background text-sm table-auto">{children}</table>
                                 </div>
                             ),
                             thead: ({ children }) => <thead className="bg-muted/80 text-muted-foreground">{children}</thead>,
@@ -55,13 +55,13 @@ export const ReadableMemoizedMarkdown = memo(
                             ),
                             th: ({ children, style }) => (
                                 <th
-                                    className="px-4 py-3 text-left font-medium text-muted-foreground"
+                                    className="px-4 py-3 text-left font-medium text-muted-foreground whitespace-nowrap"
                                     style={style}
                                 >{children}</th>
                             ),
                             td: ({ children, style }) => (
                                 <td
-                                    className="px-4 py-3 align-middle"
+                                    className="px-4 py-3 align-middle break-words"
                                     style={style}
                                 >{children}</td>
                             ),

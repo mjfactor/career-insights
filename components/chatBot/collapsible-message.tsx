@@ -32,7 +32,7 @@ export function CollapsibleMessage({
   const content = <div className="py-2 flex-1">{children}</div>
 
   return (
-    <div className="flex gap-3">
+    <div className="flex gap-3 w-full">
       <div className="relative flex flex-col items-center">
         <div className={cn('mt-[10px] w-5', role === 'assistant' && 'mt-7')}>
           {showIcon &&
@@ -47,7 +47,7 @@ export function CollapsibleMessage({
       {isCollapsible ? (
         <div
           className={cn(
-            'flex-1 rounded-2xl p-4',
+            'flex-1 rounded-2xl p-4 overflow-hidden',
             showBorder && 'border border-border/50'
           )}
         >
@@ -57,9 +57,9 @@ export function CollapsibleMessage({
             className="w-full"
           >
             <CollapsibleTrigger className="flex items-center justify-between w-full group">
-              <div className="flex items-center justify-between w-full gap-2">
-                {header && <div className="text-sm w-full">{header}</div>}
-                <ChevronDown className="h-4 w-4 text-muted-foreground transition-transform duration-200 group-data-[state=open]:rotate-180" />
+              <div className="flex items-center justify-between w-full gap-2 overflow-hidden">
+                {header && <div className="text-sm w-full overflow-hidden text-ellipsis">{header}</div>}
+                <ChevronDown className="h-4 w-4 shrink-0 text-muted-foreground transition-transform duration-200 group-data-[state=open]:rotate-180" />
               </div>
             </CollapsibleTrigger>
             <CollapsibleContent className="data-[state=closed]:animate-collapse-up data-[state=open]:animate-collapse-down">
@@ -69,7 +69,7 @@ export function CollapsibleMessage({
           </Collapsible>
         </div>
       ) : (
-        <div className="flex-1 rounded-2xl px-4">{content}</div>
+        <div className="flex-1 rounded-2xl px-4 overflow-hidden">{content}</div>
       )}
     </div>
   )
