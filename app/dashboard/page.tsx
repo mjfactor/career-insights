@@ -13,7 +13,7 @@ import { auth } from "@/auth"
 import { ModeToggle } from "@/components/dark-light-toggle/theme-toggle"
 import { Metadata } from "next"
 import VideoDemo from "@/components/dashboard/VideoDemo"
-import { ChevronRight, Rocket, BarChart3, Trophy } from "lucide-react"
+import { ChevronRight } from "lucide-react"
 
 export const metadata: Metadata = {
   title: "Dashboard",
@@ -54,48 +54,7 @@ export default async function Page() {
         </header>
 
         <main className="flex-1 overflow-auto">
-          {/* Hero section with gradient background */}
-          <div className="bg-card text-card-foreground">
-            <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="py-12 md:py-16 lg:py-20">
-                <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
-                  Welcome
-                </h1>
-                <p className="text-lg md:text-xl max-w-3xl mb-6 text-white/90">
-                  Explore our AI-powered tools designed to optimize your job search and career growth journey
-                </p>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8">
-                  {[
-                    {
-                      icon: <BarChart3 className="h-6 w-6" />,
-                      title: "Data-Driven Insights",
-                      description: "Get personalized career analytics based on market trends"
-                    },
-                    {
-                      icon: <Rocket className="h-6 w-6" />,
-                      title: "Accelerated Job Search",
-                      description: "Find the most relevant opportunities from across the web"
-                    },
-                    {
-                      icon: <Trophy className="h-6 w-6" />,
-                      title: "Skills Optimization",
-                      description: "Identify and develop the skills that matter most"
-                    }
-                  ].map((feature, index) => (
-                    <div key={index} className="flex gap-4 p-4 rounded-xl bg-white/10 backdrop-blur-sm">
-                      <div className="shrink-0 h-12 w-12 bg-white/20 flex items-center justify-center rounded-full">
-                        {feature.icon}
-                      </div>
-                      <div>
-                        <h3 className="font-semibold text-lg">{feature.title}</h3>
-                        <p className="text-white/80">{feature.description}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
+
 
           {/* Video Demo Section with glass morphism cards */}
           <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-12">

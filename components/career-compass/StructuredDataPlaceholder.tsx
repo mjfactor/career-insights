@@ -1,10 +1,71 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { BrainCircuit, Trees, FileText, Sparkles } from "lucide-react"
-import React from "react"
+import { BrainCircuit, Trees, FileText, Sparkles, CheckCircle } from "lucide-react"
+import React, { useState, useEffect } from "react"
 
 export default function StructuredDataPlaceholder() {
+    const [currentStep, setCurrentStep] = useState(0)
+    const [progress, setProgress] = useState(0)
+
+    // Total steps in the process
+    const totalSteps = 4
+
+    // Duration for each step in seconds (total ~30 seconds)
+    const stepDuration = 7.5
+
+    useEffect(() => {
+        // Function to advance to next step
+        const advanceStep = () => {
+            if (currentStep < totalSteps - 1) {
+                setCurrentStep(prev => prev + 1)
+            }
+        }
+
+        // Set up timer to advance steps
+        const timer = setTimeout(() => {
+            advanceStep()
+        }, stepDuration * 1000)
+
+        // Update progress based on current step
+        const progressInterval = setInterval(() => {
+            setProgress(prev => {
+                const stepProgress = (currentStep * 100 / totalSteps)
+                const maxProgress = ((currentStep + 1) * 100 / totalSteps)
+
+                if (prev < maxProgress) {
+                    return Math.min(prev + 0.2, maxProgress) // Slower increment for smoother progress
+                }
+                return prev
+            })
+        }, 50)
+
+        return () => {
+            clearTimeout(timer)
+            clearInterval(progressInterval)
+        }
+    }, [currentStep])
+
+    // Define steps data
+    const steps = [
+        {
+            icon: <FileText className="h-4 w-4" />,
+            label: "Extracting resume information"
+        },
+        {
+            icon: <Trees className="h-4 w-4" />,
+            label: "Processing with Random Forest model"
+        },
+        {
+            icon: <BrainCircuit className="h-4 w-4" />,
+            label: "Applying LLM enrichment"
+        },
+        {
+            icon: <Sparkles className="h-4 w-4" />,
+            label: "Generating career insights"
+        }
+    ]
+
     return (
         <div className="relative p-6 bg-card/30 backdrop-blur-sm rounded-lg border border-primary/20 overflow-hidden">
             {/* Background circuit pattern */}
@@ -37,125 +98,128 @@ export default function StructuredDataPlaceholder() {
                 Our AI is analyzing your resume to create structured data for a comprehensive career assessment...
             </p>
 
-            {/* Animated progress steps */}
+            {/* Sequential progress steps */}
             <div className="space-y-6 relative z-10">
-                <ProgressStep
-                    icon={<FileText className="h-4 w-4" />}
-                    label="Extracting resume information"
-                    delay={0}
-                    duration={1.5}
-                />
-
-                <ProgressStep
-                    icon={<Trees className="h-4 w-4" />}
-                    label="Processing with Random Forest model"
-                    delay={1.2}
-                    duration={1.8}
-                />
-
-                <ProgressStep
-                    icon={<BrainCircuit className="h-4 w-4" />}
-                    label="Applying LLM enrichment"
-                    delay={2.2}
-                    duration={1.5}
-                />
-
-                <ProgressStep
-                    icon={<Sparkles className="h-4 w-4" />}
-                    label="Generating career insights"
-                    delay={3.0}
-                    duration={1.7}
-                />
+                {steps.map((step, index) => (
+                    <SequentialProgressStep
+                        key={index}
+                        icon={step.icon}
+                        label={step.label}
+                        isActive={index === currentStep}
+                        isCompleted={index < currentStep}
+                        isUpcoming={index > currentStep}
+                        duration={stepDuration - 0.2} // Slightly shorter than step change time
+                    />
+                ))}
             </div>
 
             {/* Animated progress bar */}
             <div className="mt-8 relative h-1.5 bg-primary/10 rounded-full overflow-hidden">
                 <motion.div
                     className="absolute inset-y-0 left-0 bg-gradient-to-r from-green-500 to-blue-500 rounded-full"
-                    animate={{
-                        width: ["0%", "30%", "60%", "85%", "92%"],
-                        transition: { duration: 5, repeat: Infinity, ease: "easeInOut" }
-                    }}
+                    style={{ width: `${progress}%` }}
                 />
             </div>
 
             <p className="text-center text-xs text-muted-foreground mt-5">
-                This usually takes 15-30 seconds depending on the complexity of your resume
+                This usually takes about 30 seconds depending on the complexity of your resume
             </p>
         </div>
     )
 }
 
-// Animated step component with staggered animation
-function ProgressStep({
+// Sequential progress step component
+function SequentialProgressStep({
     icon,
     label,
-    delay,
+    isActive,
+    isCompleted,
+    isUpcoming,
     duration
 }: {
     icon: React.ReactNode
     label: string
-    delay: number
+    isActive: boolean
+    isCompleted: boolean
+    isUpcoming: boolean
     duration: number
 }) {
     return (
         <div className="flex items-center gap-3">
             <motion.div
-                className="flex items-center justify-center h-8 w-8 rounded-full bg-primary/10"
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: delay * 0.3, duration: 0.4 }}
+                className={`flex items-center justify-center h-8 w-8 rounded-full ${isCompleted
+                    ? "bg-green-500/20"
+                    : isActive
+                        ? "bg-primary/20"
+                        : "bg-primary/5"
+                    }`}
+                animate={{
+                    scale: isActive ? [1, 1.05, 1] : 1,
+                    transition: {
+                        repeat: isActive ? Infinity : 0,
+                        duration: 1.5
+                    }
+                }}
             >
                 <motion.div
-                    className="text-primary"
-                    initial={{ opacity: 0.5 }}
-                    animate={{ opacity: [0.5, 1, 0.5] }}
+                    className={`${isCompleted
+                        ? "text-green-500"
+                        : isActive
+                            ? "text-primary"
+                            : "text-muted-foreground/50"
+                        }`}
+                    animate={{
+                        opacity: isActive ? [0.7, 1, 0.7] : isCompleted ? 1 : 0.5
+                    }}
                     transition={{
-                        duration: duration,
-                        repeat: Infinity,
-                        ease: "easeInOut",
-                        delay: delay * 0.3
+                        duration: 1.5,
+                        repeat: isActive ? Infinity : 0,
+                        ease: "easeInOut"
                     }}
                 >
-                    {icon}
+                    {isCompleted ? <CheckCircle className="h-4 w-4" /> : icon}
                 </motion.div>
             </motion.div>
 
             <motion.div
                 className="flex-1"
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: delay * 0.3 + 0.1, duration: 0.4 }}
+                animate={{
+                    opacity: isUpcoming ? 0.5 : 1
+                }}
             >
                 <motion.div
                     className="h-5 flex items-center"
-                    initial={{ opacity: 0.7 }}
-                    animate={{ opacity: [0.7, 1, 0.7] }}
+                    animate={{
+                        opacity: isActive ? [0.8, 1, 0.8] : 1
+                    }}
                     transition={{
-                        duration: duration,
-                        repeat: Infinity,
-                        ease: "easeInOut",
-                        delay: delay * 0.3
+                        duration: 1.5,
+                        repeat: isActive ? Infinity : 0,
+                        ease: "easeInOut"
                     }}
                 >
-                    <span className="text-sm">{label}</span>
+                    <span className={`text-sm ${isUpcoming ? "text-muted-foreground/50" : ""}`}>{label}</span>
                 </motion.div>
 
                 <motion.div
                     className="mt-1 h-1 rounded-full bg-primary/10 overflow-hidden"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: delay * 0.3 + 0.2 }}
                 >
                     <motion.div
-                        className="h-full bg-gradient-to-r from-green-500/60 to-blue-500/60 rounded-full"
-                        initial={{ width: "0%" }}
-                        animate={{ width: "100%" }}
+                        className={`h-full rounded-full ${isCompleted
+                            ? "bg-green-500"
+                            : "bg-gradient-to-r from-green-500/60 to-blue-500/60"
+                            }`}
+                        animate={{
+                            width: isCompleted
+                                ? "100%"
+                                : isActive
+                                    ? ["0%", "100%"]
+                                    : "0%"
+                        }}
                         transition={{
-                            duration: duration,
-                            repeat: Infinity,
+                            duration: isActive ? duration : 0,
                             ease: "easeInOut",
-                            delay: delay * 0.3
+                            repeat: 0
                         }}
                     />
                 </motion.div>
