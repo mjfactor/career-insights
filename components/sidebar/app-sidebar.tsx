@@ -12,7 +12,7 @@ import {
 } from "lucide-react"
 import { usePathname } from "next/navigation"
 import { Suspense, useState, useEffect } from "react"
-
+import Link from "next/link"
 import { NavMain } from "./nav-main"
 import { NavUser } from "./nav-user"
 import { ChatHistory } from "./chat-history"
@@ -139,12 +139,14 @@ export function AppSidebar({
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader className="p-3 mt-2 ml-4">
+
         <div className={`flex items-center ${isCollapsed ? 'justify-center' : 'justify-between'} w-full`}>
           <div className={`flex items-center gap-2 ${isCollapsed ? 'justify-center' : ''}`}>
-
-            <h1 className={`font-semibold text-base tracking-tight transition-opacity duration-200 ${isCollapsed ? 'hidden' : 'block'} bg-gradient-to-r from-green-500 to-blue-600 bg-clip-text text-transparent`}>
-              Employment Opportunities
-            </h1>
+            <Link href="/dashboard" className="no-underline">
+              <h1 className={`font-semibold text-base tracking-tight transition-opacity duration-200 ${isCollapsed ? 'hidden' : 'block'} bg-gradient-to-r from-green-500 to-blue-600 bg-clip-text text-transparent`}>
+                Employment Opportunities
+              </h1>
+            </Link>
           </div>
         </div>
       </SidebarHeader>

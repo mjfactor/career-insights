@@ -884,7 +884,7 @@ const ManualDetailsTab = forwardRef(function ManualDetailsTab(props, ref) {
             {/* Modern visual separator for analysis results */}
             <div className="relative flex items-center py-4">
               <div className="flex-grow border-t border-gray-200 dark:border-gray-700"></div>
-              <span className="flex-shrink-0 mx-4 text-sm font-medium text-muted-foreground bg-gradient-to-r from-primary/20 to-blue-500/20 text-primary px-4 py-1 rounded-full">Analysis Results</span>
+              <span className="flex-shrink-0 mx-4 text-sm font-medium bg-gradient-to-r from-primary/20 to-blue-500/20 text-primary px-4 py-1 rounded-full">Analysis Results</span>
               <div className="flex-grow border-t border-gray-200 dark:border-gray-700"></div>
             </div>
 

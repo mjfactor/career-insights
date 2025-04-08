@@ -23,6 +23,8 @@ import {
 } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { AlertTriangle, Upload, FileText, Info, PenLine } from "lucide-react"
+// Import Framer Motion for animations
+import { motion, AnimatePresence } from "framer-motion"
 
 export default function CareerAnalysis() {
     const [activeTab, setActiveTab] = useState("resume-upload")
@@ -109,15 +111,34 @@ export default function CareerAnalysis() {
 
             <Tabs value={activeTab} className="w-full" onValueChange={handleTabChange}>
                 <div className="px-6">
-                    <TabsList className="grid w-full grid-cols-2 mb-6 p-1.5 bg-card/50 backdrop-blur-sm border shadow-sm rounded-xl overflow-hidden">
+                    <TabsList className="grid w-full grid-cols-2 mb-6 p-1.5 bg-card/50 backdrop-blur-sm border shadow-sm rounded-xl overflow-hidden relative">
+                        {/* Animated background indicator */}
+                        <motion.div
+                            className="absolute top-1.5 bottom-1.5 rounded-lg bg-white dark:bg-zinc-800 shadow-sm z-0"
+                            initial={false}
+                            animate={{
+                                x: activeTab === "resume-upload" ? "0%" : "100%",
+                                width: "50%"
+                            }}
+                            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                        />
+
                         <TooltipProvider>
                             <Tooltip>
                                 <TooltipTrigger asChild>
                                     <TabsTrigger
                                         value="resume-upload"
-                                        className="rounded-lg px-8 py-3.5 min-h-[4rem] data-[state=active]:bg-white dark:data-[state=active]:bg-zinc-800 data-[state=active]:shadow-sm relative z-10 transition-all duration-200 hover:bg-white/50 dark:hover:bg-zinc-800/50 group"
+                                        className="rounded-lg px-8 py-3.5 min-h-[4rem] relative z-10 transition-all duration-200"
                                     >
-                                        <div className="flex flex-col items-center justify-center space-y-2 relative pb-2">
+                                        <motion.div
+                                            className="flex flex-col items-center justify-center space-y-2 relative pb-2"
+                                            initial={{ opacity: 0.8 }}
+                                            animate={{
+                                                opacity: activeTab === "resume-upload" ? 1 : 0.8,
+                                                y: activeTab === "resume-upload" ? 0 : 5
+                                            }}
+                                            transition={{ duration: 0.2 }}
+                                        >
                                             <div className="flex items-center gap-2">
                                                 <Upload className="h-5 w-5 text-primary" />
                                                 <span className="font-medium">Resume Upload</span>
@@ -125,9 +146,16 @@ export default function CareerAnalysis() {
                                             <p className="text-xs text-muted-foreground font-normal">
                                                 Upload your resume for instant analysis
                                             </p>
-                                            <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 h-0.5 w-12 bg-primary scale-0 data-[state=active]:scale-100 transition-transform duration-200" aria-hidden="true"></div>
-                                        </div>
-                                        <div className="absolute inset-0 border-2 border-primary/0 rounded-lg data-[state=active]:border-primary/20 transition-colors duration-200" aria-hidden="true"></div>
+                                            <motion.div
+                                                className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 h-0.5 w-12 bg-primary"
+                                                initial={{ scaleX: 0 }}
+                                                animate={{
+                                                    scaleX: activeTab === "resume-upload" ? 1 : 0
+                                                }}
+                                                transition={{ duration: 0.3 }}
+                                                aria-hidden="true"
+                                            />
+                                        </motion.div>
                                     </TabsTrigger>
                                 </TooltipTrigger>
                                 <TooltipContent side="bottom" className="w-[250px] p-3">
@@ -144,9 +172,17 @@ export default function CareerAnalysis() {
                                 <TooltipTrigger asChild>
                                     <TabsTrigger
                                         value="manual-details"
-                                        className="rounded-lg px-8 py-3.5 min-h-[4rem] data-[state=active]:bg-white dark:data-[state=active]:bg-zinc-800 data-[state=active]:shadow-sm relative z-10 transition-all duration-200 hover:bg-white/50 dark:hover:bg-zinc-800/50 group"
+                                        className="rounded-lg px-8 py-3.5 min-h-[4rem] relative z-10 transition-all duration-200"
                                     >
-                                        <div className="flex flex-col items-center justify-center space-y-2 relative pb-2">
+                                        <motion.div
+                                            className="flex flex-col items-center justify-center space-y-2 relative pb-2"
+                                            initial={{ opacity: 0.8 }}
+                                            animate={{
+                                                opacity: activeTab === "manual-details" ? 1 : 0.8,
+                                                y: activeTab === "manual-details" ? 0 : 5
+                                            }}
+                                            transition={{ duration: 0.2 }}
+                                        >
                                             <div className="flex items-center gap-2">
                                                 <PenLine className="h-5 w-5 text-primary" />
                                                 <span className="font-medium">Manual Details</span>
@@ -154,9 +190,16 @@ export default function CareerAnalysis() {
                                             <p className="text-xs text-muted-foreground font-normal">
                                                 Enter your information manually
                                             </p>
-                                            <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 h-0.5 w-12 bg-primary scale-0 data-[state=active]:scale-100 transition-transform duration-200" aria-hidden="true"></div>
-                                        </div>
-                                        <div className="absolute inset-0 border-2 border-primary/0 rounded-lg data-[state=active]:border-primary/20 transition-colors duration-200" aria-hidden="true"></div>
+                                            <motion.div
+                                                className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 h-0.5 w-12 bg-primary"
+                                                initial={{ scaleX: 0 }}
+                                                animate={{
+                                                    scaleX: activeTab === "manual-details" ? 1 : 0
+                                                }}
+                                                transition={{ duration: 0.3 }}
+                                                aria-hidden="true"
+                                            />
+                                        </motion.div>
                                     </TabsTrigger>
                                 </TooltipTrigger>
                                 <TooltipContent side="bottom" className="w-[250px] p-3">
