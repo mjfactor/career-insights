@@ -11,7 +11,16 @@ import {
     XAxis,
     YAxis,
     Tooltip,
-    ResponsiveContainer
+    ResponsiveContainer,
+    RadarChart,
+    PolarGrid,
+    PolarAngleAxis,
+    PolarRadiusAxis,
+    Radar,
+    LineChart,
+    Line,
+    PieChart,
+    Pie
 } from "recharts"
 import { TrendingUp, Info } from "lucide-react"
 import {
@@ -42,6 +51,8 @@ import {
 } from "@/components/ui/chart"
 import { cn } from "@/lib/utils"
 import { Tooltip as UITooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
+import { Fragment } from "react"; // Import Fragment from react
 
 // Define types for career data structure
 interface SkillItem {
@@ -75,6 +86,12 @@ interface JobRecommendation {
         upwardMobility: string;
     };
     workLifeBalance?: string;
+    randomForestInsights?: string;
+    careerPathProjections?: {
+        potentialPaths: string[];
+        requiredSteps: string[];
+        timelineEstimate: string;
+    };
 }
 
 interface CareerData {
@@ -108,6 +125,16 @@ interface CareerData {
         };
     };
     jobRecommendations: JobRecommendation[];
+    resumeImprovement?: {
+        overallAssessment: string;
+        missingElements: string[];
+        contentWeaknesses: string[];
+        actionableSteps: string[];
+        professionalResourceLinks: Array<{
+            title: string;
+            description: string;
+        }>;
+    };
 }
 
 type CareerDataVisualizerProps = {
@@ -522,6 +549,469 @@ export default function CareerDataVisualizer({ structuredData }: CareerDataVisua
                 </CardFooter>
             </Card>
 
+            {/* Skills Radar Chart */}
+            <Card className="shadow-md hover:shadow-lg transition-shadow">
+                <CardHeader>
+                    <div className="flex items-center justify-between">
+                        <CardTitle>Skills Distribution</CardTitle>
+                        <TooltipProvider>
+                            <UITooltip>
+                                <TooltipTrigger>
+                                    <Info className="h-4 w-4 text-muted-foreground" />
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                    <p className="max-w-xs">Distribution of your skills across different categories</p>
+                                </TooltipContent>
+                            </UITooltip>
+                        </TooltipProvider>
+                    </div>
+                    <CardDescription>
+                        Visualizing your technical and soft skills coverage
+                    </CardDescription>
+                </CardHeader>
+                <CardContent className="h-[400px]">
+                    {useMemo(() => {
+                        // Create data for the radar chart by categorizing skills
+                        const allCourses: Array<{
+                            title: string;
+                            duration: string;
+                            jobRole: string;
+                            category: string;
+                            hours: number;
+                        }> = [];
+
+                        // Dynamically determine categories from skill data
+                        // Extract technical skills from candidate profile for keywords
+                        const techSkills = data.candidateProfile?.coreCompetencies?.technicalSkills || [];
+                        const softSkills = data.candidateProfile?.coreCompetencies?.softSkills || [];
+
+                        // Define common categories but use skills from the actual data for keywords
+                        const categories = [
+                            {
+                                name: "Programming",
+                                keywords: techSkills
+                                    .filter(skill =>
+                                        ["java", "python", "javascript", "typescript", "c#", "c++", "coding", "html", "css"].some(
+                                            prog => skill.toLowerCase().includes(prog)
+                                        )
+                                    )
+                                    .concat(["coding", "programming", "development", "react", "angular", "vue"])
+                            },
+                            {
+                                name: "Data Science",
+                                keywords: techSkills
+                                    .filter(skill =>
+                                        ["data", "sql", "analytics", "statistics", "tableau", "power bi"].some(
+                                            data => skill.toLowerCase().includes(data)
+                                        )
+                                    )
+                                    .concat(["data", "analytics", "statistics", "visualization"])
+                            },
+                            {
+                                name: "Cloud & DevOps",
+                                keywords: techSkills
+                                    .filter(skill =>
+                                        ["aws", "azure", "gcp", "devops", "cloud", "docker", "kubernetes"].some(
+                                            cloud => skill.toLowerCase().includes(cloud)
+                                        )
+                                    )
+                                    .concat(["cloud", "devops", "infrastructure", "deployment"])
+                            },
+                            {
+                                name: "AI & ML",
+                                keywords: techSkills
+                                    .filter(skill =>
+                                        ["ai", "ml", "machine", "learning", "deep", "nlp", "artificial"].some(
+                                            ai => skill.toLowerCase().includes(ai)
+                                        )
+                                    )
+                                    .concat(["machine learning", "deep learning", "artificial intelligence", "nlp"])
+                            },
+                            {
+                                name: "Design",
+                                keywords: techSkills
+                                    .filter(skill =>
+                                        ["design", "ui", "ux", "figma", "sketch", "photoshop"].some(
+                                            design => skill.toLowerCase().includes(design)
+                                        )
+                                    )
+                                    .concat(["design", "ui", "ux", "user experience", "user interface"])
+                            },
+                            {
+                                name: "Project Management",
+                                keywords: softSkills
+                                    .filter(skill =>
+                                        ["project", "management", "agile", "scrum", "leadership", "jira"].some(
+                                            mgmt => skill.toLowerCase().includes(mgmt)
+                                        )
+                                    )
+                                    .concat(["project management", "agile", "scrum", "leadership"])
+                            },
+                        ];
+
+                        // Extract courses from all job recommendations
+                        data.jobRecommendations.forEach(job => {
+                            if (!job.skillDevelopment?.length) return;
+
+                            job.skillDevelopment.forEach(course => {
+                                // Extract hours from duration (e.g., "10h 30m" → 10.5)
+                                const durationMatch = course.duration.match(/(\d+)h(?:\s+(\d+)m)?/);
+                                const hours = durationMatch ?
+                                    parseInt(durationMatch[1]) + (durationMatch[2] ? parseInt(durationMatch[2]) / 60 : 0) :
+                                    0;
+
+                                // Determine category based on course title and description
+                                let category = "Other";
+                                for (const cat of categories) {
+                                    const titleAndDesc = (course.title + " " + (course.description || "")).toLowerCase();
+                                    if (cat.keywords.some(keyword => titleAndDesc.includes(keyword))) {
+                                        category = cat.name;
+                                        break;
+                                    }
+                                }
+
+                                allCourses.push({
+                                    title: course.title!,
+                                    duration: course.duration,
+                                    jobRole: job.roleTitle,
+                                    category,
+                                    hours
+                                });
+                            });
+                        });
+
+                        // Create pie chart data by category
+                        const pieData = Object.entries(
+                            allCourses.reduce((acc, course) => {
+                                acc[course.category] = (acc[course.category] || 0) + course.hours;
+                                return acc;
+                            }, {} as Record<string, number>)
+                        ).map(([name, hours]) => ({ name, hours }));
+
+                        // Calculate total hours
+                        const totalHours = pieData.reduce((sum, item) => sum + item.hours, 0);
+
+                        // Colors for categories - dynamically generate with fallback colors
+                        const defaultColors = [
+                            "#3b82f6", // blue
+                            "#8b5cf6", // purple
+                            "#06b6d4", // cyan
+                            "#f43f5e", // rose
+                            "#f97316", // orange
+                            "#10b981", // emerald
+                            "#6b7280"  // gray
+                        ];
+
+                        // Get unique categories from courses
+                        const uniqueCategories = [...new Set(allCourses.map(course => course.category))];
+
+                        // Generate colors for each category
+                        const categoryColors: Record<string, string> = uniqueCategories.reduce((colors, category, index) => {
+                            colors[category] = defaultColors[index % defaultColors.length];
+                            return colors;
+                        }, { "Other": "#6b7280" } as Record<string, string>);
+
+                        // Define radar chart config
+                        const radarChartConfig = Object.entries(categoryColors).reduce((config, [category, color]) => {
+                            config[category] = {
+                                theme: {
+                                    light: color,
+                                    dark: color
+                                }
+                            };
+                            return config;
+                        }, {} as Record<string, any>);
+
+                        return (
+                            <ChartContainer config={radarChartConfig}>
+                                <RadarChart outerRadius={150} width={730} height={350} data={pieData}>
+                                    <PolarGrid />
+                                    <PolarAngleAxis dataKey="name" tick={{ fill: 'var(--foreground)', fontSize: 12 }} />
+                                    <PolarRadiusAxis angle={30} domain={[0, 100]} />
+                                    <Radar
+                                        name="Skills Coverage"
+                                        dataKey="hours"
+                                        stroke={CHART_COLORS.skills}
+                                        fill={CHART_COLORS.skills}
+                                        fillOpacity={0.5}
+                                    />
+                                    <ChartTooltip content={<ChartTooltipContent />} />
+                                </RadarChart>
+                            </ChartContainer>
+                        );
+                    }, [data, technicalSkills])}
+                </CardContent>
+                <CardFooter className="flex-col items-start gap-2 text-sm">
+                    <div className="flex gap-2 font-medium leading-none">
+                        Strongest category: Programming Languages
+                    </div>
+                    <div className="leading-none text-muted-foreground">
+                        Higher coverage indicates more skills in that category
+                    </div>
+                </CardFooter>
+            </Card>
+
+            {/* AI Insights Visualization */}
+            <Card className="shadow-md hover:shadow-lg transition-shadow">
+                <CardHeader>
+                    <div className="flex items-center justify-between">
+                        <CardTitle>Random Forest Career Insights</CardTitle>
+                        <TooltipProvider>
+                            <UITooltip>
+                                <TooltipTrigger>
+                                    <Info className="h-4 w-4 text-muted-foreground" />
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                    <p className="max-w-xs">Career insights generated by our Random Forest AI algorithm</p>
+                                </TooltipContent>
+                            </UITooltip>
+                        </TooltipProvider>
+                    </div>
+                    <CardDescription>
+                        Key insights about your fit for different roles
+                    </CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <div className="grid grid-cols-1 gap-4">
+                        {data.jobRecommendations.map((job, idx) => {
+                            // Skip if no insights available
+                            if (!job.randomForestInsights) return null;
+
+                            // Extract key skills mentioned in the insights
+                            const skills = technicalSkills.filter(skill =>
+                                job.randomForestInsights?.toLowerCase().includes(skill.toLowerCase())
+                            );
+
+                            // Highlight the text with key skills
+                            let highlightedText = job.randomForestInsights || '';
+                            skills.forEach(skill => {
+                                const regex = new RegExp(skill, 'gi');
+                                highlightedText = highlightedText.replace(
+                                    regex,
+                                    `<span class="font-medium text-primary">$&</span>`
+                                );
+                            });
+
+                            return (
+                                <div
+                                    key={idx}
+                                    className="p-4 rounded-lg border bg-card transition-all"
+                                >
+                                    <div className="mb-2">
+                                        <h3 className="font-semibold text-lg">{job.roleTitle}</h3>
+                                    </div>
+
+                                    <div
+                                        className="text-sm leading-relaxed"
+                                        dangerouslySetInnerHTML={{ __html: highlightedText }}
+                                    />
+
+                                    {skills.length > 0 && (
+                                        <div className="mt-3 flex flex-wrap gap-1.5">
+                                            {skills.map(skill => (
+                                                <Badge key={skill} variant="outline">{skill}</Badge>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
+                            );
+                        })}
+                    </div>
+                </CardContent>
+                <CardFooter className="text-sm text-muted-foreground">
+                    <p>Analysis based on your skills and experience data with highlights on key matches</p>
+                </CardFooter>
+            </Card>
+
+            {/* Career Path Projections Visualization */}
+            <Card className="shadow-md hover:shadow-lg transition-shadow">
+                <CardHeader>
+                    <div className="flex items-center justify-between">
+                        <CardTitle>Career Path Projections</CardTitle>
+                        <TooltipProvider>
+                            <UITooltip>
+                                <TooltipTrigger>
+                                    <Info className="h-4 w-4 text-muted-foreground" />
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                    <p className="max-w-xs">Potential career growth paths and required steps</p>
+                                </TooltipContent>
+                            </UITooltip>
+                        </TooltipProvider>
+                    </div>
+                    <CardDescription>
+                        Projected career trajectories based on your profile
+                    </CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <div className="grid grid-cols-1 gap-6">
+                        {data.jobRecommendations.map((job, idx) => {
+                            if (!job.careerPathProjections?.potentialPaths?.length) return null;
+
+                            // Use a non-null assertion since we've checked for existence above
+                            const pathProjections = job.careerPathProjections!;
+
+                            return (
+                                <div key={idx} className="p-4 rounded-lg border bg-card">
+                                    <h3 className="text-lg font-semibold mb-2">{job.roleTitle}</h3>
+
+                                    {/* Career progression visualization */}
+                                    <div className="mt-4 mb-6">
+                                        <div className="flex items-center space-x-1">
+                                            <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-primary-foreground">
+                                                {1}
+                                            </div>
+                                            <div className="h-0.5 flex-1 bg-primary"></div>
+                                            {pathProjections.potentialPaths.map((path, pathIdx) => (
+                                                <Fragment key={pathIdx}>
+                                                    <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-primary-foreground">
+                                                        {pathIdx + 2}
+                                                    </div>
+                                                    {pathIdx < pathProjections.potentialPaths.length - 1 && (
+                                                        <div className="h-0.5 flex-1 bg-primary"></div>
+                                                    )}
+                                                </Fragment>
+                                            ))}
+                                        </div>
+
+                                        <div className="flex items-start mt-2 ml-4">
+                                            <div className="min-w-[80px] text-sm font-medium">
+                                                {job.roleTitle}
+                                            </div>
+                                            {pathProjections.potentialPaths.map((path, pathIdx) => (
+                                                <div key={pathIdx} className="flex-1 text-sm font-medium text-center">
+                                                    {path}
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+
+                                    {/* Required steps */}
+                                    {pathProjections.requiredSteps && (
+                                        <div className="mt-4">
+                                            <h4 className="text-sm font-semibold flex items-center gap-1 mb-2">
+                                                <TrendingUp className="h-4 w-4" />
+                                                Required Steps
+                                            </h4>
+                                            <ul className="space-y-1 text-sm list-disc pl-5">
+                                                {pathProjections.requiredSteps.map((step, stepIdx) => (
+                                                    <li key={stepIdx}>{step}</li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    )}
+
+                                    {/* Timeline estimate */}
+                                    {pathProjections.timelineEstimate && (
+                                        <div className="mt-4 text-sm font-medium flex items-center gap-1.5">
+                                            <span className="text-muted-foreground">Estimated Timeline:</span>
+                                            <span>{pathProjections.timelineEstimate}</span>
+                                        </div>
+                                    )}
+                                </div>
+                            );
+                        })}
+                    </div>
+                </CardContent>
+            </Card>
+
+            {/* Resume Improvement Visualization */}
+            {data.resumeImprovement && (
+                <Card className="shadow-md hover:shadow-lg transition-shadow">
+                    <CardHeader>
+                        <div className="flex items-center justify-between">
+                            <CardTitle>Resume Improvement Analysis</CardTitle>
+                            <TooltipProvider>
+                                <UITooltip>
+                                    <TooltipTrigger>
+                                        <Info className="h-4 w-4 text-muted-foreground" />
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                        <p className="max-w-xs">Recommendations to improve your resume's effectiveness</p>
+                                    </TooltipContent>
+                                </UITooltip>
+                            </TooltipProvider>
+                        </div>
+                        <CardDescription>
+                            Analysis and actionable steps to enhance your resume
+                        </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <div className="space-y-6">
+                            {/* Overall assessment */}
+                            {data.resumeImprovement.overallAssessment && (
+                                <div className="p-4 rounded-lg border bg-blue-50 dark:bg-blue-950/20 border-blue-200 dark:border-blue-900">
+                                    <h3 className="text-base font-medium mb-2">Overall Assessment</h3>
+                                    <p className="text-sm">{data.resumeImprovement.overallAssessment}</p>
+                                </div>
+                            )}
+
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                {/* Missing Elements */}
+                                {data.resumeImprovement.missingElements?.length > 0 && (
+                                    <div className="p-4 rounded-lg border border-amber-200 dark:border-amber-900 bg-amber-50 dark:bg-amber-950/20">
+                                        <h3 className="text-sm font-semibold mb-2">Missing Elements</h3>
+                                        <ul className="space-y-1 text-sm list-disc pl-5">
+                                            {data.resumeImprovement.missingElements.map((item, idx) => (
+                                                <li key={idx}>{item}</li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                )}
+
+                                {/* Content Weaknesses */}
+                                {data.resumeImprovement.contentWeaknesses?.length > 0 && (
+                                    <div className="p-4 rounded-lg border border-red-200 dark:border-red-900 bg-red-50 dark:bg-red-950/20">
+                                        <h3 className="text-sm font-semibold mb-2">Content Weaknesses</h3>
+                                        <ul className="space-y-1 text-sm list-disc pl-5">
+                                            {data.resumeImprovement.contentWeaknesses.map((item, idx) => (
+                                                <li key={idx}>{item}</li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* Action Steps Section */}
+                            {data.resumeImprovement.actionableSteps?.length > 0 && (
+                                <div className="mt-6">
+                                    <h3 className="text-base font-semibold mb-3">Action Steps</h3>
+                                    <div className="space-y-3">
+                                        {data.resumeImprovement.actionableSteps.map((step, idx) => (
+                                            <div key={idx} className="flex items-start gap-3">
+                                                <div className="w-6 h-6 rounded-full bg-primary flex items-center justify-center text-primary-foreground text-xs flex-shrink-0 mt-0.5">
+                                                    {idx + 1}
+                                                </div>
+                                                <div className="text-sm">{step}</div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* Resources Section */}
+                            {data.resumeImprovement.professionalResourceLinks?.length > 0 && (
+                                <div className="mt-6">
+                                    <h3 className="text-base font-semibold mb-3">Professional Resources</h3>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                        {data.resumeImprovement.professionalResourceLinks.map((resource, idx) => (
+                                            <div key={idx} className="p-3 border rounded-lg hover:bg-accent transition-colors">
+                                                <h4 className="text-sm font-semibold">{resource.title}</h4>
+                                                <p className="text-xs text-muted-foreground mt-1">{resource.description}</p>
+                                                <div className="mt-2">
+                                                    <Badge variant="outline" className="text-xs">
+                                                        External Resource
+                                                    </Badge>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    </CardContent>
+                </Card>
+            )}
             {/* Skill Development Time Chart */}
             <Card className="shadow-md hover:shadow-lg transition-shadow">
                 <CardHeader>
@@ -533,68 +1023,81 @@ export default function CareerDataVisualizer({ structuredData }: CareerDataVisua
                                     <Info className="h-4 w-4 text-muted-foreground" />
                                 </TooltipTrigger>
                                 <TooltipContent>
-                                    <p className="max-w-xs">Estimated hours needed to develop missing skills for each role</p>
+                                    <p className="max-w-xs">Detailed skill development requirements for each role</p>
                                 </TooltipContent>
                             </UITooltip>
                         </TooltipProvider>
                     </div>
                     <CardDescription>
-                        Training time investment needed per role
+                        Training requirements for each recommended role
                     </CardDescription>
                 </CardHeader>
-                <CardContent className="h-[400px]">
-                    <ChartContainer config={developmentChartConfig}>
-                        <BarChart
-                            accessibilityLayer
-                            data={skillDevelopmentData}
-                            margin={{
-                                top: 40,
-                                right: 40,
-                                bottom: 200,
-                                left: 40,
-                            }}
-                            barCategoryGap={20}
-                        >
-                            <CartesianGrid vertical={false} />
-                            <XAxis
-                                dataKey="name"
-                                tickLine={false}
-                                tickMargin={10}
-                                axisLine={false}
-                            />
-                            <YAxis
-                                domain={[0, (dataMax: number) => Math.ceil(dataMax * 1.1)]}
-                                tickLine={false}
-                                axisLine={false}
-                            />
-                            <ChartTooltip
-                                cursor={false}
-                                content={<ChartTooltipContent hideLabel />}
-                                formatter={(value) => [`${value}h`, "Hours"]}
-                            />
-                            <Bar
-                                dataKey="hours"
-                                fill={CHART_COLORS.development}
-                                radius={6}
-                                maxBarSize={50}
-                            >
-                                <LabelList
-                                    position="top"
-                                    offset={12}
-                                    className="fill-foreground"
-                                    fontSize={12}
-                                    formatter={(value: number) => `${value}h`}
-                                />
-                            </Bar>
-                        </BarChart>
-                    </ChartContainer>
+                <CardContent>
+                    <Tabs defaultValue={data.jobRecommendations[0]?.roleTitle || ""} className="w-full">
+                        <TabsList className="mb-4 w-full flex flex-wrap justify-start">
+                            {data.jobRecommendations.map((job) => (
+                                <TabsTrigger key={job.roleTitle} value={job.roleTitle} className="flex-shrink-0">
+                                    {job.roleTitle}
+                                </TabsTrigger>
+                            ))}
+                        </TabsList>
+                        {data.jobRecommendations.map((job) => (
+                            <TabsContent key={job.roleTitle} value={job.roleTitle} className="space-y-4">
+                                <div className="flex items-center justify-between mb-2">
+                                    <h3 className="text-lg font-semibold">{job.roleTitle}</h3>
+                                    <Badge variant="outline" className="bg-primary/10 text-primary">
+                                        {job.skillDevelopment.reduce((acc, skill) => {
+                                            const duration = skill.duration;
+                                            const hourMatch = duration.match(/(\d+)h/);
+                                            const hourValue = hourMatch ? parseInt(hourMatch[1]) : 0;
+
+                                            const minuteMatch = duration.match(/(\d+)m/);
+                                            const minuteValue = minuteMatch ? parseInt(minuteMatch[1]) / 60 : 0;
+
+                                            return acc + hourValue + minuteValue;
+                                        }, 0).toFixed(1)}h total
+                                    </Badge>
+                                </div>
+                                <div className="space-y-4">
+                                    {job.skillDevelopment.map((skill, idx) => (
+                                        <div key={idx} className="border rounded-lg p-4 bg-card hover:shadow-sm transition-shadow">
+                                            <div className="flex items-start justify-between">
+                                                <div>
+                                                    <h4 className="font-medium">{skill.title || `Skill Development ${idx + 1}`}</h4>
+                                                    <p className="text-sm text-muted-foreground mt-1">{skill.description || "No description available"}</p>
+                                                </div>
+                                                <Badge variant="secondary" className="ml-2 flex-shrink-0">
+                                                    {skill.duration}
+                                                </Badge>
+                                            </div>
+                                            {skill.link && (
+                                                <div className="mt-3 pt-3 border-t">
+                                                    <a
+                                                        href={skill.link}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        className="text-sm text-primary hover:underline flex items-center gap-1"
+                                                    >
+                                                        <TrendingUp className="h-3 w-3" />
+                                                        Learn more
+                                                    </a>
+                                                </div>
+                                            )}
+                                        </div>
+                                    ))}
+                                </div>
+                                {job.skillDevelopment.length === 0 && (
+                                    <div className="text-center py-8 text-muted-foreground">
+                                        No skill development information available for this role.
+                                    </div>
+                                )}
+                            </TabsContent>
+                        ))}
+                    </Tabs>
                 </CardContent>
                 <CardFooter className="flex-col items-start gap-2 text-sm">
-                    <div className="flex gap-2 font-medium leading-none">
-                        Quickest path: {skillDevelopmentData[skillDevelopmentData.length - 1]?.name || "Software Engineer"}
-                    </div>
                     <div className="leading-none text-muted-foreground">
-                        Lower hours indicate less training needed to qualify for the role
+                        Focus on developing these skills to qualify for each role
                     </div>
                 </CardFooter>
             </Card>
