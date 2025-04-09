@@ -775,33 +775,8 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
                 </div>
               </div>
 
-              {/* Tab */}
+              {/* Text Analysis Content */}
               {structuredData && (
-                <div className="mb-5">
-                  <Tabs value={resultsView} onValueChange={(v) => setResultsView(v as "text" | "visualization")}>
-                    <TabsList className="grid w-full grid-cols-2 max-w-[400px] mx-auto">
-                      <TabsTrigger value="text" className="text-sm">
-                        <span className="flex items-center gap-1.5">
-                          <FileText className="h-3.5 w-3.5" />
-                          Text Analysis
-                        </span>
-                      </TabsTrigger>
-                      <TabsTrigger value="visualization" className="text-sm">
-                        <span className="flex items-center gap-1.5">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-bar-chart">
-                            <line x1="12" x2="12" y1="20" y2="10"></line>
-                            <line x1="18" x2="18" y1="20" y2="4"></line>
-                            <line x1="6" x2="6" y1="20" y2="16"></line>
-                          </svg>
-                          Data Visualization
-                        </span>
-                      </TabsTrigger>
-                    </TabsList>
-                  </Tabs>
-                </div>
-              )}
-
-              {(!structuredData || resultsView === "text") && (
                 <motion.div
                   initial={{ y: 30, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
@@ -842,16 +817,21 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
                     {analysisResult}
                   </ReactMarkdown>
                 </motion.div>
-              )}
-
-              {structuredData && resultsView === "visualization" && (
-                <motion.div
-                  initial={{ y: 30, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ delay: 0.3, duration: 0.4 }}
-                >
-                  <CareerDataVisualizer structuredData={structuredData} />
-                </motion.div>
+              )}              {structuredData && !isStreaming && (
+                <>
+                  <div className="relative flex items-center py-4 mt-8">
+                    <div className="flex-grow border-t border-gray-200 dark:border-gray-700"></div>
+                    <span className="flex-shrink-0 mx-4 text-sm font-medium bg-gradient-to-r from-primary/20 to-blue-500/20 text-primary px-4 py-1 rounded-full">Data Summary</span>
+                    <div className="flex-grow border-t border-gray-200 dark:border-gray-700"></div>
+                  </div>
+                  <motion.div
+                    initial={{ y: 30, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ delay: 0.3, duration: 0.4 }}
+                  >
+                    <CareerDataVisualizer structuredData={structuredData} />
+                  </motion.div>
+                </>
               )}
 
               {analysisError && (
