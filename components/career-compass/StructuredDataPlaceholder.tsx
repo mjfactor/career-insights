@@ -12,7 +12,7 @@ export default function StructuredDataPlaceholder() {
     const totalSteps = 4
 
     // Duration for each step in seconds (total ~30 seconds)
-    const stepDuration = 7.5
+    const stepDuration = 10
 
     useEffect(() => {
         // Function to advance to next step

@@ -92,7 +92,7 @@ export default function VideoDemo({ videoSources }: VideoDemoProps) {
                 🎬
               </motion.div>
               <div>
-                <h2 className="text-2xl font-bold">Feature Showcase</h2>
+                <h2 className="text-2xl font-bold">Watch the Demo</h2>
                 <p className="text-muted-foreground">Watch how our tools can transform your career journey</p>
               </div>
             </div>
