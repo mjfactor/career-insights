@@ -10,6 +10,7 @@ import FeatureCard from "@/components/landing-page/feature-card"
 import { motion, useScroll, useTransform } from "framer-motion"
 import AIFlowDiagram from "@/components/landing-page/ai-flow-diagram"
 import { cn } from "@/lib/utils"
+import LandingVideoDemo from "@/components/landing-page/landing-video-demo"
 
 export default function LandingPage() {
     const [scrollY, setScrollY] = useState(0)
@@ -321,6 +322,41 @@ export default function LandingPage() {
                         </motion.div>
                     </div>
                 </section>
+
+                {/* Video Demo Section */}
+                <motion.section 
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.8 }}
+                    className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20"
+                >
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.5 }}
+                        className="text-center mb-16"
+                    >
+                        <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">See Our Platform in Action</h2>
+                        <p className="text-zinc-300 max-w-2xl mx-auto">
+                            Watch how our tools can transform your career journey with AI-powered insights and guidance.
+                        </p>
+                    </motion.div>
+
+                    <div className="relative">
+                        <div className="absolute -top-40 -left-40 h-80 w-80 rounded-full bg-green-500/10 blur-[100px]"></div>
+                        <div className="absolute -bottom-40 -right-40 h-80 w-80 rounded-full bg-green-500/10 blur-[100px]"></div>
+                        
+                        <div className="relative py-8 rounded-xl border border-zinc-800 bg-zinc-900/30 backdrop-blur-sm shadow-2xl overflow-hidden">
+                            <LandingVideoDemo videoSources={{
+                                careerCompass: "/videos/career-compass-demo.mp4",
+                                aggregator: "/videos/aggregator-demo.mp4",
+                                chatbot: "/videos/chatbot-demo.mp4"
+                            }} />
+                        </div>
+                    </div>
+                </motion.section>
 
                 {/* Call to action section */}
                 <motion.section
