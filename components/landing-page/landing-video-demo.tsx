@@ -4,7 +4,6 @@ import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Badge } from "@/components/ui/badge"
 import { Play, ChevronRight } from 'lucide-react'
-import { cn } from '@/lib/utils'
 
 interface LandingVideoDemoProps {
   videoSources: {
@@ -22,7 +21,6 @@ export default function LandingVideoDemo({ videoSources }: LandingVideoDemoProps
 
   const featureIcons: Record<FeatureKey, string> = {
     "career-compass": "🧭",
-    
     "chatbot": "🤖",
     "aggregator": "🔍",
   }
@@ -38,7 +36,7 @@ export default function LandingVideoDemo({ videoSources }: LandingVideoDemoProps
     }
   }
 
-  const itemVariants = {
+  const itemVariants = {        
     hidden: { y: 20, opacity: 0 },
     visible: {
       y: 0,

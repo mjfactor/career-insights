@@ -297,17 +297,15 @@ export default function AuthModal({ mode, children, className }: AuthModalProps)
                     <Label htmlFor="password-login" className="text-sm text-zinc-300">
                       Password
                     </Label>
-                    <Button
-                      variant="link"
-                      className="p-0 h-auto text-xs text-green-500"
-                      onClick={(e) => {
-                        e.preventDefault();
+                    <span 
+                      className="text-xs text-green-500 cursor-pointer hover:underline"
+                      onClick={() => {
                         setOpen(false);
                         router.push("/forgot-password");
                       }}
                     >
                       Forgot password?
-                    </Button>
+                    </span>
                   </div>
                   <div className="relative">
                     <Lock className="absolute left-3 top-2.5 h-4 w-4 text-zinc-500" />
