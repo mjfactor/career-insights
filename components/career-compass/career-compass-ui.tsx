@@ -3,8 +3,8 @@
 import { useState, useRef } from "react"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Card, CardContent } from "@/components/ui/card"
-import ResumeUploadTab from "@/components/career-compass/resume-upload-tab"
-import ManualDetailsTab from "@/components/career-compass/manual-details-tab"
+import ResumeUploadTab from "@/components/career-compass/resume-upload/resume-upload-tab"
+import ManualDetailsTab from "@/components/career-compass/manual-details/manual-details-tab"
 // Import tooltip components for enhanced UI
 import {
     Tooltip,
@@ -26,7 +26,13 @@ import { AlertTriangle, Upload, FileText, Info, PenLine } from "lucide-react"
 // Import Framer Motion for animations
 import { motion, AnimatePresence } from "framer-motion"
 
-export default function CareerAnalysis() {
+export default function CareerAnalysis({
+    id,
+    userId,
+}: {
+    id: any
+    userId: any
+}) {
     const [activeTab, setActiveTab] = useState("resume-upload")
 
     // Add refs to access tab components

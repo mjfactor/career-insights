@@ -8,14 +8,13 @@ import { Upload, FileText, AlertCircle, CheckCircle, X, StopCircle, AlertTriangl
 import { cn } from "@/lib/utils"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Progress } from "@/components/ui/progress"
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { motion, AnimatePresence } from "framer-motion"
 import mammoth from 'mammoth'
 import { validateResumeFile, validateResumeText } from "@/lib/actions/resume-validator"
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
-import StructuredDataPlaceholder from "./StructuredDataPlaceholder"
-import CareerDataVisualizer from "@/components/career-compass/CareerDataVisualizer"
+import StructuredDataPlaceholder from "./ResumeDataPlaceholder"
+import CareerDataVisualizer from "@/components/career-compass/resume-upload/ResumeDataVisualizer"
 import { toast } from "sonner"
 import {
   Tooltip,

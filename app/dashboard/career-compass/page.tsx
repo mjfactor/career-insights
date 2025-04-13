@@ -12,6 +12,8 @@ import { auth } from "@/auth"
 import { ModeToggle } from "@/components/dark-light-toggle/theme-toggle"
 import { Metadata } from "next"
 import CareerAnalysis from "@/components/career-compass/career-compass-ui"
+import { generateId } from 'ai'
+
 
 export const metadata: Metadata = {
   title: "Career Compass | Employment Opportunities",
@@ -23,6 +25,8 @@ export default async function Page() {
   if (!session) {
     redirect("/")
   }
+  const userId = session.user?.id
+  const id = generateId()
 
   return (
     <SidebarProvider>
@@ -32,7 +36,6 @@ export default async function Page() {
           <div className="flex items-center gap-2 px-4">
             <SidebarTrigger className="-ml-1" />
             <ModeToggle />
-
             <Breadcrumb>
               <BreadcrumbList>
                 <BreadcrumbItem className="hidden md:block">
@@ -46,7 +49,7 @@ export default async function Page() {
             </Breadcrumb>
           </div>
         </header>
-        <CareerAnalysis />
+        <CareerAnalysis id={id} userId={userId} />
       </SidebarInset>
     </SidebarProvider>
   )
