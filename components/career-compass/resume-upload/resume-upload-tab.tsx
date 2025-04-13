@@ -14,7 +14,7 @@ import { validateResumeFile, validateResumeText } from "@/lib/actions/resume-val
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import StructuredDataPlaceholder from "./ResumeDataPlaceholder"
-import CareerDataVisualizer from "@/components/career-compass/ResumeDataVisualizer"
+import CareerDataVisualizer from "@/components/career-compass/resume-upload/ResumeDataVisualizer"
 import { toast } from "sonner"
 import {
   Tooltip,
