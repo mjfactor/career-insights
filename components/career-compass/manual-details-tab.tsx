@@ -17,7 +17,6 @@ import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 
 import { Switch } from "@/components/ui/switch"
-import StructuredDataPlaceholder from "./StructuredDataPlaceholder"
 import ManualDetailsPlaceholder from "./ManualDetailsPlaceholder"
 import ManualDataVisualizer from "./ManualDataVisualizer"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"

@@ -13,8 +13,8 @@ import mammoth from 'mammoth'
 import { validateResumeFile, validateResumeText } from "@/lib/actions/resume-validator"
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
-import StructuredDataPlaceholder from "./StructuredDataPlaceholder"
-import CareerDataVisualizer from "@/components/career-compass/CareerDataVisualizer"
+import StructuredDataPlaceholder from "./ResumeDataPlaceholder"
+import CareerDataVisualizer from "@/components/career-compass/ResumeDataVisualizer"
 import { toast } from "sonner"
 import {
   Tooltip,
