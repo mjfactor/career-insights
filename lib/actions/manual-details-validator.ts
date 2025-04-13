@@ -13,8 +13,8 @@ type ValidationResult = {
 };
 
 /**
- * Validates if the provided content contains valid educational credentials and skills
- * @param text Text content containing user's educational background and skills
+ * Validates if the provided content contains sufficient education and skills information
+ * @param text Text content containing user's education, skills, and optional additional information
  * @returns Validation result with isValid flag
  */
 export async function validateResumeText(text: string): Promise<ValidationResult> {
@@ -29,14 +29,17 @@ export async function validateResumeText(text: string): Promise<ValidationResult
 
         // Prepare the validation prompt
         const prompt = `
-            Analyze the following text that contains educational credentials and skills information. 
-            Determine if it contains sufficient information for career analysis. The text should include:
+            Analyze the following text that contains professional background information. 
+            Determine if it contains sufficient information for a basic career analysis.
             
-            1. At least some educational background details (degree, courses, certification, etc.)
-            2. At least some skills information
+            For a valid submission, the text MUST include:
+            1. Education information (degree, diploma, or qualification)
+            2. Skills information (at least 2-5 relevant skills)
+            
+            Any additional personal information is optional and not required for validation.
 
-            Only respond with "VALID" if the text contains sufficient information for both education and skills, 
-            or "INVALID: [reason]" if the information is insufficient.
+            Only respond with "VALID" if the text contains sufficient education and skills information, 
+            or "INVALID: [reason]" if either education or skills information is missing or too vague.
 
             Text to analyze:
             ${text}
@@ -55,10 +58,10 @@ export async function validateResumeText(text: string): Promise<ValidationResult
             message: result.text.trim()
         };
     } catch (error) {
-        console.error('Error validating credentials:', error);
+        console.error('Error validating professional information:', error);
         return {
             isValid: false,
-            error: error instanceof Error ? error.message : 'Failed to validate credentials'
+            error: error instanceof Error ? error.message : 'Failed to validate professional information'
         };
     }
 }

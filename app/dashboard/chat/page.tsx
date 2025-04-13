@@ -28,7 +28,7 @@ export default async function ChatPage() {
 
   const id = generateId()
 
-  const userId = session.user?.id || 'anonymous'
+  const userId = session.user?.id
 
   return (
     <SidebarProvider>

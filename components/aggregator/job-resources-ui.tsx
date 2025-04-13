@@ -101,7 +101,7 @@ export default function JobResourcesUI({ resources }: JobResourcesUIProps) {
             <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-950/30 dark:to-indigo-950/30 p-6 rounded-xl shadow-sm">
                 <div className="flex items-center gap-3 mb-2">
                     <BookOpen className="h-6 w-6 text-indigo-600 dark:text-indigo-400" />
-                    <h1 className="text-2xl font-bold">Job Resources</h1>
+                    <h1 className="text-2xl font-bold">Aggregator</h1>
                 </div>
                 <p className="text-muted-foreground">
                     Browse through {totalResources} curated resources to help with your job search.

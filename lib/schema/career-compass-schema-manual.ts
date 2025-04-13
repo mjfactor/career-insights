@@ -6,11 +6,6 @@ const LinkSchema = z.object({
   url: z.string().describe("Direct URL to the search results or resource")
 });
 
-const ProfessionalResourceLinkSchema = z.object({
-  title: z.string().describe("Title of the resource"),
-  description: z.string().describe("Brief description of how this resource helps"),
-  link: z.string().describe("URL to the helpful resource")
-});
 
 const SkillDevelopmentResourceSchema = z.object({
   title: z.string().describe("Title of the course, certification, tutorial, or book"),
@@ -33,7 +28,7 @@ export const CandidateAnalysisManualSchema = z.object({
         skillGaps: z.array(z.string()).describe("Required skills the candidate may lack"),
         experienceMatch: z.string().describe("Alignment of work experience"),
         educationMatch: z.string().describe("Relevance of education"),
-        cultureFit: z.string().describe("Potential alignment with typical role/industry culture")
+        cultureFit: z.string().describe("Potential alignment with typical role/industry culture"),
       }).describe("Candidate fit assessment for the role"),
       salaryBenchmarks: z.object({
         description: z.string().default("For more accurate salary estimates, consider using the following resources:"),
@@ -57,5 +52,11 @@ export const CandidateAnalysisManualSchema = z.object({
       randomForestInsights: z.string().describe("Come up with an explanation of how the model arrived at this recommendation"),
       workLifeBalance: z.string().describe("Typical work-life balance for the role")
     }).describe("Detailed job recommendation")
-  ).min(3).max(7).describe("List of 3 to 7 detailed job recommendations"),
+  ).min(3).max(4).describe("List of 3 to 4 detailed job recommendations"),
+  overallEvaluation: z.object({
+    jobFitScores: z.object({
+      jobTitle: z.string().describe("Title of the job"),
+      score: z.number().describe("Fit score for the job"),
+    }).array().describe("Fit scores for each recommended job")
+  }).describe("Overall summary")
 }).describe("Comprehensive analysis job recommendations");

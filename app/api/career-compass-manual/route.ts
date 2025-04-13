@@ -56,39 +56,6 @@ Format exactly as follows:
 Format as:
 - Job Title: Percentage
 
-### 💪 Market Positioning
-- **Competitive Advantages**: List the candidate's strongest selling points
-- **Improvement Areas**: Note areas that would strengthen marketability
-
-### 🎯 Interview Readiness
-- **Common Questions**: List likely interview questions
-- **Suggested Talking Points**: Key experiences to highlight
-
-### 🌐 Personal Branding Suggestions
-- Ways to strengthen professional presence
-
----
-## Resume Improvement Guidance
-**ONLY INCLUDE THIS SECTION when the JSON contains a "resumeImprovement" section**
-
-### 📝 Resume Assessment
-- Overall assessment of the resume's current state
-- Critical missing elements
-- Formatting and presentation issues
-
-### 🚩 Content Weaknesses
-- List specific areas where content could be strengthened
-- Examples of vague statements that could be made more concrete
-- Missing quantifiable achievements
-
-### ✅ Actionable Steps to Improve
-- Format each step clearly as a numbered list
-- Include specific guidance for improving each section
-- Provide examples of stronger resume content where possible
-
-### 📚 Professional Resources
-Format resources as links:
-- [Resource Title](Link) - Brief description
 `;
 
 

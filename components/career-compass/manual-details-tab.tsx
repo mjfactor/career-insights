@@ -18,6 +18,8 @@ import remarkGfm from 'remark-gfm'
 
 import { Switch } from "@/components/ui/switch"
 import StructuredDataPlaceholder from "./StructuredDataPlaceholder"
+import ManualDetailsPlaceholder from "./ManualDetailsPlaceholder"
+import ManualDataVisualizer from "./ManualDataVisualizer"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 // Import the validation function
 import { validateResumeText } from '@/lib/actions/manual-details-validator'
@@ -34,6 +36,7 @@ interface JobExperience {
 interface FormErrors {
   courseInfo?: string
   skills?: string
+  aboutYourself?: string
   jobExperiences: {
     [key: string]: {
       title?: string
@@ -49,6 +52,7 @@ interface FormErrors {
 const ManualDetailsTab = forwardRef(function ManualDetailsTab(props, ref) {
   const [courseInfo, setCourseInfo] = useState("")
   const [skills, setSkills] = useState("")
+  const [aboutYourself, setAboutYourself] = useState("")
   const [hasJobExperience, setHasJobExperience] = useState(false)
   const [jobExperiences, setJobExperiences] = useState<JobExperience[]>([
     {
@@ -67,10 +71,12 @@ const ManualDetailsTab = forwardRef(function ManualDetailsTab(props, ref) {
   const [touched, setTouched] = useState<{
     courseInfo: boolean
     skills: boolean
+    aboutYourself: boolean
     jobExperiences: { [key: string]: { [field: string]: boolean } }
   }>({
     courseInfo: false,
     skills: false,
+    aboutYourself: false,
     jobExperiences: {},
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -83,6 +89,8 @@ const ManualDetailsTab = forwardRef(function ManualDetailsTab(props, ref) {
   const [analysisError, setAnalysisError] = useState<string | null>(null)
   // Add a state to track the analysis phase
   const [analysisPhase, setAnalysisPhase] = useState<"structured" | "markdown" | null>(null)
+  // Add state to store structured data
+  const [structuredData, setStructuredData] = useState<any>(null)
 
   // Ref to track if component is mounted
   const isMounted = useRef(true)
@@ -125,7 +133,7 @@ const ManualDetailsTab = forwardRef(function ManualDetailsTab(props, ref) {
   // Validate form on changes
   useEffect(() => {
     validateForm()
-  }, [courseInfo, skills, jobExperiences, hasJobExperience])
+  }, [courseInfo, skills, aboutYourself, jobExperiences, hasJobExperience])
 
   const validateForm = () => {
     const newErrors: FormErrors = {
@@ -144,6 +152,8 @@ const ManualDetailsTab = forwardRef(function ManualDetailsTab(props, ref) {
       newErrors.skills = "Skills are required"
       isValid = false
     }
+
+    // About yourself is optional, no validation needed
 
     // Validate job experiences only if user has indicated they have job experience
     if (hasJobExperience) {
@@ -268,10 +278,12 @@ const ManualDetailsTab = forwardRef(function ManualDetailsTab(props, ref) {
     const allTouched: {
       courseInfo: boolean;
       skills: boolean;
+      aboutYourself: boolean;
       jobExperiences: { [key: string]: { [field: string]: boolean } };
     } = {
       courseInfo: true,
       skills: true,
+      aboutYourself: true,
       jobExperiences: {},
     }
 
@@ -308,7 +320,7 @@ const ManualDetailsTab = forwardRef(function ManualDetailsTab(props, ref) {
 
     try {
       // Format manually entered data into a resume-like text format
-      const formattedData = formatResumeData(courseInfo, skills, jobExperiences)
+      const formattedData = formatResumeData(courseInfo, skills, aboutYourself, jobExperiences)
 
       // First validate if the content is suitable for career analysis
       console.log("Validating content suitability for career analysis...")
@@ -365,6 +377,8 @@ const ManualDetailsTab = forwardRef(function ManualDetailsTab(props, ref) {
       // Parse the structured data
       const structuredData = await structuredResponse.json();
       console.log("Structured data received:", structuredData);
+      // Save the structured data to state
+      setStructuredData(structuredData);
 
       // STEP 2: Now pass the structured data to the main endpoint for markdown formatting
       console.log("Step 2: Getting formatted markdown...");
@@ -452,13 +466,20 @@ const ManualDetailsTab = forwardRef(function ManualDetailsTab(props, ref) {
       setIsAnalyzing(false);
       setIsStreaming(false);
       setAnalysisPhase(null); // Reset the analysis phase
+      setStructuredData(null); // Reset structured data
     }
   };
 
   // Format the manually entered data into a resume-like text format
-  const formatResumeData = (courseInfo: string, skills: string, jobs: JobExperience[]): string => {
+  const formatResumeData = (courseInfo: string, skills: string, aboutYourself: string, jobs: JobExperience[]): string => {
     // Start building the formatted text
     let formattedText = "RESUME\n\n"
+
+    // About section - only include if user has provided information
+    if (aboutYourself.trim()) {
+      formattedText += "ADDITIONAL INFORMATION\n"
+      formattedText += aboutYourself + "\n\n"
+    }
 
     // Education section
     formattedText += "EDUCATION\n"
@@ -491,18 +512,8 @@ const ManualDetailsTab = forwardRef(function ManualDetailsTab(props, ref) {
     return formattedText
   }
 
-  // Add a reference to the analysis results container
-  const analysisContainerRef = useRef<HTMLDivElement>(null);
 
-  // Function to scroll to the bottom of the analysis
-  const scrollToBottom = () => {
-    if (analysisContainerRef.current) {
-      analysisContainerRef.current.scrollIntoView({
-        behavior: "smooth",
-        block: "end"
-      });
-    }
-  };
+
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
@@ -532,7 +543,7 @@ const ManualDetailsTab = forwardRef(function ManualDetailsTab(props, ref) {
           <div className="space-y-1.5" data-error={!!errors.courseInfo && isFieldTouched("courseInfo")}>
             <div className="flex justify-between items-center">
               <Label htmlFor="course-info" className="flex items-center gap-1 text-sm">
-                Course Information
+                Education
                 <span className="text-red-500">*</span>
               </Label>
               {errors.courseInfo && isFieldTouched("courseInfo") && (
@@ -544,11 +555,11 @@ const ManualDetailsTab = forwardRef(function ManualDetailsTab(props, ref) {
             </div>
             <Textarea
               id="course-info"
-              placeholder="Enter your educational background and courses"
+              placeholder="Enter your highest level of education, e.g., 'Bachelor of Science in Computer Science', 'Master of Business Administration', 'Associate Degree in Nursing'"
               value={courseInfo}
               onChange={(e) => setCourseInfo(e.target.value)}
               onBlur={() => markFieldAsTouched("courseInfo")}
-              className={`min-h-[80px] text-sm ${errors.courseInfo && isFieldTouched("courseInfo") ? "border-red-500 focus-visible:ring-red-500" : ""}`}
+              className={`min-h-[100px] text-sm ${errors.courseInfo && isFieldTouched("courseInfo") ? "border-red-500 focus-visible:ring-red-500" : ""}`}
             />
           </div>
 
@@ -567,11 +578,27 @@ const ManualDetailsTab = forwardRef(function ManualDetailsTab(props, ref) {
             </div>
             <Textarea
               id="skills"
-              placeholder="List your skills (e.g., JavaScript, Project Management, Data Analysis)"
+              placeholder="List your professional skills relevant to your career field. Examples: 'Project Management, Team Leadership, Microsoft Office, Data Analysis, Customer Service, Sales, Public Speaking'"
               value={skills}
               onChange={(e) => setSkills(e.target.value)}
               onBlur={() => markFieldAsTouched("skills")}
-              className={`min-h-[80px] text-sm ${errors.skills && isFieldTouched("skills") ? "border-red-500 focus-visible:ring-red-500" : ""}`}
+              className={`min-h-[100px] text-sm ${errors.skills && isFieldTouched("skills") ? "border-red-500 focus-visible:ring-red-500" : ""}`}
+            />
+          </div>
+
+          <div className="space-y-1.5">
+            <div className="flex justify-between items-center">
+              <Label htmlFor="about-yourself" className="flex items-center gap-1 text-sm">
+                Additional Information
+                <span className="text-muted-foreground ml-1 text-xs">(Optional)</span>
+              </Label>
+            </div>
+            <Textarea
+              id="about-yourself"
+              placeholder="Share any additional information about yourself, career goals, or other relevant details you'd like to include in your analysis."
+              value={aboutYourself}
+              onChange={(e) => setAboutYourself(e.target.value)}
+              className="min-h-[100px] text-sm"
             />
           </div>
         </div>
@@ -802,11 +829,11 @@ const ManualDetailsTab = forwardRef(function ManualDetailsTab(props, ref) {
                           </div>
                           <Textarea
                             id={`description-${job.id}`}
-                            placeholder="Describe your responsibilities and achievements"
+                            placeholder="Provide detailed information about your responsibilities, achievements, and the impact of your work. Include specific projects, methodologies used, and quantifiable results where possible. For example: 'Managed a team of 7 sales representatives, exceeding quarterly targets by 15%. Developed and implemented a new client onboarding process that reduced client churn by 25% and improved satisfaction ratings.'"
                             value={job.description}
                             onChange={(e) => updateJobExperience(job.id, "description", e.target.value)}
                             onBlur={() => markFieldAsTouched("jobExperiences", job.id, "description")}
-                            className={`min-h-[60px] text-sm ${jobErrors.description && isFieldTouched("jobExperiences", job.id, "description") ? "border-red-500 focus-visible:ring-red-500" : ""}`}
+                            className={`min-h-[100px] text-sm ${jobErrors.description && isFieldTouched("jobExperiences", job.id, "description") ? "border-red-500 focus-visible:ring-red-500" : ""}`}
                           />
                         </div>
                       </CardContent>
@@ -867,7 +894,7 @@ const ManualDetailsTab = forwardRef(function ManualDetailsTab(props, ref) {
             transition={{ duration: 0.4 }}
             className="mt-6"
           >
-            <StructuredDataPlaceholder />
+            <ManualDetailsPlaceholder />
           </motion.div>
         )}
 
@@ -879,7 +906,6 @@ const ManualDetailsTab = forwardRef(function ManualDetailsTab(props, ref) {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.4 }}
             className="mt-6"
-            ref={analysisContainerRef}
           >
             {/* Modern visual separator for analysis results */}
             <div className="relative flex items-center py-4">
@@ -955,6 +981,24 @@ const ManualDetailsTab = forwardRef(function ManualDetailsTab(props, ref) {
                   </Alert>
                 </motion.div>
               )}
+
+              {/* Data Visualization Section - only show when analysis is complete */}
+              {!isStreaming && analysisResult && structuredData?.jobRecommendations && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2, duration: 0.5 }}
+                  className="mt-8 pt-4 border-t border-gray-200 dark:border-gray-700"
+                >
+                  <div className="relative flex items-center py-4 mb-6">
+                    <div className="flex-grow border-t border-gray-200 dark:border-gray-700"></div>
+                    <span className="flex-shrink-0 mx-4 text-sm font-medium bg-gradient-to-r from-primary/20 to-blue-500/20 text-primary px-4 py-1 rounded-full">Career Data Visualization</span>
+                    <div className="flex-grow border-t border-gray-200 dark:border-gray-700"></div>
+                  </div>
+
+                  <ManualDataVisualizer jobRecommendations={structuredData.jobRecommendations} />
+                </motion.div>
+              )}
             </div>
           </motion.div>
         )}
@@ -968,7 +1012,6 @@ const ManualDetailsTab = forwardRef(function ManualDetailsTab(props, ref) {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 10 }}
             transition={{ duration: 0.2 }}
-            onClick={scrollToBottom}
             className="fixed bottom-6 right-6 p-2 rounded-full bg-primary text-primary-foreground shadow-lg hover:bg-primary/90 hover:shadow-xl transition-all z-50 flex items-center justify-center"
             aria-label="Scroll to bottom of analysis"
           >

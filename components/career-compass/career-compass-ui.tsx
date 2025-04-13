@@ -26,7 +26,13 @@ import { AlertTriangle, Upload, FileText, Info, PenLine } from "lucide-react"
 // Import Framer Motion for animations
 import { motion, AnimatePresence } from "framer-motion"
 
-export default function CareerAnalysis() {
+export default function CareerAnalysis({
+    id,
+    userId,
+}:{
+    id: any
+    userId: any
+}) {
     const [activeTab, setActiveTab] = useState("resume-upload")
 
     // Add refs to access tab components
