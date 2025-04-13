@@ -8,7 +8,6 @@ import { Upload, FileText, AlertCircle, CheckCircle, X, StopCircle, AlertTriangl
 import { cn } from "@/lib/utils"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Progress } from "@/components/ui/progress"
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { motion, AnimatePresence } from "framer-motion"
 import mammoth from 'mammoth'
 import { validateResumeFile, validateResumeText } from "@/lib/actions/resume-validator"
