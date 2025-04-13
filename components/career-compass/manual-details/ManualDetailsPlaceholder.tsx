@@ -12,7 +12,7 @@ export default function ManualDetailsPlaceholder() {
     const totalSteps = 4
 
     // Duration for each step in seconds (total ~15-20 seconds)
-    const stepDuration = 3
+    const stepDuration = 5
 
     useEffect(() => {
         // Function to advance to next step

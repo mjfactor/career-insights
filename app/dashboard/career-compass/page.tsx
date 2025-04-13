@@ -49,7 +49,7 @@ export default async function Page() {
             </Breadcrumb>
           </div>
         </header>
-        <CareerAnalysis id={id} userId={userId}  />
+        <CareerAnalysis id={id} userId={userId} />
       </SidebarInset>
     </SidebarProvider>
   )
