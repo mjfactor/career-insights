@@ -511,9 +511,6 @@ const ManualDetailsTab = forwardRef(function ManualDetailsTab(props, ref) {
     return formattedText
   }
 
-
-
-
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div>
@@ -1004,20 +1001,7 @@ const ManualDetailsTab = forwardRef(function ManualDetailsTab(props, ref) {
       </AnimatePresence>
 
       {/* Scroll to bottom button - only shows during analysis */}
-      <AnimatePresence>
-        {isAnalyzing && (
-          <motion.button
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 10 }}
-            transition={{ duration: 0.2 }}
-            className="fixed bottom-6 right-6 p-2 rounded-full bg-primary text-primary-foreground shadow-lg hover:bg-primary/90 hover:shadow-xl transition-all z-50 flex items-center justify-center"
-            aria-label="Scroll to bottom of analysis"
-          >
-            <ArrowDown className="h-4 w-4" />
-          </motion.button>
-        )}
-      </AnimatePresence>
+     
     </form>
   )
 });
