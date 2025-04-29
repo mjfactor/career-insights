@@ -1,0 +1,156 @@
+flowchart TB
+    %% Main User Entry Point
+    Start([Start]) ==> CheckSession{Has Session Token?}
+
+    %% Session Check Logic
+    CheckSession -- No --> LandingPage[Landing Page]
+    CheckSession -- Yes --> Dashboard[User Dashboard]
+
+    %% Authentication Flows (Initiated from Landing Page if no session)
+    subgraph Authentication
+        direction TB
+        LandingPage ==> AuthModal[Authentication Modal]
+        AuthModal ==> Login{Login or Signup?}
+        
+        %% Login Flow
+        Login -->|Login| CredentialsLogin[Email & Password]
+        Login -->|Signup| SignupForm[Registration Form]
+        Login -->|OAuth| GoogleLogin[Google Authentication]
+        CredentialsLogin --> CheckVerification[Check Email Verification]
+        
+        %% Login Verification Process
+        CheckVerification -->|Verified| LoginSuccess[Login Success]
+        CheckVerification -->|Not Verified| VerificationNeeded[Email Verification Needed]
+        VerificationNeeded --> SendVerificationEmail[Send Verification Email]
+        SendVerificationEmail --> UserEmail[(User's Email)]
+        
+        %% Signup Flow
+        SignupForm --> ValidateSignup[Validate Inputs]
+        ValidateSignup --> CreateUser[Create User Account]
+        CreateUser --> SendVerificationEmail
+        
+        %% Password Reset Flow
+        LandingPage -->|Forgot Password| ForgotPassword[Forgot Password Form]
+        ForgotPassword --> ValidateEmail[Validate Email]
+        ValidateEmail --> SendResetLink[Send Reset Link]
+        SendResetLink --> UserEmail
+        
+        %% Verification and Success Paths
+        UserEmail -->|Click Reset Link| ResetPassword[Reset Password Form]
+        ResetPassword --> UpdatePassword[Update Password]
+        UserEmail -->|Click Verification Link| VerifyAccount[Verify Account]
+        
+        %% Success Paths
+        VerifyAccount ==> LoginSuccess
+        GoogleLogin ==> LoginSuccess
+        UpdatePassword ==> LoginSuccess
+    end
+    
+    %% Dashboard and Main User Flows (Accessed directly or after login)
+    LoginSuccess ==> Dashboard
+    
+    subgraph MainApplication
+        direction TB
+        Dashboard ==> Navigation{Navigate To}
+        
+        %% Main Navigation Options
+        Navigation -->|Chat| ChatSection[AI Chat Interface]
+        Navigation -->|Career Compass| CareerCompass[Career Compass Tool]
+        Navigation -->|Job Aggregator| Aggregator[Job Resources]
+        
+        %% Sidebar Navigation
+        SidebarNav[Sidebar Navigation] --- UserProfile[User Profile]
+        SidebarNav --- AppMenu[Application Menu]
+        SidebarNav --- LogOut[Log Out]
+        AppMenu ==> Navigation
+        
+        %% Chat Flow
+        subgraph AIChatFlow
+            direction TB
+            ChatSection --> NewChat[New Chat]
+            ChatSection --> ChatHistory[Chat History]
+            
+            NewChat --> UserMessage[User Message]
+            ChatHistory --> PreviousChat[Previous Chat]
+            PreviousChat --> UserMessage
+            
+            UserMessage --> AIProcessing{AI Processing}
+            AIProcessing -->|Using Tools| ToolCalling[Tool Calling]
+            AIProcessing -->|Direct| DirectResponse[Direct Response]
+            
+            %% Chat Storage
+            Redis[(Upstash Redis)]
+            
+            UserMessage ---> Redis
+            ChatHistory ---> Redis
+            ToolCalling ---> Redis
+            DirectResponse ---> Redis
+            
+            ToolCalling ==> AIResponse[AI Response with Tool Results]
+            DirectResponse ==> AIResponse
+            AIResponse ==> UserMessage
+        end
+    end
+    
+    %% Career Compass - Now separate from CareerTools
+    subgraph CareerCompassFlow
+        direction TB
+        CareerCompass --> ResumeUpload[Resume Upload]
+        CareerCompass --> ManualDetails[Manual Career Details]
+        
+        %% ML Pipeline for Career Compass
+        subgraph MLPipeline[Career Compass ML Pipeline]
+            direction LR
+            InitialVector[Initial Vectorization]
+            RandomForest[Random Forest Model]
+            SecondVector[Second Vectorization]
+            LLMProcessing[LLM Processing]
+            AIResults[AI Results]
+            
+            InitialVector ==> RandomForest
+            RandomForest ==> SecondVector
+            SecondVector ==> LLMProcessing
+            LLMProcessing ==> AIResults
+        end
+        
+        %% Corrected paths for Resume Upload and Manual Details
+        ResumeUpload ==> InitialVector
+        ManualDetails ==> RandomForest
+        
+        AIResults ==> CareerVisualization[Career Data Visualization]
+    end
+    
+    %% Job Aggregator - Web Scraped Miscellaneous Resources 
+    subgraph JobAggregatorFlow
+        direction TB
+        Aggregator --> JobSearch[Search Resources]
+        JobSearch --> FilterOptions[Filter Options]
+        FilterOptions --> JobResources[Web Scraped Miscellaneous Resources]
+        JobResources --> SavedJobs[Saved Jobs Links]
+    end
+    
+    %% Main Paths
+    Dashboard --- SidebarNav
+    LogOut ==> LandingPage
+    
+    %% Styling - Enhanced with more attractive colors and better contrast
+    classDef primary fill:#22c55e,stroke:#047857,color:white,stroke-width:2px,rx:5px
+    classDef secondary fill:#1e293b,stroke:#334155,color:white,stroke-width:1px,rx:3px
+    classDef accent fill:#3b82f6,stroke:#1e40af,color:white,stroke-width:1px,rx:4px
+    classDef error fill:#ef4444,stroke:#b91c1c,color:white,stroke-width:1px,rx:3px
+    classDef success fill:#10b981,stroke:#047857,color:white,stroke-width:1px,rx:3px
+    classDef decision fill:#8b5cf6,stroke:#6d28d9,color:white,stroke-width:1px,rx:10px
+    classDef database fill:#f59e0b,stroke:#d97706,color:white,stroke-width:1px,rx:3px
+    classDef ml fill:#ec4899,stroke:#be185d,color:white,stroke-width:1px,rx:3px
+    classDef aggregator fill:#7c3aed,stroke:#5b21b6,color:white,stroke-width:1px,rx:3px
+    
+    %% Apply styling to nodes
+    class Start,LandingPage,Dashboard,ChatSection,CareerCompass,Aggregator primary
+    class AuthModal,SignupForm,ForgotPassword,ResetPassword,Navigation secondary
+    class AIProcessing,ToolCalling,AIResponse accent
+    class VerificationNeeded,ValidateSignup error
+    class LoginSuccess,VerifyAccount,UpdatePassword success
+    class Login,AIProcessing decision
+    class UserEmail,Redis database
+    class InitialVector,RandomForest,SecondVector,LLMProcessing,AIResults ml
+    class JobSearch,FilterOptions,JobResources,SavedJobs aggregator
