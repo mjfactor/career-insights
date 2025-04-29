@@ -312,7 +312,7 @@ export async function POST(request: NextRequest) {
     const text = formData.get('text') as string | null;
 
     // Initialize the model
-    const model = google('gemini-2.0-flash');
+    const model = google('gemini-2.0-flash-lite');
 
     // Handle PDF file uploads
     if (file && file.name.toLowerCase().endsWith('.pdf')) {
