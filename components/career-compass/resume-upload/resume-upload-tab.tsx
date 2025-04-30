@@ -834,7 +834,9 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
                     {analysisResult}
                   </ReactMarkdown>
                 </motion.div>
-              )}              {structuredData && !isStreaming && (
+              )}              
+              {/* Render Visualizer only on successful completion */}
+              {structuredData && !isStreaming && !analysisError && analysisResult && (
                 <>
                   <div className="relative flex items-center py-4 mt-8">
                     <div className="flex-grow border-t border-gray-200 dark:border-gray-700"></div>
