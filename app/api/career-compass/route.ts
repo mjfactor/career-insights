@@ -175,7 +175,7 @@ export async function POST(request: NextRequest) {
     // If we have structured data, process it to generate markdown
     if (structuredData) {
       // Initialize the model
-      const model = google('gemini-2.0-flash-lite');
+      const model = google('gemini-2.0-flash');
 
       // Generate streaming markdown response using structured data
       const response = streamText({
