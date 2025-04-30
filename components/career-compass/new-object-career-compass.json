@@ -1,0 +1,665 @@
+{
+    "candidateProfile": {
+        "coreCompetencies": {
+            "technicalSkills": [
+                "Java",
+                "Python",
+                "C#",
+                "Javascript",
+                "C++",
+                "Bash",
+                "Typescript",
+                "HTML",
+                "CSS",
+                "MySQL",
+                "Firebase",
+                "PostgreSQL",
+                "Git",
+                "Linux",
+                "VSC",
+                "Jetbrains IDEs",
+                "Visual Studio",
+                "Streamlit",
+                "Langchain",
+                "LangGraph",
+                "Maven",
+                "JavaFX"
+            ],
+            "softSkills": [
+                "Problem-solving",
+                "Teamwork (collaboration with independent developer)",
+                "Communication (presentation at FICTA-2024)",
+                "Leadership (Project Leader role)"
+            ],
+            "mostUsedSkill": [
+                "Java",
+                "Python",
+                "AI Development",
+                "Database Management"
+            ],
+            "uniqueValueProposition": "A highly motivated Computer Science student with a strong foundation in software development and AI, demonstrated through hands-on projects and academic achievements. Possesses a diverse skillset and a proactive approach to learning new technologies.",
+            "certifications": [
+                "12th International Conference of Frontiers of Intelligent Computing: Theory and application (FICTA-2024)",
+                "AI Engineering Path (Scrimba, 2024)",
+                "Github Foundations (Github, 2025)"
+            ]
+        },
+        "workExperience": {
+            "totalProfessionalTenure": "Less than 1 year (Internship experience)",
+            "seniorityLevel": "Entry-Level",
+            "industryTransferPotential": [
+                "Software Development",
+                "AI and Machine Learning",
+                "Data Science",
+                "IT Support",
+                "Web Development"
+            ],
+            "keyAccomplishments": [
+                "Developed an Inventory Management System using JavaFX, SQL, and Maven.",
+                "Created an AI-powered career insights web application using Python, Streamlit, and LangGraph.",
+                "Diagnosed and resolved computer hardware and software issues during an IT internship.",
+                "Presented research paper at an international conference (FICTA-2024)."
+            ],
+            "projectManagementExperience": "Experience as a Project Leader for the Inventory Management System project.",
+            "teamSizeManaged": "N/A",
+            "mostImpactfulProject": {
+                "title": "Employment Opportunities AI Agent",
+                "description": "Developed a web-based AI agent using Python, Streamlit, and LangGraph to provide career insights to students.",
+                "impact": "Demonstrated ability to apply AI technologies to solve real-world problems and provide valuable resources to students.",
+                "relevance": "Aligns with career interests in AI development and showcases skills in relevant technologies.",
+                "technologies": [
+                    "Python",
+                    "Streamlit",
+                    "Langchain",
+                    "LangGraph",
+                    "Generative AI",
+                    "Tavily API"
+                ]
+            },
+            "remoteWorkExperience": "Collaborated with an independent developer using Github.",
+            "internationalExperience": "Participation in an international conference (FICTA-2024)"
+        },
+        "education": {
+            "highestDegree": "Bachelor of Science in Computer Science (in progress)",
+            "relevantCoursework": [
+                "Introduction to Java",
+                "Introduction to Python",
+                "Data Structures and Algorithms",
+                "Object-Oriented Programming",
+                "General Programming",
+                "Game Development",
+                "Software Development",
+                "Cybersecurity",
+                "Networking"
+            ],
+            "academicAchievements": [
+                "Author & Presenter at FICTA-2024",
+                "Completion of AI Engineering Path from Scrimba",
+                "Github Foundations Certification"
+            ],
+            "degreeUtilization": [
+                "Software Development",
+                "AI Engineering",
+                "Data Science",
+                "Cybersecurity"
+            ],
+            "certificationOpportunities": [
+                "AWS Certified Developer",
+                "Microsoft Certified: Azure AI Engineer Associate",
+                "Google Cloud Professional Cloud Architect"
+            ],
+            "continuingEducation": [
+                "Online courses in advanced AI topics (e.g., deep learning, natural language processing)",
+                "Participation in hackathons and coding competitions"
+            ],
+            "emergingTechAlignment": [
+                "Generative AI",
+                "Large Language Models",
+                "Cloud Computing",
+                "Cybersecurity"
+            ]
+        },
+        "careerProgression": {
+            "growthTrajectory": "Emjay's career trajectory shows a strong interest in software development and AI, progressing from foundational ICT studies to a Bachelor's degree in Computer Science with a focus on modern technologies. The internship and project experiences demonstrate practical application of skills, suggesting a path towards roles in software engineering or AI development.",
+            "promotionHistory": "While Emjay is early in their career, the project leadership role indicates potential for advancement and taking initiative.",
+            "gapAnalysis": [
+                "Lack of full-time professional experience.",
+                "Limited experience in large-scale software development environments."
+            ],
+            "transitionReadiness": "Emjay is well-prepared for entry-level roles and shows potential for growth in specialized areas like AI engineering."
+        }
+    },
+    "jobRecommendations": [
+        {
+            "roleTitle": "Software Engineer",
+            "experienceLevel": "Entry-Level",
+            "industryFocus": "Software Development",
+            "workplaceType": "Hybrid or On-site",
+            "assessment": {
+                "skillsMatch": [
+                    "Java",
+                    "Python",
+                    "AI Development",
+                    "Database Management",
+                    "Web Development"
+                ],
+                "skillGaps": [
+                    "Experience with large-scale software projects",
+                    "Specific industry knowledge"
+                ],
+                "experienceMatch": "Project experience aligns well with entry-level software development and AI roles.",
+                "educationMatch": "Strong educational foundation in Computer Science and relevant coursework.",
+                "cultureFit": "Likely to fit well in innovative and collaborative environments."
+            },
+            "salaryBenchmarks": {
+                "description": "Salary ranges for Software Engineers vary based on location, experience, and company size. Researching salary benchmarks can help you negotiate a fair salary.",
+                "links": [
+                    {
+                        "platform": "Glassdoor",
+                        "searchQuery": "Software Engineer Salary",
+                        "url": "https://www.glassdoor.com/Salaries/software-engineer-salary-SRCH_KO0,17.htm"
+                    },
+                    {
+                        "platform": "Payscale",
+                        "searchQuery": "Software Engineer Salary",
+                        "url": "https://www.payscale.com/research/US/Job=Software_Engineer/Salary"
+                    },
+                    {
+                        "platform": "Indeed",
+                        "searchQuery": "Software Engineer Salary",
+                        "url": "https://www.indeed.com/career/software-engineer/salaries"
+                    }
+                ]
+            },
+            "growthPotential": {
+                "marketDemand": "High demand for software engineers and AI specialists.",
+                "upwardMobility": "Significant potential for promotion to senior roles with experience and expertise."
+            },
+            "currentOpportunities": [
+                {
+                    "platform": "LinkedIn",
+                    "searchQuery": "Entry Level Software Engineer",
+                    "url": "https://www.linkedin.com/jobs/search/?keywords=Entry%20Level%20Software%20Engineer"
+                },
+                {
+                    "platform": "Indeed",
+                    "searchQuery": "Junior Software Developer",
+                    "url": "https://www.indeed.com/jobs?q=Junior%20Software%20Developer"
+                },
+                {
+                    "platform": "Glassdoor",
+                    "searchQuery": "Associate Software Engineer",
+                    "url": "https://www.glassdoor.com/Job/associate-software-engineer-jobs-SRCH_KO0,27.htm"
+                },
+                {
+                    "platform": "ZipRecruiter",
+                    "searchQuery": "Entry Level Software Developer",
+                    "url": "https://www.ziprecruiter.com/jobs-search?search=Entry%20Level%20Software%20Developer"
+                }
+            ],
+            "skillDevelopment": [
+                {
+                    "title": "Data Structures and Algorithms Specialization (Coursera)",
+                    "description": "Learn the fundamentals of data structures and algorithms.",
+                    "duration": "20h 0m",
+                    "link": "https://www.coursera.org/specializations/data-structures-algorithms"
+                },
+                {
+                    "title": "Java Programming Masterclass for Software Developers (Udemy)",
+                    "description": "Master the fundamentals of object-oriented programming in Java.",
+                    "duration": "40h 0m",
+                    "link": "https://www.udemy.com/course/java-the-complete-java-developer-course/"
+                },
+                {
+                    "title": "Python for Everybody Specialization (Coursera)",
+                    "description": "Learn the basics of Python programming.",
+                    "duration": "30h 0m",
+                    "link": "https://www.coursera.org/learn/python-for-everybody"
+                },
+                {
+                    "title": "Git Complete: The definitive, step-by-step guide to Git (Udemy)",
+                    "description": "Learn how to use Git for version control.",
+                    "duration": "6h 30m",
+                    "link": "https://www.udemy.com/course/git-complete/"
+                }
+            ],
+            "careerPathProjections": {
+                "potentialPaths": [
+                    "Software Engineer",
+                    "AI Engineer",
+                    "Data Scientist",
+                    "Web Developer"
+                ],
+                "requiredSteps": [
+                    "Gain experience in full-time software development roles.",
+                    "Develop expertise in specific AI technologies.",
+                    "Contribute to open-source projects."
+                ],
+                "timelineEstimate": "2-3 years to advance to mid-level roles."
+            },
+            "randomForestInsights": "Based on the candidate's strong programming skills, project experience, and educational background, a role as a Software Engineer is a good fit. The candidate's experience with Java, Python, and database management aligns well with the requirements of many entry-level software development positions.",
+            "workLifeBalance": "Typically moderate, with potential for overtime depending on project deadlines."
+        },
+        {
+            "roleTitle": "AI Engineer",
+            "experienceLevel": "Entry-Level",
+            "industryFocus": "Artificial Intelligence",
+            "workplaceType": "Hybrid or On-site",
+            "assessment": {
+                "skillsMatch": [
+                    "Python",
+                    "Langchain",
+                    "LangGraph",
+                    "Generative AI",
+                    "Streamlit"
+                ],
+                "skillGaps": [
+                    "Experience with specific AI frameworks (e.g., TensorFlow, PyTorch)",
+                    "Knowledge of advanced AI algorithms"
+                ],
+                "experienceMatch": "Project experience with AI technologies aligns well with entry-level AI Engineer roles.",
+                "educationMatch": "Strong educational background in Computer Science with relevant coursework in AI.",
+                "cultureFit": "Fits well in innovative and research-oriented environments."
+            },
+            "salaryBenchmarks": {
+                "description": "Salary ranges for AI Engineers are generally high due to the high demand for these skills. Researching salary benchmarks can help you negotiate a fair salary.",
+                "links": [
+                    {
+                        "platform": "Glassdoor",
+                        "searchQuery": "AI Engineer Salary",
+                        "url": "https://www.glassdoor.com/Salaries/ai-engineer-salary-SRCH_KO0,11.htm"
+                    },
+                    {
+                        "platform": "Payscale",
+                        "searchQuery": "AI Engineer Salary",
+                        "url": "https://www.payscale.com/research/US/Job=Artificial_Intelligence_(AI)_Engineer/Salary"
+                    },
+                    {
+                        "platform": "Indeed",
+                        "searchQuery": "AI Engineer Salary",
+                        "url": "https://www.indeed.com/career/artificial-intelligence-engineer/salaries"
+                    }
+                ]
+            },
+            "growthPotential": {
+                "marketDemand": "Extremely high demand for AI engineers and machine learning specialists.",
+                "upwardMobility": "Significant potential for promotion to senior roles with experience and expertise."
+            },
+            "currentOpportunities": [
+                {
+                    "platform": "LinkedIn",
+                    "searchQuery": "Entry Level AI Engineer",
+                    "url": "https://www.linkedin.com/jobs/search/?keywords=Entry%20Level%20AI%20Engineer"
+                },
+                {
+                    "platform": "Indeed",
+                    "searchQuery": "Junior AI Engineer",
+                    "url": "https://www.indeed.com/jobs?q=Junior%20AI%20Engineer"
+                },
+                {
+                    "platform": "Glassdoor",
+                    "searchQuery": "Associate AI Engineer",
+                    "url": "https://www.glassdoor.com/Job/associate-ai-engineer-jobs-SRCH_KO0,21.htm"
+                },
+                {
+                    "platform": "ZipRecruiter",
+                    "searchQuery": "Entry Level AI Developer",
+                    "url": "https://www.ziprecruiter.com/jobs-search?search=Entry%20Level%20AI%20Developer"
+                }
+            ],
+            "skillDevelopment": [
+                {
+                    "title": "TensorFlow in Practice Specialization (Coursera)",
+                    "description": "Learn the fundamentals of TensorFlow.",
+                    "duration": "25h 0m",
+                    "link": "https://www.coursera.org/specializations/tensorflow-in-practice"
+                },
+                {
+                    "title": "PyTorch for Deep Learning with Python (Udemy)",
+                    "description": "Learn the fundamentals of PyTorch.",
+                    "duration": "20h 0m",
+                    "link": "https://www.udemy.com/course/pytorch-for-deep-learning-with-python/"
+                },
+                {
+                    "title": "Natural Language Processing Specialization (Coursera)",
+                    "description": "Learn the basics of Natural Language Processing.",
+                    "duration": "30h 0m",
+                    "link": "https://www.coursera.org/specializations/natural-language-processing"
+                },
+                {
+                    "title": "LangChain: Chat with Your Data (DeepLearning.AI)",
+                    "description": "Learn how to use Langchain for building LLM applications.",
+                    "duration": "10h 0m",
+                    "link": "https://www.deeplearning.ai/short-courses/langchain-chat-with-your-data"
+                }
+            ],
+            "careerPathProjections": {
+                "potentialPaths": [
+                    "AI Engineer",
+                    "Machine Learning Engineer",
+                    "Data Scientist"
+                ],
+                "requiredSteps": [
+                    "Gain experience with specific AI frameworks (e.g., TensorFlow, PyTorch).",
+                    "Develop expertise in advanced AI algorithms.",
+                    "Contribute to open-source AI projects."
+                ],
+                "timelineEstimate": "2-3 years to advance to mid-level roles."
+            },
+            "randomForestInsights": "Based on the candidate's experience with Langchain, LangGraph, and Generative AI, a role as an AI Engineer is a good fit. The candidate's project experience in developing an AI-powered career insights web application demonstrates a strong interest and aptitude for AI development.",
+            "workLifeBalance": "Typically moderate, with potential for longer hours during research and development phases."
+        },
+        {
+            "roleTitle": "Data Analyst",
+            "experienceLevel": "Entry-Level",
+            "industryFocus": "Data Analysis",
+            "workplaceType": "Hybrid or On-site",
+            "assessment": {
+                "skillsMatch": [
+                    "Python",
+                    "MySQL",
+                    "PostgreSQL",
+                    "Data Analysis"
+                ],
+                "skillGaps": [
+                    "Experience with specific data analysis tools (e.g., Tableau, Power BI)",
+                    "Knowledge of statistical analysis methods"
+                ],
+                "experienceMatch": "Project experience with database management and AI aligns well with entry-level Data Analyst roles.",
+                "educationMatch": "Strong educational background in Computer Science with relevant coursework in data structures and algorithms.",
+                "cultureFit": "Fits well in data-driven and analytical environments."
+            },
+            "salaryBenchmarks": {
+                "description": "Salary ranges for Data Analysts vary based on location, experience, and industry. Researching salary benchmarks can help you negotiate a fair salary.",
+                "links": [
+                    {
+                        "platform": "Glassdoor",
+                        "searchQuery": "Data Analyst Salary",
+                        "url": "https://www.glassdoor.com/Salaries/data-analyst-salary-SRCH_KO0,12.htm"
+                    },
+                    {
+                        "platform": "Payscale",
+                        "searchQuery": "Data Analyst Salary",
+                        "url": "https://www.payscale.com/research/US/Job=Data_Analyst/Salary"
+                    },
+                    {
+                        "platform": "Indeed",
+                        "searchQuery": "Data Analyst Salary",
+                        "url": "https://www.indeed.com/career/data-analyst/salaries"
+                    }
+                ]
+            },
+            "growthPotential": {
+                "marketDemand": "High demand for data analysts and business intelligence specialists.",
+                "upwardMobility": "Significant potential for promotion to senior roles with experience and expertise."
+            },
+            "currentOpportunities": [
+                {
+                    "platform": "LinkedIn",
+                    "searchQuery": "Entry Level Data Analyst",
+                    "url": "https://www.linkedin.com/jobs/search/?keywords=Entry%20Level%20Data%20Analyst"
+                },
+                {
+                    "platform": "Indeed",
+                    "searchQuery": "Junior Data Analyst",
+                    "url": "https://www.indeed.com/jobs?q=Junior%20Data%20Analyst"
+                },
+                {
+                    "platform": "Glassdoor",
+                    "searchQuery": "Associate Data Analyst",
+                    "url": "https://www.glassdoor.com/Job/associate-data-analyst-jobs-SRCH_KO0,21.htm"
+                },
+                {
+                    "platform": "ZipRecruiter",
+                    "searchQuery": "Entry Level Data Analyst",
+                    "url": "https://www.ziprecruiter.com/jobs-search?search=Entry%20Level%20Data%20Analyst"
+                }
+            ],
+            "skillDevelopment": [
+                {
+                    "title": "Tableau Data Visualization Specialization (Coursera)",
+                    "description": "Learn the fundamentals of Tableau.",
+                    "duration": "10h 0m",
+                    "link": "https://www.coursera.org/specializations/tableau"
+                },
+                {
+                    "title": "Microsoft Power BI - Up and Running With Power BI Desktop (Udemy)",
+                    "description": "Learn the fundamentals of Power BI.",
+                    "duration": "15h 0m",
+                    "link": "https://www.udemy.com/course/microsoft-power-bi-up-and-running/"
+                },
+                {
+                    "title": "Statistics with R Specialization (Coursera)",
+                    "description": "Learn the basics of statistical analysis.",
+                    "duration": "20h 0m",
+                    "link": "https://www.coursera.org/specializations/statistics"
+                },
+                {
+                    "title": "Learn SQL (Codecademy)",
+                    "description": "Learn how to use SQL for data analysis.",
+                    "duration": "10h 0m",
+                    "link": "https://www.codecademy.com/learn/learn-sql"
+                }
+            ],
+            "careerPathProjections": {
+                "potentialPaths": [
+                    "Data Analyst",
+                    "Business Intelligence Analyst",
+                    "Data Scientist"
+                ],
+                "requiredSteps": [
+                    "Gain experience with specific data analysis tools (e.g., Tableau, Power BI).",
+                    "Develop expertise in statistical analysis methods.",
+                    "Obtain certifications in data analysis."
+                ],
+                "timelineEstimate": "2-3 years to advance to mid-level roles."
+            },
+            "randomForestInsights": "Based on the candidate's experience with database management and Python, a role as a Data Analyst is a good fit. The candidate's project experience in developing an Inventory Management System and an AI-powered career insights web application demonstrates a strong interest and aptitude for data analysis.",
+            "workLifeBalance": "Typically moderate, with potential for longer hours during report generation and analysis phases."
+        },
+        {
+            "roleTitle": "Web Developer",
+            "experienceLevel": "Entry-Level",
+            "industryFocus": "Web Development",
+            "workplaceType": "Hybrid or On-site",
+            "assessment": {
+                "skillsMatch": [
+                    "HTML",
+                    "CSS",
+                    "Javascript",
+                    "Streamlit",
+                    "Python"
+                ],
+                "skillGaps": [
+                    "Experience with specific web development frameworks (e.g., React, Angular)",
+                    "Knowledge of front-end design principles"
+                ],
+                "experienceMatch": "Project experience with web development technologies aligns well with entry-level Web Developer roles.",
+                "educationMatch": "Strong educational background in Computer Science with relevant coursework in web development.",
+                "cultureFit": "Fits well in creative and collaborative environments."
+            },
+            "salaryBenchmarks": {
+                "description": "Salary ranges for Web Developers vary based on location, experience, and industry. Researching salary benchmarks can help you negotiate a fair salary.",
+                "links": [
+                    {
+                        "platform": "Glassdoor",
+                        "searchQuery": "Web Developer Salary",
+                        "url": "https://www.glassdoor.com/Salaries/web-developer-salary-SRCH_KO0,13.htm"
+                    },
+                    {
+                        "platform": "Payscale",
+                        "searchQuery": "Web Developer Salary",
+                        "url": "https://www.payscale.com/research/US/Job=Web_Developer/Salary"
+                    },
+                    {
+                        "platform": "Indeed",
+                        "searchQuery": "Web Developer Salary",
+                        "url": "https://www.indeed.com/career/web-developer/salaries"
+                    }
+                ]
+            },
+            "growthPotential": {
+                "marketDemand": "High demand for web developers and front-end specialists.",
+                "upwardMobility": "Significant potential for promotion to senior roles with experience and expertise."
+            },
+            "currentOpportunities": [
+                {
+                    "platform": "LinkedIn",
+                    "searchQuery": "Entry Level Web Developer",
+                    "url": "https://www.linkedin.com/jobs/search/?keywords=Entry%20Level%20Web%20Developer"
+                },
+                {
+                    "platform": "Indeed",
+                    "searchQuery": "Junior Web Developer",
+                    "url": "https://www.indeed.com/jobs?q=Junior%20Web%20Developer"
+                },
+                {
+                    "platform": "Glassdoor",
+                    "searchQuery": "Associate Web Developer",
+                    "url": "https://www.glassdoor.com/Job/associate-web-developer-jobs-SRCH_KO0,22.htm"
+                },
+                {
+                    "platform": "ZipRecruiter",
+                    "searchQuery": "Entry Level Web Developer",
+                    "url": "https://www.ziprecruiter.com/jobs-search?search=Entry%20Level%20Web%20Developer"
+                }
+            ],
+            "skillDevelopment": [
+                {
+                    "title": "Front-End Web Development with React (Coursera)",
+                    "description": "Learn the fundamentals of React.",
+                    "duration": "20h 0m",
+                    "link": "https://www.coursera.org/specializations/react-basics"
+                },
+                {
+                    "title": "The Complete Angular Course: Beginner to Advanced (Udemy)",
+                    "description": "Learn the fundamentals of Angular.",
+                    "duration": "15h 0m",
+                    "link": "https://www.udemy.com/course/the-complete-guide-to-angular-2/"
+                },
+                {
+                    "title": "Web Design for Beginners: Build Your First Website (Interaction Design Foundation)",
+                    "description": "Learn the basics of front-end design principles.",
+                    "duration": "10h 0m",
+                    "link": "https://www.interaction-design.org/courses/web-design-for-beginners-build-your-first-website"
+                },
+                {
+                    "title": "Learn Node.js (Codecademy)",
+                    "description": "Learn how to use Node.js for back-end development.",
+                    "duration": "10h 0m",
+                    "link": "https://www.codecademy.com/learn/learn-node-js"
+                }
+            ],
+            "careerPathProjections": {
+                "potentialPaths": [
+                    "Web Developer",
+                    "Front-End Developer",
+                    "Back-End Developer",
+                    "Full-Stack Developer"
+                ],
+                "requiredSteps": [
+                    "Gain experience with specific web development frameworks (e.g., React, Angular).",
+                    "Develop expertise in front-end design principles.",
+                    "Contribute to open-source web development projects."
+                ],
+                "timelineEstimate": "2-3 years to advance to mid-level roles."
+            },
+            "randomForestInsights": "Based on the candidate's experience with HTML, CSS, Javascript, and Streamlit, a role as a Web Developer is a good fit. The candidate's project experience in developing an AI-powered career insights web application demonstrates a strong interest and aptitude for web development.",
+            "workLifeBalance": "Typically moderate, with potential for longer hours during project deadlines."
+        }
+    ],
+    "overallEvaluation": {
+        "jobFitScores": [
+            {
+                "jobTitle": "Software Engineer",
+                "score": 0.85
+            },
+            {
+                "jobTitle": "AI Engineer",
+                "score": 0.8
+            },
+            {
+                "jobTitle": "Data Analyst",
+                "score": 0.75
+            },
+            {
+                "jobTitle": "Web Developer",
+                "score": 0.7
+            }
+        ],
+        "marketPositioning": {
+            "competitiveAdvantages": [
+                "Strong programming skills in Java and Python.",
+                "Experience with AI technologies (Langchain, LangGraph, Generative AI).",
+                "Project leadership experience.",
+                "Presentation experience at an international conference."
+            ],
+            "improvementAreas": [
+                "Gain more full-time professional experience.",
+                "Develop expertise in specific AI frameworks (e.g., TensorFlow, PyTorch).",
+                "Obtain certifications in relevant areas."
+            ]
+        },
+        "interviewReadiness": {
+            "commonQuestions": [
+                "Tell me about a time you faced a challenging technical problem and how you solved it.",
+                "Describe your experience with Java and Python.",
+                "What are your strengths and weaknesses?",
+                "Why are you interested in this role?"
+            ],
+            "suggestedTalkingPoints": [
+                "Highlight project experience, especially the AI-powered career insights web application.",
+                "Emphasize problem-solving skills and ability to learn new technologies quickly.",
+                "Showcase leadership experience as a Project Leader.",
+                "Express enthusiasm for the company and the role."
+            ]
+        },
+        "personalBrandingSuggestions": [
+            "Create a professional online presence on LinkedIn and GitHub.",
+            "Contribute to open-source projects to showcase skills and experience.",
+            "Network with professionals in the software development and AI fields.",
+            "Attend industry events and conferences."
+        ]
+    },
+    "resumeImprovement": {
+        "overallAssessment": "The resume is a good starting point but could be improved by adding more detail, quantifying accomplishments, and tailoring it to specific job applications.",
+        "missingElements": [
+            "A strong summary or objective statement.",
+            "Quantifiable results in project descriptions.",
+            "Specific achievements from the IT Technical Unit Trainee role."
+        ],
+        "formattingIssues": [
+            "Ensure consistent formatting throughout the resume.",
+            "Use clear and concise language.",
+            "Proofread carefully for grammar and spelling errors."
+        ],
+        "contentWeaknesses": [
+            "Lack of quantifiable results in project descriptions.",
+            "Limited detail on responsibilities and achievements in the IT Technical Unit Trainee role.",
+            "Missing a clear career objective or summary statement."
+        ],
+        "actionableSteps": [
+            "Quantify accomplishments in project descriptions (e.g., \"Improved inventory tracking efficiency by X%\").",
+            "Tailor the resume to specific job applications, highlighting relevant skills and experience.",
+            "Add a summary or objective statement to highlight career goals and key skills.",
+            "Include specific achievements from the IT Technical Unit Trainee role."
+        ],
+        "professionalResourceLinks": [
+            {
+                "title": "Indeed Resume Guide",
+                "description": "Provides tips and templates for writing effective resumes.",
+                "link": "https://www.indeed.com/career-advice/resumes"
+            },
+            {
+                "title": "Resume.com",
+                "description": "Offers resume writing services and advice.",
+                "link": "https://www.resume.com/"
+            },
+            {
+                "title": "MyPerfectResume",
+                "description": "Provides resume examples and templates for various industries.",
+                "link": "https://www.myperfectresume.com/"
+            }
+        ]
+    }
+}

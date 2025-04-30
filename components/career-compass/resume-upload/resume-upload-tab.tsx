@@ -13,7 +13,7 @@ import mammoth from 'mammoth'
 import { validateResumeFile, validateResumeText } from "@/lib/actions/resume-validator"
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
-import StructuredDataPlaceholder from "./ResumeDataPlaceholder"
+import Skeleton from "./ResumeDataPlaceholder"
 import CareerDataVisualizer from "@/components/career-compass/resume-upload/ResumeDataVisualizer"
 import { toast } from "sonner"
 import {
@@ -444,14 +444,32 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
       // Check if this was an abort error (user cancelled)
       if (error instanceof Error && error.name === 'AbortError') {
         console.log('Analysis was cancelled by the user');
+        // No need to show error for user-initiated cancellations
+        if (isMounted.current) {
+          setAnalysisResult(""); // Clear any partial results
+          setShowPlaceholder(false); // Hide the placeholder
+        }
       } else {
         console.error("Error analyzing resume:", error);
+        // Set error message
         setAnalysisError(error instanceof Error ? error.message : 'An error occurred during analysis');
+        // Clear any partial results
+        if (isMounted.current) {
+          setAnalysisResult(""); 
+          setShowPlaceholder(false); // Hide the placeholder
+          setStructuredData(null); // Reset structured data to avoid partial visualization
+        }
+        // Show error toast to inform user
+        toast.error("Analysis failed", {
+          description: error instanceof Error ? error.message : 'An unexpected error occurred during resume analysis.',
+        });
       }
     } finally {
       if (isMounted.current) {
         setIsAnalyzing(false);
         setIsStreaming(false);
+        // Always ensure placeholder is hidden when done, regardless of success or failure
+        setShowPlaceholder(false);
       }
       // Clear the abort controller reference
       abortControllerRef.current = null;
@@ -745,7 +763,7 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
             transition={{ duration: 0.4 }}
             className="mt-6"
           >
-            <StructuredDataPlaceholder />
+            <Skeleton />
           </motion.div>
         )}
 

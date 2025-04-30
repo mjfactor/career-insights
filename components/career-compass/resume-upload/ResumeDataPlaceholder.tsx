@@ -176,7 +176,7 @@ const RandomForestAnimation = () => {
     )
 }
 
-export default function StructuredDataPlaceholder() {
+export default function Skeleton() {
     const [currentStep, setCurrentStep] = useState(0)
     const [progress, setProgress] = useState(0)
 
