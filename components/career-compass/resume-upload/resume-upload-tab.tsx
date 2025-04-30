@@ -455,7 +455,7 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
         setAnalysisError(error instanceof Error ? error.message : 'An error occurred during analysis');
         // Clear any partial results
         if (isMounted.current) {
-          setAnalysisResult(""); 
+          setAnalysisResult("");
           setShowPlaceholder(false); // Hide the placeholder
           setStructuredData(null); // Reset structured data to avoid partial visualization
         }
@@ -834,7 +834,7 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
                     {analysisResult}
                   </ReactMarkdown>
                 </motion.div>
-              )}              
+              )}
               {/* Render Visualizer only on successful completion */}
               {structuredData && !isStreaming && !analysisError && analysisResult && (
                 <>
