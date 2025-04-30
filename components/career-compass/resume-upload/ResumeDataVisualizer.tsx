@@ -22,7 +22,7 @@ import {
     PieChart,
     Pie
 } from "recharts"
-import { TrendingUp, Info } from "lucide-react"
+import { Check, AlertTriangle, Star, TrendingUp, Target, Clock, Link as LinkIcon, BookOpen, Briefcase, GraduationCap, ListChecks, ExternalLink, Info } from "lucide-react"; // Added Check, AlertTriangle, Star
 import {
     Card,
     CardContent,
@@ -53,6 +53,11 @@ import { cn } from "@/lib/utils"
 import { Tooltip as UITooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
 import { Fragment } from "react"; // Import Fragment from react
+
+// Helper function to escape special characters in a string for use in a RegExp
+function escapeRegExp(string: string): string {
+    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+}
 
 // Define types for career data structure
 interface SkillItem {
@@ -145,6 +150,7 @@ type CareerDataVisualizerProps = {
 const CHART_COLORS = {
     skills: "hsl(215, 90%, 60%)",
     jobFit: "hsl(170, 80%, 40%)",
+    skillFrequency: "hsl(260, 70%, 55%)", // Added color for skill frequency
     salary: {
         min: "hsl(210, 80%, 50%)",
         range: "hsl(170, 70%, 50%)"
@@ -157,23 +163,29 @@ export default function CareerDataVisualizer({ structuredData }: CareerDataVisua
     const [data] = useState<CareerData>(structuredData as CareerData)
 
     // ==========================================================================
+
     // Technical Skills Overview
     // ==========================================================================
+
     const technicalSkills = useMemo(() => {
         return data.candidateProfile.coreCompetencies.technicalStrengths ||
             data.candidateProfile.coreCompetencies.technicalSkills || []
     }, [data])
 
     // ==========================================================================
+
     // Soft Skills Overview
     // ==========================================================================
+
     const softSkills = useMemo(() => {
         return data.candidateProfile.coreCompetencies.softSkills || []
     }, [data])
 
     // ==========================================================================
+
     // Certifications
     // ==========================================================================
+
     const certifications = useMemo(() => {
         // Check both possible locations for certifications data
         return data.candidateProfile.education?.certifications ||
@@ -181,13 +193,16 @@ export default function CareerDataVisualizer({ structuredData }: CareerDataVisua
     }, [data])
 
     // ==========================================================================
+
     // Job Fit Comparison Chart Data
     // ==========================================================================
+
     const jobFitData = useMemo(() => {
         // Check if jobFitScores is an array (new format) or object (old format)
         if (Array.isArray(data.overallEvaluation.jobFitScores)) {
             return data.overallEvaluation.jobFitScores
                 .map(item => ({
+
                     name: item.jobTitle,
                     value: typeof item.score === 'string' && item.score.endsWith('%')
                         ? parseInt(item.score.replace('%', ''))
@@ -222,8 +237,10 @@ export default function CareerDataVisualizer({ structuredData }: CareerDataVisua
     } satisfies ChartConfig
 
     // ==========================================================================
+
     // Skill Development Time Chart Data
     // ==========================================================================
+
     const skillDevelopmentData = useMemo(() => {
         return data.jobRecommendations.map(job => {
             // Calculate total duration for each job role
@@ -253,8 +270,10 @@ export default function CareerDataVisualizer({ structuredData }: CareerDataVisua
     } satisfies ChartConfig
 
     // ==========================================================================
+
     // Skills Match Table Data
     // ==========================================================================
+
     // Get unique skills across all job recommendations
     const uniqueSkills = useMemo(() => {
         const skillsSet = new Set<string>()
@@ -271,6 +290,13 @@ export default function CareerDataVisualizer({ structuredData }: CareerDataVisua
             return acc
         }, {} as Record<string, Set<string>>)
     }, [data])
+
+    // ==========================================================================
+    // Market Positioning Data
+    // ==========================================================================
+    const marketPositioning = useMemo(() => {
+        return data.overallEvaluation.marketPositioning;
+    }, [data]);
 
     return (
         <div className="space-y-8">
@@ -362,9 +388,9 @@ export default function CareerDataVisualizer({ structuredData }: CareerDataVisua
                 </Card>
             )}
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {/* Technical Skills Card */}
-                <Card className="shadow-md hover:shadow-lg transition-shadow">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                {/* Technical Skills Card (Span 2 cols on large screens) */}
+                <Card className="shadow-md hover:shadow-lg transition-shadow lg:col-span-2">
                     <CardHeader>
                         <CardTitle>Technical Skills</CardTitle>
                         <CardDescription>All identified technical skills</CardDescription>
@@ -384,7 +410,7 @@ export default function CareerDataVisualizer({ structuredData }: CareerDataVisua
                     </CardContent>
                 </Card>
 
-                {/* Soft Skills Card */}
+                {/* Soft Skills Card (Span 1 col on large screens) */}
                 <Card className="shadow-md hover:shadow-lg transition-shadow">
                     <CardHeader>
                         <CardTitle>Soft Skills</CardTitle>
@@ -405,6 +431,47 @@ export default function CareerDataVisualizer({ structuredData }: CareerDataVisua
                     </CardContent>
                 </Card>
             </div>
+
+
+            {/* Market Positioning Card */}
+            {marketPositioning && (
+                <Card className="shadow-md hover:shadow-lg transition-shadow">
+                    <CardHeader>
+                        <CardTitle>Market Positioning</CardTitle>
+                        <CardDescription>Your competitive standing in the job market</CardDescription>
+                    </CardHeader>
+                    <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {/* Competitive Advantages */}
+                        {marketPositioning.competitiveAdvantages?.length > 0 && (
+                            <div className="space-y-3">
+                                <h3 className="text-md font-semibold flex items-center gap-2 text-green-600">
+                                    <Check className="h-5 w-5" />
+                                    Competitive Advantages
+                                </h3>
+                                <ul className="space-y-2 text-sm list-disc pl-5 text-muted-foreground">
+                                    {marketPositioning.competitiveAdvantages.map((advantage, idx) => (
+                                        <li key={idx}>{advantage}</li>
+                                    ))}
+                                </ul>
+                            </div>
+                        )}
+                        {/* Improvement Areas */}
+                        {marketPositioning.improvementAreas?.length > 0 && (
+                            <div className="space-y-3">
+                                <h3 className="text-md font-semibold flex items-center gap-2 text-amber-600">
+                                    <AlertTriangle className="h-5 w-5" />
+                                    Improvement Areas
+                                </h3>
+                                <ul className="space-y-2 text-sm list-disc pl-5 text-muted-foreground">
+                                    {marketPositioning.improvementAreas.map((area, idx) => (
+                                        <li key={idx}>{area}</li>
+                                    ))}
+                                </ul>
+                            </div>
+                        )}
+                    </CardContent>
+                </Card>
+            )}
 
             {/* Job Fit Comparison Chart */}
             <Card className="shadow-md hover:shadow-lg transition-shadow">
@@ -474,7 +541,7 @@ export default function CareerDataVisualizer({ structuredData }: CareerDataVisua
                 </CardContent>
                 <CardFooter className="flex-col items-start gap-2 text-sm">
                     <div className="flex gap-2 font-medium leading-none">
-                        <TrendingUp className="h-4 w-4" /> Top match: {jobFitData[0]?.name || "Software Engineer"}
+                        <TrendingUp className="h-4 w-4" /> Top match: {jobFitData[0]?.name}
                     </div>
                 </CardFooter>
             </Card>
@@ -575,20 +642,28 @@ export default function CareerDataVisualizer({ structuredData }: CareerDataVisua
                             // Skip if no insights available
                             if (!job.randomForestInsights) return null;
 
-                            // Extract key skills mentioned in the insights
-                            const skills = technicalSkills.filter(skill =>
-                                job.randomForestInsights?.toLowerCase().includes(skill.toLowerCase())
-                            );
+                            // Combine skillsMatch and skillGaps for highlighting
+                            const skillsToHighlight = [
+                                ...(job.assessment.skillsMatch || []),
+                                ...(job.assessment.skillGaps || [])
+                            ];
 
                             // Highlight the text with key skills
                             let highlightedText = job.randomForestInsights || '';
-                            skills.forEach(skill => {
-                                const regex = new RegExp(skill, 'gi');
+                            skillsToHighlight.forEach(skill => {
+                                // Escape the skill string before creating the RegExp
+                                const escapedSkill = escapeRegExp(skill);
+                                const regex = new RegExp(escapedSkill, 'gi');
                                 highlightedText = highlightedText.replace(
                                     regex,
                                     `<span class="font-medium text-primary">$&</span>`
                                 );
                             });
+
+                            // Extract key skills mentioned in the insights (using original technicalSkills)
+                            const mentionedSkills = technicalSkills.filter(skill =>
+                                job.randomForestInsights?.toLowerCase().includes(skill.toLowerCase())
+                            );
 
                             return (
                                 <div
@@ -604,9 +679,9 @@ export default function CareerDataVisualizer({ structuredData }: CareerDataVisua
                                         dangerouslySetInnerHTML={{ __html: highlightedText }}
                                     />
 
-                                    {skills.length > 0 && (
+                                    {mentionedSkills.length > 0 && (
                                         <div className="mt-3 flex flex-wrap gap-1.5">
-                                            {skills.map(skill => (
+                                            {mentionedSkills.map(skill => (
                                                 <Badge key={skill} variant="outline">{skill}</Badge>
                                             ))}
                                         </div>
@@ -891,6 +966,7 @@ export default function CareerDataVisualizer({ structuredData }: CareerDataVisua
                                 )}
                             </TabsContent>
                         ))}
+
                     </Tabs>
                 </CardContent>
                 <CardFooter className="flex-col items-start gap-2 text-sm">

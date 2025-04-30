@@ -78,7 +78,7 @@ export const CandidateAnalysisSchema = z.object({
       gapAnalysis: z.array(z.string()).optional().describe("Skill or experience gaps for desired roles"),
       transitionReadiness: z.string().optional().describe("Assessment of readiness for career change")
     }).describe("Analysis of career path and future potential")
-  }).describe("Comprehensive candidate profile"),
+  }).describe("Comprehensive candidate profile, be detailed as possible"),
 
   jobRecommendations: z.array(
     z.object({
@@ -120,8 +120,8 @@ export const CandidateAnalysisSchema = z.object({
   overallEvaluation: z.object({
     jobFitScores: z.object({
       jobTitle: z.string().describe("Title of the job"),
-      score: z.number().describe("Fit score for the job"),
-    }).array().describe("Fit scores for each recommended job"),
+      score: z.number().describe("Fit score for the job, scores is between 0.55 and 0.90"),
+    }).array().describe("Fit scores for each recommended job, make the numbers look random like 0.64, 0.78, etc."),
     marketPositioning: z.object({
       competitiveAdvantages: z.array(z.string()).optional().describe("Candidate's strongest market advantages"),
       improvementAreas: z.array(z.string()).optional().describe("Areas for development to improve marketability")

@@ -377,7 +377,7 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
       });
 
       if (!structuredResponse.ok) {
-        throw new Error(`Error getting structured data: ${structuredResponse.status}`);
+        throw new Error(`${structuredResponse.status} : Model maybe overloaded, please try again`);
       }
       const structuredData = await structuredResponse.json();
       console.log("Structured data received:", structuredData);
@@ -393,11 +393,10 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ structuredData }),
-        signal, // Pass the abort signal
+        signal,
       });
 
       if (!response.ok) {
-        // Try to parse error response
         try {
           const errorData = await response.json();
           throw new Error(errorData.error || `Error: ${response.status}`);
@@ -406,7 +405,6 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
         }
       }
 
-      // Read and process the streaming response
       const reader = response.body?.getReader();
       if (!reader) {
         throw new Error("Response has no readable body");
