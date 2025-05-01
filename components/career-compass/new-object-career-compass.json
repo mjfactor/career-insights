@@ -1,0 +1,705 @@
+{
+    "candidateProfile": {
+        "coreCompetencies": {
+            "technicalSkills": [
+                "Java",
+                "Python",
+                "C#",
+                "Javascript",
+                "C++",
+                "Bash",
+                "Typescript",
+                "Html",
+                "CSS",
+                "MySql",
+                "Firebase",
+                "PostgreSql",
+                "Git",
+                "Linux",
+                "VSC",
+                "Jetbrains IDE’s",
+                "Visual Studio",
+                "Streamlit",
+                "Langchain",
+                "LangGraph",
+                "JavaFX",
+                "Maven",
+                "Jaspersoft",
+                "Generative AI (Google Gen AI)",
+                "Tavily API"
+            ],
+            "softSkills": [
+                "Collaboration",
+                "Problem-solving",
+                "Leadership",
+                "Communication (Presentation)"
+            ],
+            "mostUsedSkill": [
+                "Java",
+                "Python",
+                "SQL",
+                "Git"
+            ],
+            "uniqueValueProposition": "A motivated entry-level technologist with a strong academic foundation in Computer Science, practical project experience including AI/Generative AI applications, foundational IT support skills, and early exposure to academic research and presentation.",
+            "certifications": [
+                "12th International Conference of Frontiers of Intelligent Computing: Theory and application (FICTA-2024) - Author / Presenter (2024)",
+                "AI Engineering Path (Scrimba) (2024)",
+                "Github Foundations (Github) (2025 - *Note: Year appears to be in the future*)"
+            ]
+        },
+        "workExperience": {
+            "totalProfessionalTenure": "Approximately 3 months (Internship)",
+            "seniorityLevel": "Entry-Level / Junior",
+            "industryTransferPotential": [
+                "Technology",
+                "Education",
+                "Retail (Inventory Systems)",
+                "Any industry requiring IT support or custom software solutions"
+            ],
+            "keyAccomplishments": [
+                "Led development of a comprehensive Inventory Management System using JavaFX and MySQL.",
+                "Developed an AI agent for career insights using Python, Streamlit, and Generative AI.",
+                "Diagnosed and resolved computer hardware and software issues during internship.",
+                "Assembled and deployed customized PC systems.",
+                "Authored and presented a research paper at an international conference.",
+                "Completed AI Engineering certification."
+            ],
+            "projectManagementExperience": "Limited experience as 'Project Leader' on the Inventory Management System project, involving collaboration with one other developer.",
+            "teamSizeManaged": "Managed/collaborated with 1 independent developer on a project.",
+            "mostImpactfulProject": {
+                "title": "Employment Opportunities AI Agent",
+                "description": "Developed a web-based AI agent designed to provide career insights to students. The project involved building the backend logic using Langchain/LangGraph and integrating with Google Generative AI and Tavily API for real-time data, with a user interface built using Streamlit.",
+                "impact": "Created a functional prototype demonstrating the application of modern AI techniques (Generative AI, Agent Frameworks) to a practical problem (career guidance), showcasing ability to integrate multiple technologies.",
+                "relevance": "Directly aligns with potential career goals in AI/ML engineering and demonstrates ability to work with cutting-edge technologies, complementing the AI Engineering certification.",
+                "technologies": [
+                    "Python",
+                    "Streamlit",
+                    "Langchain",
+                    "LangGraph",
+                    "Google Generative AI",
+                    "Tavily API"
+                ]
+            },
+            "remoteWorkExperience": "Collaboration on the Inventory Management System via Github suggests experience with distributed teamwork.",
+            "internationalExperience": "Presented at an international conference (FICTA-2024), likely virtual."
+        },
+        "education": {
+            "highestDegree": "Bachelor of Science in Computer Science (In Progress)",
+            "relevantCoursework": [
+                "Introduction to Java",
+                "Introduction to Python",
+                "Data Structures and Algorithms",
+                "Object-Oriented Programming",
+                "General Programming",
+                "Game Development",
+                "Software Development",
+                "Cybersecurity",
+                "Networking"
+            ],
+            "academicAchievements": [
+                "Authored and Presented paper at FICTA-2024 ('Impact of Robotics and Automation on the Workforce and Society: A Literature Review')"
+            ],
+            "degreeUtilization": [
+                "Software Development",
+                "Data Science / AI",
+                "IT Support and Administration",
+                "Cybersecurity (Foundational)"
+            ],
+            "certificationOpportunities": [
+                "CompTIA A+ (for IT Support roles)",
+                "AWS Certified Cloud Practitioner",
+                "Microsoft Certified: Azure AI Fundamentals",
+                "Oracle Certified Professional, Java SE"
+            ],
+            "continuingEducation": [
+                "AI Engineering Path (Scrimba, 2024)",
+                "Github Foundations (Github, 2025 - *Note: Year appears to be in the future*)"
+            ],
+            "emergingTechAlignment": [
+                "Generative AI",
+                "AI Engineering",
+                "Machine Learning"
+            ]
+        },
+        "careerProgression": {
+            "growthTrajectory": "Early career professional with foundational skills in software development and IT support, showing potential for growth in AI/ML and general programming roles.",
+            "promotionHistory": "No formal promotion history due to limited professional experience (internship). Demonstrated leadership potential as a Project Leader in academic projects.",
+            "gapAnalysis": [
+                "Lack of full-time, paid professional experience.",
+                "Limited depth in specific enterprise-level frameworks or cloud platforms.",
+                "Need for more quantifiable achievements in resume."
+            ],
+            "transitionReadiness": "High readiness for entry-level roles in software development, IT support, or AI/ML, leveraging academic background, project experience, and recent certifications."
+        }
+    },
+    "jobRecommendations": [
+        {
+            "roleTitle": "Junior AI Engineer",
+            "experienceLevel": "Entry-Level / Junior",
+            "industryFocus": "Technology, Software Development, Data Science",
+            "workplaceType": "Hybrid or Remote common, On-site also possible.",
+            "assessment": {
+                "skillsMatch": [
+                    "Python",
+                    "Generative AI",
+                    "Langchain",
+                    "LangGraph",
+                    "Streamlit",
+                    "Git",
+                    "Linux"
+                ],
+                "skillGaps": [
+                    "Experience with production-level AI deployment and MLOps.",
+                    "Deeper knowledge of specific machine learning algorithms and frameworks (e.g., TensorFlow, PyTorch).",
+                    "Experience with cloud-based AI services (AWS SageMaker, Azure ML)."
+                ],
+                "experienceMatch": "Good match, project experience in Python, AI, and web frameworks is highly relevant.",
+                "educationMatch": "Strong match, BS in Computer Science provides the necessary theoretical foundation.",
+                "cultureFit": "Generally good fit for collaborative and innovative tech environments."
+            },
+            "salaryBenchmarks": {
+                "description": "Research salary ranges for Junior AI Engineer roles in the Philippines, considering location and specific company size.",
+                "links": [
+                    {
+                        "platform": "Glassdoor",
+                        "searchQuery": "Junior AI Engineer Salary Philippines",
+                        "url": "https://www.glassdoor.com/Salaries/junior-ai-engineer-salary-SRCH_KO0,20.htm"
+                    },
+                    {
+                        "platform": "Payscale",
+                        "searchQuery": "Entry Level Artificial Intelligence Engineer Salary",
+                        "url": "https://www.payscale.com/research/PH/Job=Artificial_Intelligence_Engineer/Salary/f9111111/Entry-Level"
+                    },
+                    {
+                        "platform": "LinkedIn Salary",
+                        "searchQuery": "Junior AI Engineer Salary",
+                        "url": "https://www.linkedin.com/salary/search?keywords=Junior%20AI%20Engineer"
+                    }
+                ]
+            },
+            "growthPotential": {
+                "marketDemand": "Very High - AI/ML is a rapidly growing field with significant demand for skilled professionals.",
+                "upwardMobility": "Excellent - Clear path to Mid-Level, Senior, and Lead/Architect roles."
+            },
+            "currentOpportunities": [
+                {
+                    "platform": "LinkedIn",
+                    "searchQuery": "Junior AI Engineer Philippines",
+                    "url": "https://www.linkedin.com/jobs/search/?keywords=Junior%20AI%20Engineer%20Philippines"
+                },
+                {
+                    "platform": "Glassdoor",
+                    "searchQuery": "Entry Level AI Engineer",
+                    "url": "https://www.glassdoor.com/Job/entry-level-ai-engineer-jobs-SRCH_KO0,22.htm"
+                },
+                {
+                    "platform": "Indeed",
+                    "searchQuery": "AI Engineer Junior",
+                    "url": "https://ph.indeed.com/jobs?q=AI+Engineer+Junior"
+                },
+                {
+                    "platform": "JobStreet",
+                    "searchQuery": "Artificial Intelligence Engineer Entry Level",
+                    "url": "https://www.jobstreet.com.ph/artificial-intelligence-engineer-jobs/entry-level"
+                }
+            ],
+            "skillDevelopment": [
+                {
+                    "title": "Deep Learning Specialization (Coursera)",
+                    "description": "Learn the fundamentals of deep learning and build neural networks using TensorFlow or PyTorch.",
+                    "duration": "40h 0m",
+                    "link": "https://www.coursera.org/specializations/deep-learning"
+                },
+                {
+                    "title": "AWS Machine Learning Courses",
+                    "description": "Gain practical experience deploying machine learning models on AWS.",
+                    "duration": "25h 0m",
+                    "link": "https://aws.amazon.com/training/learn-about/machine-learning/"
+                },
+                {
+                    "title": "Machine Learning Engineering for Production (MLOps) Specialization (Coursera)",
+                    "description": "Understand MLOps principles and practices for deploying and managing ML systems.",
+                    "duration": "15h 0m",
+                    "link": "https://www.coursera.org/specializations/machine-learning-engineering-for-production-mlops"
+                },
+                {
+                    "title": "Generative AI with Large Language Models (DeepLearning.AI)",
+                    "description": "Explore advanced topics and practical applications of Generative AI.",
+                    "duration": "10h 0m",
+                    "link": "https://www.deeplearning.ai/courses/generative-ai-with-llms/"
+                }
+            ],
+            "careerPathProjections": {
+                "potentialPaths": [
+                    "Mid-Level AI/ML Engineer",
+                    "Data Scientist",
+                    "Machine Learning Operations (MLOps) Engineer",
+                    "AI Research Engineer"
+                ],
+                "requiredSteps": [
+                    "Gain experience in production AI environments.",
+                    "Deepen knowledge of ML algorithms and frameworks.",
+                    "Learn cloud-based AI/ML services.",
+                    "Contribute to open-source AI projects."
+                ],
+                "timelineEstimate": "1-2 years to reach Mid-Level"
+            },
+            "randomForestInsights": "This recommendation is based on the candidate's recent AI Engineering certification, the 'Employment Opportunities' project utilizing Generative AI, Langchain, and Streamlit, and relevant coursework in Data Structures and Algorithms. These elements strongly indicate a foundational interest and capability in the AI/ML domain, making a Junior AI Engineer role a direct and promising path.",
+            "workLifeBalance": "Moderate to High - Can vary depending on company culture and project deadlines."
+        },
+        {
+            "roleTitle": "Junior Software Developer",
+            "experienceLevel": "Entry-Level / Junior",
+            "industryFocus": "Technology, Software Development, IT Services",
+            "workplaceType": "Hybrid or On-site most common, Remote possible.",
+            "assessment": {
+                "skillsMatch": [
+                    "Java",
+                    "Python",
+                    "SQL",
+                    "Git",
+                    "Javascript",
+                    "HTML",
+                    "CSS",
+                    "Maven"
+                ],
+                "skillGaps": [
+                    "Experience with enterprise-level Java frameworks (Spring, Jakarta EE).",
+                    "Experience with modern frontend frameworks (React, Angular, Vue.js).",
+                    "Experience with cloud platforms (AWS, Azure, GCP)."
+                ],
+                "experienceMatch": "Good match, project experience in Java, Python, SQL, and Git is highly relevant.",
+                "educationMatch": "Excellent match, core CS curriculum directly applies.",
+                "cultureFit": "Good fit for structured development teams."
+            },
+            "salaryBenchmarks": {
+                "description": "Research salary ranges for Junior Software Developer roles in the Philippines, considering language specialization (Java, Python) and location.",
+                "links": [
+                    {
+                        "platform": "Glassdoor",
+                        "searchQuery": "Junior Software Developer Salary Philippines",
+                        "url": "https://www.glassdoor.com/Salaries/junior-software-developer-salary-SRCH_KO0,24.htm"
+                    },
+                    {
+                        "platform": "Payscale",
+                        "searchQuery": "Entry Level Software Developer Salary Philippines",
+                        "url": "https://www.payscale.com/research/PH/Job=Software_Developer/Salary/f9111111/Entry-Level"
+                    },
+                    {
+                        "platform": "LinkedIn Salary",
+                        "searchQuery": "Junior Software Developer Salary",
+                        "url": "https://www.linkedin.com/salary/search?keywords=Junior%20Software%20Developer"
+                    }
+                ]
+            },
+            "growthPotential": {
+                "marketDemand": "High - Constant demand across various industries.",
+                "upwardMobility": "Excellent - Standard career path with clear progression."
+            },
+            "currentOpportunities": [
+                {
+                    "platform": "LinkedIn",
+                    "searchQuery": "Junior Software Developer Philippines",
+                    "url": "https://www.linkedin.com/jobs/search/?keywords=Junior%20Software%20Developer%20Philippines"
+                },
+                {
+                    "platform": "Glassdoor",
+                    "searchQuery": "Entry Level Software Engineer",
+                    "url": "https://www.glassdoor.com/Job/entry-level-software-engineer-jobs-SRCH_KO0,24.htm"
+                },
+                {
+                    "platform": "Indeed",
+                    "searchQuery": "Software Developer Junior",
+                    "url": "https://ph.indeed.com/jobs?q=Software+Developer+Junior"
+                },
+                {
+                    "platform": "JobStreet",
+                    "searchQuery": "Software Engineer Entry Level",
+                    "url": "https://www.jobstreet.com.ph/software-engineer-jobs/entry-level"
+                }
+            ],
+            "skillDevelopment": [
+                {
+                    "title": "Introduction to Spring Framework (Coursera)",
+                    "description": "Learn the leading Java enterprise framework for building robust applications.",
+                    "duration": "50h 0m",
+                    "link": "https://www.coursera.org/learn/spring-framework-introduction"
+                },
+                {
+                    "title": "Django Documentation & Tutorials",
+                    "description": "Master a popular Python web framework for backend development.",
+                    "duration": "30h 0m",
+                    "link": "https://www.djangoproject.com/start/"
+                },
+                {
+                    "title": "React Documentation (Official Tutorial)",
+                    "description": "Learn a modern JavaScript framework for building dynamic user interfaces.",
+                    "duration": "40h 0m",
+                    "link": "https://react.dev/learn"
+                },
+                {
+                    "title": "AWS Cloud Practitioner Essentials (AWS Training)",
+                    "description": "Understand the fundamentals of cloud computing and services.",
+                    "duration": "15h 0m",
+                    "link": "https://aws.amazon.com/training/digital/aws-cloud-practitioner-essentials/"
+                }
+            ],
+            "careerPathProjections": {
+                "potentialPaths": [
+                    "Mid-Level Software Engineer",
+                    "Senior Software Engineer",
+                    "Software Architect",
+                    "Engineering Manager"
+                ],
+                "requiredSteps": [
+                    "Gain experience with enterprise frameworks and development methodologies.",
+                    "Develop expertise in specific tech stacks (e.g., Java backend, Python backend, Full Stack).",
+                    "Learn cloud computing fundamentals.",
+                    "Contribute to larger codebases."
+                ],
+                "timelineEstimate": "1-2 years to reach Mid-Level"
+            },
+            "randomForestInsights": "This recommendation is based on the candidate's strong foundation in multiple programming languages (Java, Python, C#, C++, Javascript), database skills (MySQL, PostgreSQL), and experience with development tools like Git and Maven, demonstrated through the Inventory Management System project. This aligns perfectly with the core requirements of a Junior Software Developer role.",
+            "workLifeBalance": "Moderate - Can involve crunch times depending on project phase."
+        },
+        {
+            "roleTitle": "IT Support Specialist",
+            "experienceLevel": "Entry-Level",
+            "industryFocus": "Information Technology, Any industry with internal IT needs",
+            "workplaceType": "On-site or Hybrid most common.",
+            "assessment": {
+                "skillsMatch": [
+                    "Diagnosing hardware/software issues",
+                    "PC assembly/deployment",
+                    "Linux (basic)",
+                    "Problem-solving"
+                ],
+                "skillGaps": [
+                    "Formal IT support certifications (e.g., CompTIA A+, ITIL).",
+                    "Experience with specific enterprise IT systems (e.g., Active Directory, specific ticketing systems).",
+                    "Advanced networking troubleshooting."
+                ],
+                "experienceMatch": "Excellent match, direct experience from the IT Technical Unit Trainee role.",
+                "educationMatch": "Relevant, CS background provides strong technical troubleshooting skills.",
+                "cultureFit": "Good fit for service-oriented and problem-solving environments."
+            },
+            "salaryBenchmarks": {
+                "description": "Research salary ranges for Entry-Level IT Support roles in the Philippines, considering certifications and specific responsibilities.",
+                "links": [
+                    {
+                        "platform": "Glassdoor",
+                        "searchQuery": "IT Support Specialist Salary Philippines",
+                        "url": "https://www.glassdoor.com/Salaries/it-support-specialist-salary-SRCH_KO0,22.htm"
+                    },
+                    {
+                        "platform": "Payscale",
+                        "searchQuery": "Entry Level IT Support Salary Philippines",
+                        "url": "https://www.payscale.com/research/PH/Job=IT_Support_Specialist/Salary/f9111111/Entry-Level"
+                    },
+                    {
+                        "platform": "LinkedIn Salary",
+                        "searchQuery": "IT Support Salary",
+                        "url": "https://www.linkedin.com/salary/search?keywords=IT%20Support"
+                    }
+                ]
+            },
+            "growthPotential": {
+                "marketDemand": "High - Essential role in almost all organizations.",
+                "upwardMobility": "Good - Clear path into system administration, networking, or IT management."
+            },
+            "currentOpportunities": [
+                {
+                    "platform": "LinkedIn",
+                    "searchQuery": "Entry Level IT Support Philippines",
+                    "url": "https://www.linkedin.com/jobs/search/?keywords=Entry%20Level%20IT%20Support%20Philippines"
+                },
+                {
+                    "platform": "Glassdoor",
+                    "searchQuery": "IT Support Specialist Entry Level",
+                    "url": "https://www.glassdoor.com/Job/it-support-specialist-entry-level-jobs-SRCH_KO0,30.htm"
+                },
+                {
+                    "platform": "Indeed",
+                    "searchQuery": "IT Support Entry Level",
+                    "url": "https://ph.indeed.com/jobs?q=IT+Support+Entry+Level"
+                },
+                {
+                    "platform": "JobStreet",
+                    "searchQuery": "IT Support Entry Level",
+                    "url": "https://www.jobstreet.com.ph/it-support-jobs/entry-level"
+                }
+            ],
+            "skillDevelopment": [
+                {
+                    "title": "CompTIA A+ Certification",
+                    "description": "Obtain a foundational certification covering PC hardware, networking, and operating systems.",
+                    "duration": "80h 0m",
+                    "link": "https://www.comptia.org/certifications/a"
+                },
+                {
+                    "title": "ITIL 4 Foundation Certification",
+                    "description": "Learn the basics of IT Service Management best practices.",
+                    "duration": "20h 0m",
+                    "link": "https://www.axelos.com/certifications/itil-certifications/itil-4-foundation"
+                },
+                {
+                    "title": "Microsoft Learn: Windows Server Training",
+                    "description": "Develop skills in managing Windows Server environments.",
+                    "duration": "30h 0m",
+                    "link": "https://learn.microsoft.com/en-us/training/browse/?products=windows-server"
+                },
+                {
+                    "title": "CompTIA Network+ Certification",
+                    "description": "Enhance troubleshooting skills for network issues.",
+                    "duration": "25h 0m",
+                    "link": "https://www.comptia.org/certifications/network"
+                }
+            ],
+            "careerPathProjections": {
+                "potentialPaths": [
+                    "IT Support Specialist II",
+                    "System Administrator",
+                    "Network Administrator",
+                    "IT Manager"
+                ],
+                "requiredSteps": [
+                    "Obtain relevant IT support certifications.",
+                    "Gain experience with enterprise IT infrastructure.",
+                    "Develop expertise in specific areas like networking or cybersecurity.",
+                    "Learn IT service management principles (ITIL)."
+                ],
+                "timelineEstimate": "1-2 years to reach IT Support Specialist II"
+            },
+            "randomForestInsights": "This recommendation is directly supported by the candidate's recent internship experience as an IT Technical Unit Trainee, where they performed core IT support tasks like diagnosing hardware/software issues and assembling PCs. This practical experience, combined with a foundational CS background, makes them a strong candidate for entry-level IT Support roles.",
+            "workLifeBalance": "High - Often standard business hours, though on-call may be required."
+        },
+        {
+            "roleTitle": "Junior Full Stack Developer",
+            "experienceLevel": "Entry-Level / Junior",
+            "industryFocus": "Technology, Software Development, Web Development",
+            "workplaceType": "Hybrid or On-site most common, Remote possible.",
+            "assessment": {
+                "skillsMatch": [
+                    "Java",
+                    "Python",
+                    "Javascript",
+                    "HTML",
+                    "CSS",
+                    "SQL",
+                    "Git",
+                    "Maven"
+                ],
+                "skillGaps": [
+                    "Experience with specific full-stack frameworks (e.g., MERN, MEAN, LAMP).",
+                    "Experience with cloud deployment and DevOps practices.",
+                    "Building and consuming RESTful APIs at scale."
+                ],
+                "experienceMatch": "Good match, project experience (especially Inventory System) and diverse tech skills are relevant.",
+                "educationMatch": "Strong match, CS background provides necessary technical breadth.",
+                "cultureFit": "Good fit for project-oriented and collaborative teams."
+            },
+            "salaryBenchmarks": {
+                "description": "Research salary ranges for Junior Full Stack Developer roles in the Philippines, considering the specific technologies required (e.g., Java-based, Python-based).",
+                "links": [
+                    {
+                        "platform": "Glassdoor",
+                        "searchQuery": "Junior Full Stack Developer Salary Philippines",
+                        "url": "https://www.glassdoor.com/Salaries/junior-full-stack-developer-salary-SRCH_KO0,25.htm"
+                    },
+                    {
+                        "platform": "Payscale",
+                        "searchQuery": "Entry Level Full Stack Developer Salary Philippines",
+                        "url": "https://www.payscale.com/research/PH/Job=Full_Stack_Software_Developer/Salary/f9111111/Entry-Level"
+                    },
+                    {
+                        "platform": "LinkedIn Salary",
+                        "searchQuery": "Junior Full Stack Developer Salary",
+                        "url": "https://www.linkedin.com/salary/search?keywords=Junior%20Full%20Stack%20Developer"
+                    }
+                ]
+            },
+            "growthPotential": {
+                "marketDemand": "High - Versatile role needed in many companies.",
+                "upwardMobility": "Excellent - Path to senior roles, architecture, or management."
+            },
+            "currentOpportunities": [
+                {
+                    "platform": "LinkedIn",
+                    "searchQuery": "Junior Full Stack Developer Philippines",
+                    "url": "https://www.linkedin.com/jobs/search/?keywords=Junior%20Full%20Stack%20Developer%20Philippines"
+                },
+                {
+                    "platform": "Glassdoor",
+                    "searchQuery": "Entry Level Full Stack Developer",
+                    "url": "https://www.glassdoor.com/Job/entry-level-full-stack-developer-jobs-SRCH_KO0,28.htm"
+                },
+                {
+                    "platform": "Indeed",
+                    "searchQuery": "Full Stack Developer Junior",
+                    "url": "https://ph.indeed.com/jobs?q=Full+Stack+Developer+Junior"
+                },
+                {
+                    "platform": "JobStreet",
+                    "searchQuery": "Full Stack Developer Entry Level",
+                    "url": "https://www.jobstreet.com.ph/full-stack-developer-jobs/entry-level"
+                }
+            ],
+            "skillDevelopment": [
+                {
+                    "title": "MERN Stack Guide (MongoDB)",
+                    "description": "Learn the MERN stack (MongoDB, Express.js, React, Node.js) for full-stack JavaScript development.",
+                    "duration": "60h 0m",
+                    "link": "https://www.mongodb.com/mern-stack"
+                },
+                {
+                    "title": "Database Management Essentials (Coursera)",
+                    "description": "Deepen understanding of database design, optimization, and management.",
+                    "duration": "30h 0m",
+                    "link": "https://www.coursera.org/learn/database-management"
+                },
+                {
+                    "title": "REST API Design and Development Course",
+                    "description": "Learn how to build and secure RESTful APIs.",
+                    "duration": "20h 0m",
+                    "link": "https://www.udemy.com/course/rest-api-design-and-development-in-node-js/"
+                },
+                {
+                    "title": "Docker Get Started Guide",
+                    "description": "Understand the basics of deploying applications using Docker and Kubernetes.",
+                    "duration": "25h 0m",
+                    "link": "https://www.docker.com/get-started/"
+                }
+            ],
+            "careerPathProjections": {
+                "potentialPaths": [
+                    "Mid-Level Full Stack Developer",
+                    "Senior Full Stack Developer",
+                    "Tech Lead",
+                    "Solutions Architect"
+                ],
+                "requiredSteps": [
+                    "Specialize in a specific full-stack technology combination.",
+                    "Gain experience with cloud deployment and CI/CD pipelines.",
+                    "Build complex, scalable applications.",
+                    "Develop expertise in database design and optimization."
+                ],
+                "timelineEstimate": "1-2 years to reach Mid-Level"
+            },
+            "randomForestInsights": "The candidate's experience with both backend languages (Java, Python), frontend languages (Javascript, HTML, CSS), and databases (MySQL, PostgreSQL), demonstrated in projects like the Inventory Management System (JavaFX, MySQL) and the AI Agent (Python, Streamlit), indicates a foundational understanding of different layers of application development, making a Junior Full Stack role a suitable fit.",
+            "workLifeBalance": "Moderate - Project deadlines can impact work hours."
+        }
+    ],
+    "overallEvaluation": {
+        "jobFitScores": [
+            {
+                "jobTitle": "Junior AI Engineer",
+                "score": 0.78
+            },
+            {
+                "jobTitle": "Junior Software Developer",
+                "score": 0.85
+            },
+            {
+                "jobTitle": "IT Support Specialist",
+                "score": 0.88
+            },
+            {
+                "jobTitle": "Junior Full Stack Developer",
+                "score": 0.82
+            }
+        ],
+        "marketPositioning": {
+            "competitiveAdvantages": [
+                "Early exposure and certification in AI/Generative AI.",
+                "Experience across multiple programming languages and databases.",
+                "Practical project experience demonstrating application development and AI agent creation.",
+                "Experience in both software development and IT support domains.",
+                "Academic research and presentation experience."
+            ],
+            "improvementAreas": [
+                "Gaining more formal, paid professional work experience.",
+                "Deepening specialization in a specific area (e.g., a particular full-stack technology, a specific AI domain).",
+                "Quantifying achievements in projects and experience."
+            ]
+        },
+        "interviewReadiness": {
+            "commonQuestions": [
+                "Tell me about your Inventory Management System project. What challenges did you face?",
+                "Describe your role and responsibilities during your IT Technical Unit internship.",
+                "Explain your AI Agent project. How did you use Langchain and Generative AI?",
+                "What is your understanding of Object-Oriented Programming?",
+                "Describe a time you had to troubleshoot a technical problem.",
+                "Why are you interested in a career in [Specific Role, e.g., AI, Software Dev, IT Support]?",
+                "Tell me about your experience collaborating with others on a project (e.g., Github collaboration).",
+                "What are your career goals for the next 3-5 years?"
+            ],
+            "suggestedTalkingPoints": [
+                "Highlight leadership experience on the Inventory Management System project.",
+                "Emphasize practical problem-solving skills gained during the IT internship.",
+                "Showcase initiative and learning ability through the AI Agent project and AI Engineering certification.",
+                "Discuss the research and presentation experience at FICTA-2024 as evidence of communication and analytical skills.",
+                "Mention relevant coursework that provides a strong theoretical base.",
+                "Discuss specific technical skills used in projects (JavaFX, Streamlit, Langchain, etc.)."
+            ]
+        },
+        "personalBrandingSuggestions": [
+            "Create or update a LinkedIn profile, highlighting key skills, projects, and the FICTA presentation.",
+            "Showcase project code on GitHub and link it from the resume and LinkedIn.",
+            "Write short articles or posts on LinkedIn about learnings from projects or certifications.",
+            "Network with professionals in target industries/roles."
+        ]
+    },
+    "resumeImprovement": {
+        "overallAssessment": "The resume provides a good overview of technical skills, education, and project experience but lacks structure, quantifiable achievements, and a professional summary. Improving these areas will significantly enhance its impact and marketability.",
+        "missingElements": [
+            "Professional Summary/Objective.",
+            "Quantifiable achievements.",
+            "LinkedIn Profile URL.",
+            "Detailed scope/scale of internship.",
+            "Specific dates or duration for projects (if applicable)."
+        ],
+        "formattingIssues": [
+            "Inconsistent use of bullet points vs. paragraphs.",
+            "Spacing and alignment could be improved for readability.",
+            "Lack of clear section breaks or visual hierarchy."
+        ],
+        "contentWeaknesses": [
+            "Lack of quantifiable results for accomplishments.",
+            "Project descriptions focus more on features than impact or personal contribution beyond basic tasks.",
+            "Limited detail on the scope or scale of the internship responsibilities.",
+            "Missing a professional summary to quickly convey value proposition."
+        ],
+        "actionableSteps": [
+            "Add a professional summary or objective statement at the top.",
+            "Quantify achievements in the 'Experience' and 'Projects' sections (e.g., 'Improved system efficiency by X%', 'Handled Y support tickets daily').",
+            "Expand project descriptions to include the impact or outcome, not just features.",
+            "Use strong action verbs at the beginning of bullet points.",
+            "Ensure consistent formatting and spacing throughout the document.",
+            "Consider adding a 'Skills Summary' section that groups related skills (Languages, Frameworks, Tools, etc.).",
+            "List relevant coursework under the 'Education' section for both universities.",
+            "Add a LinkedIn profile URL."
+        ],
+        "professionalResourceLinks": [
+            {
+                "title": "The Muse: The Ultimate Guide to Writing a Resume",
+                "description": "Provides comprehensive guides and examples for writing effective resumes.",
+                "link": "https://www.themuse.com/advice/the-ultimate-guide-to-writing-a-resume"
+            },
+            {
+                "title": "Indeed: How to Quantify Achievements on Your Resume",
+                "description": "Tips and examples for quantifying achievements on a resume.",
+                "link": "https://www.indeed.com/career-advice/resumes-cover-letters/quantify-resume"
+            },
+            {
+                "title": "The Muse: Powerful Action Verbs for Your Resume",
+                "description": "Guide on writing impactful bullet points using action verbs.",
+                "link": "https://www.themuse.com/advice/185-powerful-action-verbs-that-will-make-your-resume-awesome"
+            },
+            {
+                "title": "Indeed: Resume Summary Examples",
+                "description": "Examples of professional summaries for different career levels.",
+                "link": "https://www.indeed.com/career-advice/resumes-cover-letters/resume-summary-examples"
+            }
+        ]
+    }
+}

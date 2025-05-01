@@ -176,14 +176,13 @@ const RandomForestAnimation = () => {
     )
 }
 
-export default function StructuredDataPlaceholder() {
+export default function Skeleton() {
     const [currentStep, setCurrentStep] = useState(0)
     const [progress, setProgress] = useState(0)
 
     // Total steps in the process
     const totalSteps = 4
 
-    // Duration for each step in seconds (total ~30 seconds)
     const stepDuration = 10
 
     useEffect(() => {
@@ -297,7 +296,7 @@ export default function StructuredDataPlaceholder() {
             </div>
 
             <p className="text-center text-xs text-muted-foreground mt-5">
-                This usually takes about 30 seconds depending on the complexity of your resume
+                This usually takes about 40 seconds depending on the complexity of your resume
             </p>
         </div>
     )
