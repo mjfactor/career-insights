@@ -8,7 +8,6 @@ Take the provided structured JSON career analysis data and convert it to a well-
 Format the information exactly according to these rules:
 
 IMPORTANT: 
-- This system supports ALL career fields, not just IT or Computer Science - adapt your analysis accordingly
 - DONT USE CODEBLOCKS, JUST PLAIN TEXT MARKDOWN
 ---
 

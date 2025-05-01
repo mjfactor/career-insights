@@ -6,7 +6,7 @@ import { CandidateAnalysisSchema } from '@/lib/schema/career-compass-schema';
 const STRUCTURED_COMPASS_PROMPT = `Generate a structured JSON object with comprehensive career analysis data based on the resume.
 IMPORTANT: This system supports ALL career fields, not just IT or Computer Science. Adapt your analysis to the specific industry and career path evident in the resume.
 
-Include at least 4 job recommendations that match the candidate's skills and experience.`;
+Include at least 4-7 job recommendations that match the candidate's skills and experience.`;
 
 /**
  * Repairs malformed JSON by applying a series of fixes to common syntax errors

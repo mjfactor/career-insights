@@ -83,9 +83,9 @@ export const CandidateAnalysisSchema = z.object({
   jobRecommendations: z.array(
     z.object({
       roleTitle: z.string().describe("Recommended job title"),
-      experienceLevel: z.string().describe("Target experience level"), // Consider z.enum
+      experienceLevel: z.string().describe("Target experience level"),
       industryFocus: z.string().describe("Primary industry for the role"),
-      workplaceType: z.string().describe("Typical workplace setting"), // Consider z.enum
+      workplaceType: z.string().describe("Typical workplace setting"),
       assessment: z.object({
         skillsMatch: z.array(z.string()).describe("Candidate skills matching the role"),
         skillGaps: z.array(z.string()).describe("Required skills the candidate may lack"),
@@ -115,7 +115,7 @@ export const CandidateAnalysisSchema = z.object({
       randomForestInsights: z.string().describe("Come up with an explanation of how the model arrived at this recommendation"),
       workLifeBalance: z.string().describe("Typical work-life balance for the role")
     }).describe("Detailed job recommendation")
-  ).min(3).max(7).describe("List of 3 to 7 detailed job recommendations"),
+  ).min(3).max(7).describe("List of 4 to 7 detailed job recommendations"),
 
   overallEvaluation: z.object({
     jobFitScores: z.object({
