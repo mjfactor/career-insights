@@ -183,7 +183,6 @@ export default function Skeleton() {
     // Total steps in the process
     const totalSteps = 4
 
-    // Duration for each step in seconds (total ~30 seconds)
     const stepDuration = 10
 
     useEffect(() => {
@@ -297,7 +296,7 @@ export default function Skeleton() {
             </div>
 
             <p className="text-center text-xs text-muted-foreground mt-5">
-                This usually takes about 30 seconds depending on the complexity of your resume
+                This usually takes about 40 seconds depending on the complexity of your resume
             </p>
         </div>
     )
