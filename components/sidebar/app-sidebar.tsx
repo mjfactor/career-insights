@@ -119,12 +119,7 @@ export function AppSidebar({
         icon: Compass,
         isActive: isCareerCompassPage,
       },
-      {
-        title: "Chatbot",
-        url: "/dashboard/chat",
-        icon: BotMessageSquareIcon,
-        isActive: isChatPage,
-      },
+
     ],
     miscellaneous: [
       {
@@ -133,6 +128,12 @@ export function AppSidebar({
         icon: LayoutDashboard,
         isActive: pathname?.includes('/dashboard/aggregator') || false,
       },
+      {
+        title: "Chatbot",
+        url: "/dashboard/chat",
+        icon: BotMessageSquareIcon,
+        isActive: isChatPage,
+      }
     ]
   }
 

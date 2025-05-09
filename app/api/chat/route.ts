@@ -5,7 +5,7 @@ import { cookies } from 'next/headers'
 export const maxDuration = 30
 
 const GEMINI_MODEL: Model = {
-  id: 'gemini-2.0-flash-lite',
+  id: 'gemini-2.0-flash',
   name: 'Gemini 2.0 Flash',
   provider: 'Google Generative AI',
   providerId: 'google',
