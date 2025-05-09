@@ -9,16 +9,17 @@ datasource db {
 }
 
 model User {
-  id            String          @id @default(cuid())
-  name          String?
-  email         String          @unique
-  password      String?
-  emailVerified DateTime?
-  image         String?
-  accounts      Account[]
-  sessions      Session[]
+  id                  String               @id @default(cuid())
+  name                String?
+  email               String               @unique
+  password            String?
+  emailVerified       DateTime?
+  image               String?
+  accounts            Account[]
+  sessions            Session[]
   // Optional for WebAuthn support
-  Authenticator Authenticator[]
+  Authenticator       Authenticator[]
+  careerCompassReport CareerCompassReport? // Added relation to CareerCompassReport
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -85,4 +86,17 @@ model Authenticator {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@id([userId, credentialID])
+}
+
+model CareerCompassReport {
+  id             String   @id @default(cuid())
+  userId         String   @unique // Each user has one report
+  structuredData Json // Stores the structured JSON output from the career compass
+  markdownReport String // Stores the generated markdown report
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
 }
