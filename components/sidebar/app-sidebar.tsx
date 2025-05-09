@@ -121,7 +121,7 @@ export function AppSidebar({
       },
 
     ],
-    miscellaneous: [
+    additionals: [
       {
         title: "Aggregator",
         url: "/dashboard/aggregator",
@@ -153,7 +153,7 @@ export function AppSidebar({
       </SidebarHeader>
       <SidebarContent className="overflow-hidden">
         <NavMain items={data.navMain} groupLabel="AI Agents" />
-        <NavMain items={data.miscellaneous} groupLabel="Miscellaneous" />
+        <NavMain items={data.additionals} groupLabel="Additionals" />
 
         {/* Show Chat History only on Chat page */}
         {isChatPage && (
