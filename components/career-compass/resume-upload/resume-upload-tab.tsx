@@ -9,7 +9,6 @@ import { cn } from "@/lib/utils"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Progress } from "@/components/ui/progress"
 import { motion, AnimatePresence } from "framer-motion"
-import mammoth from 'mammoth'
 import { validateResumeFile, validateResumeText } from "@/lib/actions/resume-validator"
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
@@ -40,7 +39,6 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
   const [uploadProgress, setUploadProgress] = useState(0)
   const [uploadStage, setUploadStage] = useState<"idle" | "uploading" | "validating" | "complete">("idle")
   const [isAnalyzing, setIsAnalyzing] = useState(false)
-  const [resumeContent, setResumeContent] = useState<string | null>(null)
   const [analysisResult, setAnalysisResult] = useState<string | null>(null)
   const [analysisError, setAnalysisError] = useState<string | null>(null)
   const [isStreaming, setIsStreaming] = useState(false);
@@ -148,21 +146,6 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
     }, 50); // Faster interval (50ms instead of 200ms)
   }
 
-  // Function to extract text from DOCX
-  const extractDocxText = async (file: File): Promise<string> => {
-    try {
-      // Convert File to ArrayBuffer
-      const arrayBuffer = await file.arrayBuffer()
-
-      // Extract text using mammoth
-      const result = await mammoth.extractRawText({ arrayBuffer })
-      return result.value
-    } catch (error) {
-      console.error('Error extracting text from DOCX:', error)
-      throw new Error('Failed to extract text from DOCX')
-    }
-  }
-
   // Check if file is an image
   const isImageFile = (file: File): boolean => {
     return file.type === 'image/jpeg' || file.type === 'image/png';
@@ -174,8 +157,8 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
 
     setIsValidating(true)
     try {
+      // Only allow PDF and image files
       const fileExtension = file.name.split('.').pop()?.toLowerCase();
-      let extractedText = '';
       const formData = new FormData();
       formData.append('file', file);
 
@@ -198,30 +181,11 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
           console.error("Validation error:", validationResult.error);
         }
       } else {
-        // For DOCX files, extract text first then use the server action
-        extractedText = await extractDocxText(file);
-
-        const validationResult = await validateResumeText(extractedText.substring(0, 2000));
-        setIsValidResume(validationResult.isValid);
-
-        if (validationResult.isValid) {
-          toast.success("Resume validation successful", {
-            description: "Your resume was validated successfully.",
-          });
-        } else {
-          toast.error("Resume validation failed", {
-            description: validationResult.error || "The file doesn't appear to be a valid resume.",
-          });
-        }
-
-        if (validationResult.error) {
-          console.error("Validation error:", validationResult.error);
-        }
-      }
-
-      // Store the extracted text for later submission
-      if (extractedText) {
-        setResumeContent(extractedText);
+        // For unsupported file types (including DOCX), reject
+        setIsValidResume(false);
+        toast.error("Unsupported file type", {
+          description: "Only PDF and image files are supported.",
+        });
       }
 
       setIsValidating(false);
@@ -369,7 +333,7 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
 
   // Handle resume submission for analysis with streaming
   const submitResume = async () => {
-    if ((!file && !resumeContent) || !isValidResume) {
+    if ((!file) || !isValidResume) {
       toast.error("No valid resume to analyze", {
         description: "Please upload and validate a resume first.",
       })
@@ -401,10 +365,6 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
         formData.append("file", file)
         requestBody = formData;
         endpoint = "/api/career-compass/analyze"; // Existing endpoint for file analysis
-      } else if (resumeContent) {
-        // If there's only resumeContent (e.g. from DOCX extraction)
-        requestBody = JSON.stringify({ resumeText: resumeContent });
-        endpoint = "/api/career-compass/analyze"; // Existing endpoint for text analysis
       } else {
         toast.error("No data to submit for analysis.");
         setIsAnalyzing(false);
@@ -413,12 +373,11 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
         return;
       }
 
-
       const response = await fetch(endpoint, {
         method: "POST",
         body: requestBody,
         signal, // Pass the abort signal to the fetch request
-        headers: endpoint === "/api/career-compass" || (endpoint === "/api/career-compass/analyze" && resumeContent && !file)
+        headers: endpoint === "/api/career-compass" || (endpoint === "/api/career-compass/analyze" && !file)
           ? { "Content-Type": "application/json" }
           : undefined, // Let browser set Content-Type for FormData
       })
@@ -578,7 +537,7 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
                 type="file"
                 id="resume-upload"
                 className="hidden"
-                accept=".docx,.pdf,.jpg,.jpeg,.png"
+                accept=".pdf,.jpg,.jpeg,.png"
                 onChange={handleFileChange}
               />
 
@@ -592,7 +551,7 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
 
               <div>
                 <p className="font-medium text-base">Click to upload or drag and drop</p>
-                <p className="text-xs text-muted-foreground mt-1">PDF, DOCX, JPG, IMG, JPEG (max. 4MB)</p>
+                <p className="text-xs text-muted-foreground mt-1">PDF, JPG, IMG, JPEG (max. 4MB)</p>
               </div>
             </div>
           </motion.div>
