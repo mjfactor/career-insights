@@ -49,6 +49,7 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
   const [showPlaceholder, setShowPlaceholder] = useState<boolean>(false)
   const [isSaving, setIsSaving] = useState<boolean>(false)
   const [isSaved, setIsSaved] = useState<boolean>(false)
+  const [isLoadingPrevious, setIsLoadingPrevious] = useState<boolean>(false)
 
   // Ref to track if component is mounted
   const isMounted = useRef(true);
@@ -409,16 +410,33 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
       toast.success("Success!", {
         description: "Your details have been analyzed successfully.",
       })
-      await processStream(reader);
-
-      // STEP 3: Save the report to the database after analysis is complete
+      await processStream(reader);      // STEP 3: Save the report to the database after analysis is complete
       try {
-        saveReportToDatabase(structuredData, analysisResult || "");
-        toast.success("Report saved!", {
-          description: "Your resume analysis has been saved to your account.",
-        });
-      } catch (error) {
+        // Ensure we have both required pieces of data
+        if (!structuredData) {
+          console.warn("No structured data available for saving");
+          return;
+        }
 
+        const currentResult = analysisResult || "";
+        if (!currentResult.trim()) {
+          console.warn("No analysis content available for saving");
+          return;
+        }
+
+        setIsSaving(true);
+
+        // Call the save function with explicit values (not relying on closure state)
+        await saveReportToDatabase(structuredData, currentResult);
+
+        // Don't show another toast here as saveReportToDatabase already shows one on success
+      } catch (error) {
+        console.error('Error saving report during analysis completion:', error);
+        setIsSaving(false); // Make sure to reset the saving state
+
+        toast.error("Error saving report", {
+          description: error instanceof Error ? error.message : "An unexpected error occurred while saving your report.",
+        });
       }
 
 
@@ -497,6 +515,57 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
     }
   };
 
+  // Function to load previous analysis
+  const loadPreviousAnalysis = async () => {
+    try {
+      setIsLoadingPrevious(true);
+      setAnalysisError(null);
+
+      // Fetch the previous analysis from the API
+      const response = await fetch('/api/career-compass/load', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || `Error: ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      // Check if we have a report
+      if (!data.report) {
+        toast.error("No previous analysis found", {
+          description: "You haven't saved any resume analysis yet.",
+        });
+        return;
+      }
+
+      // Update the states with the loaded data
+      setStructuredData(data.report.structuredData);
+      setAnalysisResult(data.report.markdownReport);
+      setShowPlaceholder(false);
+
+      // Show success message
+      toast.success("Previous analysis loaded", {
+        description: "Your most recent resume analysis has been loaded.",
+      });
+
+    } catch (error) {
+      console.error("Error loading previous analysis:", error);
+      setAnalysisError(error instanceof Error ? error.message : "An error occurred loading previous analysis");
+
+      toast.error("Failed to load analysis", {
+        description: error instanceof Error ? error.message : "An unexpected error occurred.",
+      });
+    } finally {
+      setIsLoadingPrevious(false);
+    }
+  };
+
   // ===================================================
   // COMPONENT RENDER
   // ===================================================
@@ -506,12 +575,15 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
        * ==============================================
        * HEADER SECTION
        * ==============================================
-       */}
-      <div className="flex flex-col gap-3">
-        <h2 className="text-2xl font-bold bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent text-center">Resume Upload</h2>
+       */}      <div className="flex flex-col gap-3">
+        <div className="flex justify-between items-center">
+          <h2 className="text-2xl font-bold bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent">Resume Upload</h2>
+        </div>
+
         <p className="text-muted-foreground text-base text-center mx-auto max-w-2xl">
           Upload your resume to discover personalized career insights. Our AI will analyze your skills, experience, and potential to provide tailored recommendations for your professional growth journey.
         </p>
+
         <div className="flex justify-center items-center gap-2 mb-2">
           <TooltipProvider>
             <Tooltip>
@@ -529,6 +601,32 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
             </Tooltip>
           </TooltipProvider>
         </div>
+      </div>
+
+      <div className="flex justify-center my-4">
+        <Button
+          size="sm"
+          variant="outline"
+          disabled={isLoadingPrevious || isAnalyzing}
+          className="rounded-lg font-medium transition-all border-primary/30 hover:border-primary/70"
+          onClick={loadPreviousAnalysis}
+        >
+          {isLoadingPrevious ? (
+            <div className="flex items-center gap-2">
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                className="h-3.5 w-3.5 border-2 border-primary border-t-transparent rounded-full"
+              />
+              <span className="text-xs">Loading...</span>
+            </div>
+          ) : (
+            <div className="flex items-center gap-1.5">
+              <FileText className="h-3.5 w-3.5" />
+              <span>Load Latest Previous Analysis</span>
+            </div>
+          )}
+        </Button>
       </div>
 
       <AnimatePresence mode="wait">
@@ -714,9 +812,7 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
             </Alert>
           </motion.div>
         )}
-      </AnimatePresence>
-
-      <div className="flex justify-end gap-2">
+      </AnimatePresence>      <div className="flex justify-end gap-2">
         {/* Stop Analysis Button */}
         <AnimatePresence>
           {(isAnalyzing || isStreaming) && (
@@ -738,8 +834,7 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
                 </div>
               </Button>
             </motion.div>
-          )}
-        </AnimatePresence>
+          )}        </AnimatePresence>
 
         <motion.div
           initial={{ opacity: 0 }}
