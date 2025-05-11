@@ -50,6 +50,7 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
   const [isSaving, setIsSaving] = useState<boolean>(false)
   const [isSaved, setIsSaved] = useState<boolean>(false)
   const [isLoadingPrevious, setIsLoadingPrevious] = useState<boolean>(false)
+  const [analysisSource, setAnalysisSource] = useState<'new' | 'loaded' | null>(null); // Added state
 
   // Ref to track if component is mounted
   const isMounted = useRef(true);
@@ -319,6 +320,8 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
       setStructuredData(null);
       setShowPlaceholder(true);
       setResultsView("text");
+      setIsSaved(false); // Reset saved state for new analysis
+      setAnalysisSource('new'); // Mark as new analysis
 
       // Create an AbortController for this request
       abortControllerRef.current = new AbortController();
@@ -410,35 +413,7 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
       toast.success("Success!", {
         description: "Your details have been analyzed successfully.",
       })
-      await processStream(reader);      // STEP 3: Save the report to the database after analysis is complete
-      try {
-        // Ensure we have both required pieces of data
-        if (!structuredData) {
-          console.warn("No structured data available for saving");
-          return;
-        }
-
-        const currentResult = analysisResult || "";
-        if (!currentResult.trim()) {
-          console.warn("No analysis content available for saving");
-          return;
-        }
-
-        setIsSaving(true);
-
-        // Call the save function with explicit values (not relying on closure state)
-        await saveReportToDatabase(structuredData, currentResult);
-
-        // Don't show another toast here as saveReportToDatabase already shows one on success
-      } catch (error) {
-        console.error('Error saving report during analysis completion:', error);
-        setIsSaving(false); // Make sure to reset the saving state
-
-        toast.error("Error saving report", {
-          description: error instanceof Error ? error.message : "An unexpected error occurred while saving your report.",
-        });
-      }
-
+      await processStream(reader);
 
     } catch (error) {
       // Check if this was an abort error (user cancelled)
@@ -501,6 +476,7 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
 
       const result = await saveResponse.json();
       setIsSaved(true);
+      // analysisSource remains 'new' but isSaved is true
       toast.success("Report saved!", {
         description: "Your resume analysis has been saved to your account.",
       });
@@ -515,11 +491,40 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
     }
   };
 
+  // Function to clear analysis results
+  const clearAnalysisResults = () => {
+    setAnalysisResult(null);
+    setStructuredData(null);
+    setIsSaved(false); // Reset saved state
+    setAnalysisSource(null); // Reset analysis source
+    toast.info("Analysis cleared", {
+      description: "The analysis results have been cleared from the view.",
+    });
+  };
+
+  // Handle clearing analysis with confirmation for unsaved changes
+  const handleClearAnalysis = () => {
+    if (analysisSource === 'new' && analysisResult && !isSaved) {
+      setConfirmationDialog({
+        isOpen: true,
+        title: "Clear Unsaved Analysis?",
+        description: "You have unsaved analysis results. Are you sure you want to clear them? This action cannot be undone.",
+        action: clearAnalysisResults,
+      });
+    } else {
+      clearAnalysisResults(); // Clear directly if loaded or already saved
+    }
+  };
+
   // Function to load previous analysis
   const loadPreviousAnalysis = async () => {
     try {
       setIsLoadingPrevious(true);
       setAnalysisError(null);
+      // Clear existing results before loading new ones
+      setAnalysisResult(null);
+      setStructuredData(null);
+      setIsSaved(false); // Reset saved state before loading
 
       // Fetch the previous analysis from the API
       const response = await fetch('/api/career-compass/load', {
@@ -548,6 +553,8 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
       setStructuredData(data.report.structuredData);
       setAnalysisResult(data.report.markdownReport);
       setShowPlaceholder(false);
+      setIsSaved(true); // Loaded analysis is considered saved
+      setAnalysisSource('loaded'); // Mark as loaded analysis
 
       // Show success message
       toast.success("Previous analysis loaded", {
@@ -576,7 +583,7 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
        * HEADER SECTION
        * ==============================================
        */}      <div className="flex flex-col gap-3">
-        <div className="flex justify-between items-center">
+        <div className="flex justify-center items-center"> {/* Changed from justify-between to justify-center */}
           <h2 className="text-2xl font-bold bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent">Resume Upload</h2>
         </div>
 
@@ -999,6 +1006,26 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
                     <AlertDescription className="text-xs">{analysisError}</AlertDescription>
                   </Alert>
                 </motion.div>
+              )}
+              {/* Save Analysis Button */}
+              {analysisResult && structuredData && (
+                <div className="mt-4 flex justify-end gap-2">
+                  <Button
+                    variant="outline"
+                    onClick={handleClearAnalysis}
+                    disabled={isAnalyzing || isStreaming} // Disable if analysis is running
+                  >
+                    Clear
+                  </Button>
+                  {analysisSource === 'new' && ( // Only show Save Analysis if it's a new analysis
+                    <Button
+                      onClick={() => saveReportToDatabase(structuredData, analysisResult)}
+                      disabled={isSaving || isSaved}
+                    >
+                      {isSaving ? "Saving..." : isSaved ? "Analysis Saved" : "Save Analysis"}
+                    </Button>
+                  )}
+                </div>
               )}
             </div>
           </motion.div>
