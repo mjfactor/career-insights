@@ -39,6 +39,7 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
   const [uploadProgress, setUploadProgress] = useState(0)
   const [uploadStage, setUploadStage] = useState<"idle" | "uploading" | "validating" | "complete">("idle")
   const [isAnalyzing, setIsAnalyzing] = useState(false)
+  const [resumeContent, setResumeContent] = useState<string | null>(null)
   const [analysisResult, setAnalysisResult] = useState<string | null>(null)
   const [analysisError, setAnalysisError] = useState<string | null>(null)
   const [isStreaming, setIsStreaming] = useState(false);
@@ -46,7 +47,8 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
   const [structuredData, setStructuredData] = useState<any>(null)
   const [resultsView, setResultsView] = useState<"text" | "visualization">("text")
   const [showPlaceholder, setShowPlaceholder] = useState<boolean>(false)
-  const [analysisSource, setAnalysisSource] = useState<"new" | "fetched">("new") // Track source of analysis
+  const [isSaving, setIsSaving] = useState<boolean>(false)
+  const [isSaved, setIsSaved] = useState<boolean>(false)
 
   // Ref to track if component is mounted
   const isMounted = useRef(true);
@@ -72,34 +74,6 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
     description: "",
     action: () => { },
   });
-
-  useEffect(() => {
-    // Fetch existing report on mount
-    const fetchReport = async () => {
-      try {
-        const response = await fetch("/api/career-compass/load"); // Assuming a new endpoint to load data
-        if (response.ok) {
-          const data = await response.json();
-          if (data.report) {
-            setAnalysisResult(data.report.markdownReport);
-            setStructuredData(data.report.structuredData);
-            setAnalysisSource("fetched"); // Mark as fetched
-            // Potentially set other states based on loaded data, e.g., uploadStage
-            if (data.report.markdownReport) {
-              setUploadStage("complete"); // Or another appropriate stage
-            }
-          }
-        } else {
-          console.warn("No existing report found or failed to load.");
-        }
-      } catch (error) {
-        console.error("Error fetching existing report:", error);
-      }
-    };
-
-    fetchReport();
-    // ...rest of existing useEffect
-  }, []);
 
   useEffect(() => {
     return () => {
@@ -146,46 +120,35 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
     }, 50); // Faster interval (50ms instead of 200ms)
   }
 
-  // Check if file is an image
-  const isImageFile = (file: File): boolean => {
-    return file.type === 'image/jpeg' || file.type === 'image/png';
-  }
-
   // Simulate validation progress after upload completes
   const validateResume = async () => {
     if (!file) return
 
     setIsValidating(true)
     try {
-      // Only allow PDF and image files
-      const fileExtension = file.name.split('.').pop()?.toLowerCase();
       const formData = new FormData();
       formData.append('file', file);
 
-      if (fileExtension === 'pdf' || isImageFile(file)) {
-        // For PDF and image files, use the server action directly
-        const validationResult = await validateResumeFile(formData);
-        setIsValidResume(validationResult.isValid);
+      // For PDF files, use the server action directly
+      const validationResult = await validateResumeFile(formData);
+      setIsValidResume(validationResult.isValid);
 
-        if (validationResult.isValid) {
-          toast.success("Resume validation successful", {
-            description: "Your resume was validated successfully.",
-          });
-        } else {
-          toast.error("Resume validation failed", {
-            description: validationResult.error || "The file doesn't appear to be a valid resume.",
-          });
-        }
-
-        if (validationResult.error) {
-          console.error("Validation error:", validationResult.error);
-        }
-      } else {
-        // For unsupported file types (including DOCX), reject
-        setIsValidResume(false);
-        toast.error("Unsupported file type", {
-          description: "Only PDF and image files are supported.",
+      if (validationResult.isValid) {
+        toast.success("Resume validation successful", {
+          description: "Your resume was validated successfully.",
         });
+        // Assuming validateResumeFile or a subsequent step extracts and sets resumeContent for PDFs
+        // If not, you'll need to handle PDF text extraction here or in the server action
+        // For now, we'll assume the server action might return the text or it's handled elsewhere.
+        // If validateResumeFile returns text, set it: setResumeContent(validationResult.text);
+      } else {
+        toast.error("Resume validation failed", {
+          description: validationResult.error || "The file doesn't appear to be a valid resume.",
+        });
+      }
+
+      if (validationResult.error) {
+        console.error("Validation error:", validationResult.error);
       }
 
       setIsValidating(false);
@@ -251,6 +214,16 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
 
     if (selectedFile.size > MAX_FILE_SIZE) {
       setFileSizeError(true);
+      setFile(null);
+      setIsValidResume(null);
+      return;
+    }
+
+    // Check if file is PDF
+    if (selectedFile.type !== 'application/pdf') {
+      toast.error("Invalid file type", {
+        description: "Please upload a PDF file.",
+      });
       setFile(null);
       setIsValidResume(null);
       return;
@@ -333,147 +306,194 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
 
   // Handle resume submission for analysis with streaming
   const submitResume = async () => {
-    if ((!file) || !isValidResume) {
-      toast.error("No valid resume to analyze", {
-        description: "Please upload and validate a resume first.",
-      })
-      return
+    if (!file && !resumeContent || !isValidResume) {
+      return;
     }
 
-    setIsAnalyzing(true)
-    setIsStreaming(true)
-    setAnalysisResult("")
-    setAnalysisError(null)
-    setShowPlaceholder(true) // Show placeholder while streaming
-    setAnalysisSource("new") // Mark as new analysis
-
-    // Initialize abort controller for this request
-    abortControllerRef.current = new AbortController();
-    const signal = abortControllerRef.current.signal;
-
     try {
-      let requestBody;
-      let endpoint;
+      setIsAnalyzing(true);
+      setIsStreaming(true);
+      setAnalysisResult("");
+      setAnalysisError(null);
+      setStructuredData(null);
+      setShowPlaceholder(true);
+      setResultsView("text");
 
-      // If structuredData is already available (e.g., from a previous step or loaded)
-      if (structuredData) {
-        requestBody = JSON.stringify({ structuredData });
-        endpoint = "/api/career-compass"; // Endpoint that expects structuredData
-      } else if (file) {
-        // If there's a file, send it as FormData
-        const formData = new FormData()
-        formData.append("file", file)
-        requestBody = formData;
-        endpoint = "/api/career-compass/analyze"; // Existing endpoint for file analysis
+      // Create an AbortController for this request
+      abortControllerRef.current = new AbortController();
+      const signal = abortControllerRef.current.signal;
+
+      // Create form data for the API request
+      const formData = new FormData();
+
+      if (file && file.name.toLowerCase().endsWith('.pdf')) {
+        // For PDF files, upload the file directly
+        formData.append('file', file);
+      } else if (resumeContent) {
+        // For text content (e.g. extracted from PDF by server)
+        formData.append('text', resumeContent);
       } else {
-        toast.error("No data to submit for analysis.");
+        // Should not happen if validation is correct
+        toast.error("No valid file or content to analyze.");
         setIsAnalyzing(false);
         setIsStreaming(false);
         setShowPlaceholder(false);
         return;
       }
 
-      const response = await fetch(endpoint, {
-        method: "POST",
-        body: requestBody,
-        signal, // Pass the abort signal to the fetch request
-        headers: endpoint === "/api/career-compass" || (endpoint === "/api/career-compass/analyze" && !file)
-          ? { "Content-Type": "application/json" }
-          : undefined, // Let browser set Content-Type for FormData
-      })
+      // STEP 1: First call the structured endpoint to get structured data
+      console.log("Step 1: Getting structured data...");
+      const structuredResponse = await fetch('/api/career-compass/structured', {
+        method: 'POST',
+        body: formData,
+        signal,
+      });
+
+      if (!structuredResponse.ok) {
+        throw new Error(`${structuredResponse.status} : Model maybe overloaded, please try again`);
+      }
+      const structuredData = await structuredResponse.json();
+      console.log("Structured data received:", structuredData);
+
+      // Save the structured data for visualization
+      setStructuredData(structuredData);
+
+      // STEP 2: Now pass the structured data to the main endpoint for markdown formatting
+      console.log("Step 2: Getting formatted markdown...");
+      const response = await fetch('/api/career-compass', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ structuredData }),
+        signal,
+      });
 
       if (!response.ok) {
-        const errorData = await response.json().catch(() => ({ error: "Unknown error occurred" }));
-        throw new Error(errorData.error || `HTTP error! status: ${response.status}`)
-      }
-
-      if (!response.body) {
-        throw new Error("Response body is null")
-      }
-
-      // Read the stream
-      const reader = response.body.getReader()
-      const decoder = new TextDecoder()
-      let done = false
-      let fullReport = ""; // To accumulate the full report
-
-      while (!done) {
-        if (!isMounted.current) { // Check if component is still mounted
-          console.log("Component unmounted, stopping stream processing.");
-          if (abortControllerRef.current) {
-            abortControllerRef.current.abort(); // Abort fetch if component unmounts
-          }
-          return; // Exit if component is unmounted
-        }
         try {
-          const { value, done: streamDone } = await reader.read()
-          done = streamDone
-          if (value) {
-            const chunk = decoder.decode(value, { stream: true })
-            setAnalysisResult((prev) => prev + chunk)
-            fullReport += chunk; // Accumulate the report
-          }
-        } catch (error: any) {
-          if (error.name === 'AbortError') {
-            console.log('Fetch aborted by stopAnalysis');
-            toast.info("Analysis stopped by user.");
-            done = true; // Exit loop if fetch was aborted
-            break;
-          }
-          throw error; // Re-throw other errors
-        }
-      }
-      if (isMounted.current && !signal.aborted) { // Only proceed if mounted and not aborted
-        // Once streaming is complete, save the full report
-        if (fullReport && structuredData) { // Ensure we have both to save
-          try {
-            const saveResponse = await fetch('/api/career-compass/save-report', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({
-                structuredData: structuredData, // Send the structured data used for generation
-                markdownReport: fullReport,
-              }),
-            });
-            if (!saveResponse.ok) {
-              const errorData = await saveResponse.json().catch(() => ({ error: "Failed to save report" }));
-              console.error("Failed to save the full report:", errorData.error);
-              toast.error("Failed to save the full report", { description: errorData.error });
-            } else {
-              toast.success("Analysis complete and report saved!");
-            }
-          } catch (saveError: any) {
-            console.error("Error saving the full report:", saveError);
-            toast.error("Error saving the full report", { description: saveError.message });
-          }
-        } else if (!structuredData) {
-          console.warn("Structured data was not available, so the full report was not saved to the database.");
-          // This might happen if the initial analysis that produces structuredData failed or was skipped.
+          const errorData = await response.json();
+          throw new Error(errorData.error || `Error: ${response.status}`);
+        } catch (e) {
+          throw new Error(`Error: ${response.status}`);
         }
       }
 
-    } catch (error: any) {
-      if (isMounted.current) { // Check if component is still mounted
-        if (error.name === 'AbortError') {
-          // Handled in the read loop, but good to have a catch-all
-          console.log('SubmitResume fetch aborted');
-        } else {
-          console.error("Error submitting resume for analysis:", error)
-          setAnalysisError(error.message || "An unexpected error occurred during analysis.")
-          toast.error("Analysis Error", {
-            description: error.message || "An unexpected error occurred.",
-          })
+      const reader = response.body?.getReader();
+      if (!reader) {
+        throw new Error("Response has no readable body");
+      }
+
+      // Function to process the streaming response data
+      const processStream = async (reader: ReadableStreamDefaultReader<Uint8Array>) => {
+        const decoder = new TextDecoder();
+        let done = false;
+
+        while (!done) {
+          const { value, done: doneReading } = await reader.read();
+          done = doneReading;
+
+          if (value) {
+            const chunk = decoder.decode(value, { stream: !done });
+            if (isMounted.current) {
+              setAnalysisResult(prev => {
+                // Hide the placeholder when we get the first chunk of data
+                setShowPlaceholder(false);
+                return prev + chunk;
+              });
+            }
+          }
+
+          if (done) break;
         }
+      };
+      toast.success("Success!", {
+        description: "Your details have been analyzed successfully.",
+      })
+      await processStream(reader);
+
+      // STEP 3: Save the report to the database after analysis is complete
+      try {
+        saveReportToDatabase(structuredData, analysisResult || "");
+        toast.success("Report saved!", {
+          description: "Your resume analysis has been saved to your account.",
+        });
+      } catch (error) {
+
+      }
+
+
+    } catch (error) {
+      // Check if this was an abort error (user cancelled)
+      if (error instanceof Error && error.name === 'AbortError') {
+        console.log('Analysis was cancelled by the user');
+        // No need to show error for user-initiated cancellations
+        if (isMounted.current) {
+          setAnalysisResult(""); // Clear any partial results
+          setShowPlaceholder(false); // Hide the placeholder
+        }
+      } else {
+        console.error("Error analyzing resume:", error);
+        // Set error message
+        setAnalysisError(error instanceof Error ? error.message : 'An error occurred during analysis');
+        // Clear any partial results
+        if (isMounted.current) {
+          setAnalysisResult("");
+          setShowPlaceholder(false); // Hide the placeholder
+          setStructuredData(null); // Reset structured data to avoid partial visualization
+        }
+        // Show error toast to inform user
+        toast.error("Analysis failed", {
+          description: error instanceof Error ? error.message : 'An unexpected error occurred during resume analysis.',
+        });
       }
     } finally {
-      if (isMounted.current) { // Check if component is still mounted
-        setIsAnalyzing(false)
-        setIsStreaming(false)
-        setShowPlaceholder(false) // Hide placeholder once streaming is done or failed
-        abortControllerRef.current = null; // Clear the abort controller ref
+      if (isMounted.current) {
+        setIsAnalyzing(false);
+        setIsStreaming(false);
+        // Always ensure placeholder is hidden when done, regardless of success or failure
+        setShowPlaceholder(false);
       }
+      // Clear the abort controller reference
+      abortControllerRef.current = null;
+    }
+  };
+
+  // Handle saving report to database
+  const saveReportToDatabase = async (structuredData: any, markdownContent: string) => {
+    if (isSaving || isSaved) return;
+
+    try {
+      setIsSaving(true);
+
+      const saveResponse = await fetch('/api/career-compass/save-report', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          structuredData,
+          markdownReport: markdownContent
+        }),
+      });
+
+      if (!saveResponse.ok) {
+        const error = await saveResponse.json();
+        throw new Error(error.error || 'Failed to save report');
+      }
+
+      const result = await saveResponse.json();
+      setIsSaved(true);
+      toast.success("Report saved!", {
+        description: "Your resume analysis has been saved to your account.",
+      });
+
+    } catch (error) {
+      console.error('Error saving report:', error);
+      toast.error("Couldn't save report", {
+        description: error instanceof Error ? error.message : "An error occurred while saving your report.",
+      });
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -537,7 +557,7 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
                 type="file"
                 id="resume-upload"
                 className="hidden"
-                accept=".pdf,.jpg,.jpeg,.png"
+                accept=".pdf"
                 onChange={handleFileChange}
               />
 
@@ -551,7 +571,7 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
 
               <div>
                 <p className="font-medium text-base">Click to upload or drag and drop</p>
-                <p className="text-xs text-muted-foreground mt-1">PDF, JPG, IMG, JPEG (max. 4MB)</p>
+                <p className="text-xs text-muted-foreground mt-1">PDF (max. 4MB)</p>
               </div>
             </div>
           </motion.div>
@@ -789,8 +809,27 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
               <div className="mb-4 flex justify-center">
                 <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 border border-green-200 dark:border-green-800/50">
                   <CheckCircle className="h-3 w-3" />
-                  {analysisSource === "fetched" ? "Loaded Previous Analysis" : "Analysis Complete"}
+                  Analysis Complete
                 </div>
+
+                {/* Show saving/saved status */}
+                {isSaving && (
+                  <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 border border-blue-200 dark:border-blue-800/50 ml-2">
+                    <motion.div
+                      animate={{ rotate: 360 }}
+                      transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                      className="h-3 w-3 border-2 border-blue-500 border-t-transparent rounded-full"
+                    />
+                    <span>Saving...</span>
+                  </div>
+                )}
+
+                {isSaved && !isSaving && (
+                  <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 border border-green-200 dark:border-green-800/50 ml-2">
+                    <CheckCircle className="h-3 w-3" />
+                    <span>Saved</span>
+                  </div>
+                )}
               </div>
 
               {/* Text Analysis Content */}
