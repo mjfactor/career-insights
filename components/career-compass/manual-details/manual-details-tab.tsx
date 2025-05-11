@@ -1001,10 +1001,9 @@ const ManualDetailsTab = forwardRef(function ManualDetailsTab(props, ref) {
       </AnimatePresence>
 
       {/* Scroll to bottom button - only shows during analysis */}
-     
+
     </form>
   )
 });
 
 export default ManualDetailsTab;
-
