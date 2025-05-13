@@ -150,7 +150,7 @@ export function AppSidebar({
         </div>
       </SidebarHeader>
       <SidebarContent className="overflow-hidden">
-        <NavMain items={data.navMain} groupLabel="AI Agents" />
+        <NavMain items={data.navMain} groupLabel="Application" />
         <NavMain items={data.additionals} groupLabel="Additionals" />
 
         {/* Show Chat History only on Chat page */}
