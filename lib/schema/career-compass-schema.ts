@@ -115,7 +115,7 @@ export const CandidateAnalysisSchema = z.object({
       randomForestInsights: z.string().describe("Come up with an explanation of how the model arrived at this recommendation"),
       workLifeBalance: z.string().describe("Typical work-life balance for the role")
     }).describe("Detailed job recommendation")
-  ).min(3).max(7).describe("List of 4 detailed job recommendations"),
+  ).min(3).max(7).describe("List of 4 - 5 detailed job recommendations"),
 
   overallEvaluation: z.object({
     jobFitScores: z.object({
@@ -128,7 +128,7 @@ export const CandidateAnalysisSchema = z.object({
     }).optional().describe("Candidate's market standing analysis"),
     personalBrandingSuggestions: z.array(z.string()).optional().describe("Tips for strengthening professional presence")
   }).describe("Overall summary, market position, and interview prep"),
-
+ 
   // Resume improvement is optional within the main analysis structure
   resumeImprovement: ResumeImprovementSchema
 

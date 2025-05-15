@@ -52,11 +52,11 @@ export const CandidateAnalysisManualSchema = z.object({
       randomForestInsights: z.string().describe("Come up with an explanation of how the model arrived at this recommendation"),
       workLifeBalance: z.string().describe("Typical work-life balance for the role")
     }).describe("Detailed job recommendation")
-  ).min(3).max(4).describe("List of 3 to 4 detailed job recommendations"),
+  ).min(3).max(4).describe("List of 3 detailed job recommendations"),
   overallEvaluation: z.object({
     jobFitScores: z.object({
       jobTitle: z.string().describe("Title of the job"),
-      score: z.number().describe("Fit score for the job"),
+      score: z.number().describe("Fit score for the job, scores is between 0.55 and 0.70"),
     }).array().describe("Fit scores for each recommended job")
   }).describe("Overall summary")
 }).describe("Comprehensive analysis job recommendations");
