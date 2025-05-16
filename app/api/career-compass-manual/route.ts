@@ -6,7 +6,7 @@ import { NextRequest } from 'next/server';
 const STRUCTURED_TO_MARKDOWN_PROMPT = `
 
 # Job Recommendations
-**IMPORTANT: If the JSON contains a "resumeImprovement" section instead of job recommendations, SKIP this entire section and jump to "Resume Improvement Guidance" below**
+**IMPORTANT: DONT USE CODEBLOCKS, JUST PLAIN TEXT MARKDOWN**
 
 For each role, format as follows:
 
@@ -55,7 +55,6 @@ Format exactly as follows:
 ### 📊 Job Fit Score Per Role
 Format as:
 - Job Title: Percentage
-
 `;
 
 

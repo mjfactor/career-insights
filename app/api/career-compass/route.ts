@@ -101,9 +101,6 @@ Format as:
 - **Competitive Advantages**: List the candidate's strongest selling points
 - **Improvement Areas**: Note areas that would strengthen marketability
 
-### 🎯 Interview Readiness
-- **Common Questions**: List likely interview questions
-- **Suggested Talking Points**: Key experiences to highlight
 
 ### 🌐 Personal Branding Suggestions
 - Ways to strengthen professional presence

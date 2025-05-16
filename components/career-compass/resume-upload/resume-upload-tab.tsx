@@ -1006,14 +1006,13 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
                     <AlertDescription className="text-xs">{analysisError}</AlertDescription>
                   </Alert>
                 </motion.div>
-              )}
-              {/* Save Analysis Button */}
-              {analysisResult && structuredData && (
+              )}              {/* Save Analysis Button - Hidden while streaming */}
+              {analysisResult && structuredData && !isStreaming && (
                 <div className="mt-4 flex justify-end gap-2">
                   <Button
                     variant="outline"
                     onClick={handleClearAnalysis}
-                    disabled={isAnalyzing || isStreaming} // Disable if analysis is running
+                    disabled={isAnalyzing} // Only disable if analysis is running but not streaming
                   >
                     Clear
                   </Button>
