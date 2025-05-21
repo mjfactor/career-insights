@@ -80,7 +80,13 @@ export async function validateResume(input: ResumeInput): Promise<ValidationResu
         // Generate AI response
         const result = await generateText({
             model: google('gemini-2.0-flash-lite'),
-            messages
+            messages,
+            // Limit processing to first 2 pages of PDF to prevent model overload with large files
+            providerOptions: {
+                google: {
+                    documentPageLimit: 3,
+                }
+            }
         });
 
         // Process and return results
