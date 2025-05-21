@@ -9,7 +9,6 @@ import { cn } from "@/lib/utils"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Progress } from "@/components/ui/progress"
 import { motion, AnimatePresence } from "framer-motion"
-import { validateResumeFile, validateResumeText } from "@/lib/actions/resume-validator"
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import Skeleton from "./ResumeDataPlaceholder"
@@ -56,6 +55,8 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
   const isMounted = useRef(true);
   // Ref for abort controller to cancel fetch requests
   const abortControllerRef = useRef<AbortController | null>(null);
+  // Ref to track if validation is in progress
+  const validationInProgressRef = useRef<boolean>(false);
 
   // Expose analyzing state and stopAnalysis function through ref
   useImperativeHandle(ref, () => ({
@@ -121,48 +122,76 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
       }
     }, 50); // Faster interval (50ms instead of 200ms)
   }
-
   // Simulate validation progress after upload completes
   const validateResume = async () => {
     if (!file) return
+
+    // Cancel any existing validation in progress
+    if (validationInProgressRef.current && abortControllerRef.current) {
+      abortControllerRef.current.abort();
+      abortControllerRef.current = null;
+    }
+
+    // Create new abort controller for this validation
+    abortControllerRef.current = new AbortController();
+    validationInProgressRef.current = true;
 
     setIsValidating(true)
     try {
       const formData = new FormData();
       formData.append('file', file);
 
-      // For PDF files, use the server action directly
-      const validationResult = await validateResumeFile(formData);
-      setIsValidResume(validationResult.isValid);
-
-      if (validationResult.isValid) {
-        toast.success("Resume validation successful", {
-          description: "Your resume was validated successfully.",
-        });
-        // Assuming validateResumeFile or a subsequent step extracts and sets resumeContent for PDFs
-        // If not, you'll need to handle PDF text extraction here or in the server action
-        // For now, we'll assume the server action might return the text or it's handled elsewhere.
-        // If validateResumeFile returns text, set it: setResumeContent(validationResult.text);
-      } else {
-        toast.error("Resume validation failed", {
-          description: validationResult.error || "The file doesn't appear to be a valid resume.",
-        });
-      }
-
-      if (validationResult.error) {
-        console.error("Validation error:", validationResult.error);
-      }
-
-      setIsValidating(false);
-      setUploadStage("complete");
-    } catch (error) {
-      console.error("Error processing file:", error);
-      toast.error("Error processing file", {
-        description: error instanceof Error ? error.message : "An unexpected error occurred.",
+      // Use the API endpoint that supports request cancellation
+      const response = await fetch('/api/career-compass/validate-resume', {
+        method: 'POST',
+        body: formData,
+        signal: abortControllerRef.current?.signal // Pass the AbortController signal
       });
-      setIsValidResume(false);
-      setIsValidating(false);
-      setUploadStage("complete");
+
+      if (!response.ok) {
+        throw new Error(`Validation failed: ${response.status}`);
+      }
+
+      const validationResult = await response.json();
+
+      // Only update state if the component is still mounted and validation wasn't aborted
+      if (isMounted.current && validationInProgressRef.current) {
+        setIsValidResume(validationResult.isValid);
+
+        if (validationResult.isValid) {
+          toast.success("Resume validation successful", {
+            description: "Your resume was validated successfully.",
+          });
+          // ...existing code...
+        } else {
+          toast.error("Resume validation failed", {
+            description: validationResult.error || "The file doesn't appear to be a valid resume.",
+          });
+        }
+      }
+    } catch (error) {
+      // Check if this was an abort error (user canceled)
+      if (error instanceof Error && error.name === 'AbortError') {
+        console.log('Resume validation was cancelled by the user');
+        // Don't show error message for user-initiated cancellations
+        return;
+      }
+
+      // Only update state if the component is still mounted and validation wasn't aborted
+      if (isMounted.current && validationInProgressRef.current) {
+        console.error("Resume validation error:", error);
+        toast.error("Resume validation error", {
+          description: error instanceof Error ? error.message : "An unexpected error occurred.",
+        });
+        setIsValidResume(false);
+      }
+    } finally {
+      // Only update state if the component is still mounted and validation wasn't aborted
+      if (isMounted.current && validationInProgressRef.current) {
+        setIsValidating(false);
+        setUploadStage("complete");
+      }
+      validationInProgressRef.current = false;
     }
   }
 
@@ -254,6 +283,21 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
         }
       });
       return;
+    }
+
+    // Cancel validation if in progress
+    if (validationInProgressRef.current && abortControllerRef.current) {
+      abortControllerRef.current.abort();
+      abortControllerRef.current = null;
+      validationInProgressRef.current = false;
+    }
+
+    // If currently validating, notify user that it's been canceled
+    if (isValidating) {
+      toast.info("Validation canceled", {
+        description: "The previous validation has been canceled."
+      });
+      setIsValidating(false);
     }
 
     setFile(null);
