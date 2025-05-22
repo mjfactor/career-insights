@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
-import { Trash2, Plus, AlertCircle, Briefcase, ArrowDown, Info as InfoIcon, CheckCircle } from "lucide-react"
+import { Trash2, Plus, AlertCircle, Briefcase, ArrowDown, Info as InfoIcon, CheckCircle, Target } from "lucide-react"
 import { Separator } from "@/components/ui/separator"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { motion, AnimatePresence } from "framer-motion"
@@ -90,6 +90,8 @@ const ManualDetailsTab = forwardRef(function ManualDetailsTab(props, ref) {
   const [analysisPhase, setAnalysisPhase] = useState<"structured" | "markdown" | null>(null)
   // Add state to store structured data
   const [structuredData, setStructuredData] = useState<any>(null)
+  // Add state to control data visualizer visibility
+  const [showDataVisualizer, setShowDataVisualizer] = useState<boolean>(false)
 
   // Ref to track if component is mounted
   const isMounted = useRef(true)
@@ -333,15 +335,15 @@ const ManualDetailsTab = forwardRef(function ManualDetailsTab(props, ref) {
         return
       }
 
-      console.log("Content validation successful, proceeding with analysis")
-
-      // Content is valid, proceed with analysis
+      console.log("Content validation successful, proceeding with analysis")      // Content is valid, proceed with analysis
       setIsAnalyzing(true)
       setIsStreaming(true)
       setAnalysisResult("")
       setAnalysisError(null)
       // Set the initial analysis phase to "structured"
       setAnalysisPhase("structured")
+      // Reset visualizer visibility
+      setShowDataVisualizer(false)
 
       // Debug logs for raw data
       console.log('--- MANUAL DETAILS FORM DATA (RAW) ---');
@@ -452,7 +454,6 @@ const ManualDetailsTab = forwardRef(function ManualDetailsTab(props, ref) {
       abortControllerRef.current = null;
     }
   }
-
   // Add a stopAnalysis function
   const stopAnalysis = () => {
     // Cancel any in-progress fetch when stopping analysis
@@ -466,6 +467,7 @@ const ManualDetailsTab = forwardRef(function ManualDetailsTab(props, ref) {
       setIsStreaming(false);
       setAnalysisPhase(null); // Reset the analysis phase
       setStructuredData(null); // Reset structured data
+      setShowDataVisualizer(false); // Reset visualizer visibility
     }
   };
 
@@ -976,9 +978,7 @@ const ManualDetailsTab = forwardRef(function ManualDetailsTab(props, ref) {
                     <AlertDescription className="text-xs">{analysisError}</AlertDescription>
                   </Alert>
                 </motion.div>
-              )}
-
-              {/* Data Visualization Section - only show when analysis is complete */}
+              )}              {/* Data Visualization Section - only show when analysis is complete */}
               {!isStreaming && analysisResult && structuredData?.jobRecommendations && (
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
@@ -992,7 +992,25 @@ const ManualDetailsTab = forwardRef(function ManualDetailsTab(props, ref) {
                     <div className="flex-grow border-t border-gray-200 dark:border-gray-700"></div>
                   </div>
 
-                  <ManualDataVisualizer jobRecommendations={structuredData.jobRecommendations} />
+                  {/* Toggle button for visualizer */}
+                  <div className="flex justify-center mb-4">
+                    <Button
+                      variant={showDataVisualizer ? "default" : "outline"}
+                      onClick={() => setShowDataVisualizer(!showDataVisualizer)}
+                      className="rounded-lg transition-all"
+                      size="sm"
+                    >
+                      <div className="flex items-center gap-1.5">
+                        <Target className="h-4 w-4" />
+                        {showDataVisualizer ? "Hide Data Visualizer" : "Show Data Visualizer"}
+                      </div>
+                    </Button>
+                  </div>
+
+                  {/* Only render the visualizer when showDataVisualizer is true */}
+                  {showDataVisualizer && (
+                    <ManualDataVisualizer jobRecommendations={structuredData.jobRecommendations} />
+                  )}
                 </motion.div>
               )}
             </div>

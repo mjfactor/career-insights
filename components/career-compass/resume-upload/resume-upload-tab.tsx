@@ -4,7 +4,7 @@ import type React from "react"
 import { useState, useEffect, useRef, forwardRef, useImperativeHandle } from "react"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
-import { Upload, FileText, AlertCircle, CheckCircle, X, StopCircle, AlertTriangle, InfoIcon } from "lucide-react"
+import { Upload, FileText, AlertCircle, CheckCircle, X, StopCircle, AlertTriangle, InfoIcon, Target } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Progress } from "@/components/ui/progress"
@@ -50,6 +50,7 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
   const [isSaved, setIsSaved] = useState<boolean>(false)
   const [isLoadingPrevious, setIsLoadingPrevious] = useState<boolean>(false)
   const [analysisSource, setAnalysisSource] = useState<'new' | 'loaded' | null>(null); // Added state
+  const [showDataVisualizer, setShowDataVisualizer] = useState<boolean>(false); // State to control visualizer visibility
 
   // Ref to track if component is mounted
   const isMounted = useRef(true);
@@ -354,9 +355,7 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
   const submitResume = async () => {
     if (!file && !resumeContent || !isValidResume) {
       return;
-    }
-
-    try {
+    } try {
       setIsAnalyzing(true);
       setIsStreaming(true);
       setAnalysisResult("");
@@ -366,6 +365,7 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
       setResultsView("text");
       setIsSaved(false); // Reset saved state for new analysis
       setAnalysisSource('new'); // Mark as new analysis
+      setShowDataVisualizer(false); // Hide data visualizer on new analysis
 
       // Create an AbortController for this request
       abortControllerRef.current = new AbortController();
@@ -534,13 +534,13 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
       setIsSaving(false);
     }
   };
-
   // Function to clear analysis results
   const clearAnalysisResults = () => {
     setAnalysisResult(null);
     setStructuredData(null);
     setIsSaved(false); // Reset saved state
     setAnalysisSource(null); // Reset analysis source
+    setShowDataVisualizer(false); // Reset visualizer visibility
     toast.info("Analysis cleared", {
       description: "The analysis results have been cleared from the view.",
     });
@@ -591,14 +591,13 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
           description: "You haven't saved any resume analysis yet.",
         });
         return;
-      }
-
-      // Update the states with the loaded data
+      }      // Update the states with the loaded data
       setStructuredData(data.report.structuredData);
       setAnalysisResult(data.report.markdownReport);
       setShowPlaceholder(false);
       setIsSaved(true); // Loaded analysis is considered saved
       setAnalysisSource('loaded'); // Mark as loaded analysis
+      setShowDataVisualizer(false); // Hide data visualizer initially when loading previous analysis
 
       // Show success message
       toast.success("Previous analysis loaded", {
@@ -1020,8 +1019,7 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
                     {analysisResult}
                   </ReactMarkdown>
                 </motion.div>
-              )}
-              {/* Render Visualizer only on successful completion */}
+              )}              {/* Visualizer toggle button */}
               {structuredData && !isStreaming && !analysisError && analysisResult && (
                 <>
                   <div className="relative flex items-center py-4 mt-8">
@@ -1029,13 +1027,31 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
                     <span className="flex-shrink-0 mx-4 text-sm font-medium bg-gradient-to-r from-primary/20 to-blue-500/20 text-primary px-4 py-1 rounded-full">Data Summary</span>
                     <div className="flex-grow border-t border-gray-200 dark:border-gray-700"></div>
                   </div>
-                  <motion.div
-                    initial={{ y: 30, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{ delay: 0.3, duration: 0.4 }}
-                  >
-                    <CareerDataVisualizer structuredData={structuredData} />
-                  </motion.div>
+
+                  <div className="flex justify-center mb-4">
+                    <Button
+                      variant={showDataVisualizer ? "default" : "outline"}
+                      onClick={() => setShowDataVisualizer(!showDataVisualizer)}
+                      className="rounded-lg transition-all"
+                      size="sm"
+                    >
+                      <div className="flex items-center gap-1.5">
+                        <Target className="h-4 w-4" />
+                        {showDataVisualizer ? "Hide Data Summary" : "Show Data Summary"}
+                      </div>
+                    </Button>
+                  </div>
+
+                  {/* Only render the visualizer when showDataVisualizer is true */}
+                  {showDataVisualizer && (
+                    <motion.div
+                      initial={{ y: 30, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      transition={{ delay: 0.2, duration: 0.3 }}
+                    >
+                      <CareerDataVisualizer structuredData={structuredData} />
+                    </motion.div>
+                  )}
                 </>
               )}
 
