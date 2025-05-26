@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { ArrowRight, BrainCircuit, Trees, Sparkles, ChevronDown } from "lucide-react"
+import { ArrowRight, Trees, ChevronDown } from "lucide-react"
 import AuthModal from "@/components/landing-page/auth-modal"
 import GridBackground from "@/components/landing-page/grid-background"
 import FeatureCard from "@/components/landing-page/feature-card"
@@ -166,17 +166,14 @@ export default function LandingPage() {
                     >
                         {displayText}
                         <span className="inline-block w-1 h-10 ml-1 bg-green-500 animate-pulse"></span>
-                    </motion.h1>
-
-                    <motion.p
+                    </motion.h1>                    <motion.p
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.5, delay: 0.4 }}
                         className="text-lg text-zinc-300 mb-10 max-w-2xl"
                     >
                         Employment Opportunities combines the predictive power of Random Forests with the understanding
-                        capabilities of Large Language Models to help you navigate your career journey with our Career Compass,
-                        Career Chatbot Agent, and Job Aggregator.
+                        capabilities of Large Language Models to help you navigate your career journey with our intelligent Career Compass.
                     </motion.p>
 
                     <motion.div
@@ -234,21 +231,18 @@ export default function LandingPage() {
                     </motion.div>
                 </section>
 
-                <section ref={featuresRef} id="features" className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.5 }}
-                        className="text-center mb-16"
-                    >
-                        <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Powerful Career Tools</h2>
-                        <p className="text-zinc-300 max-w-2xl mx-auto">
-                            Our platform combines advanced AI technologies to deliver comprehensive career guidance through multiple specialized tools.
-                        </p>
-                    </motion.div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-7xl mx-auto">
+                <section ref={featuresRef} id="features" className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20">                    <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5 }}
+                    className="text-center mb-16"
+                >
+                    <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Powerful Career Tool</h2>
+                    <p className="text-zinc-300 max-w-2xl mx-auto">
+                        Our platform combines advanced AI technologies to deliver comprehensive career guidance through our intelligent Career Compass.
+                    </p>
+                </motion.div>                    <div className="flex justify-center max-w-7xl mx-auto">
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
@@ -257,6 +251,7 @@ export default function LandingPage() {
                             whileHover={{ scale: 1.03 }}
                             onHoverStart={() => setActiveFeature(0)}
                             onHoverEnd={() => setActiveFeature(null)}
+                            className="max-w-md"
                         >
                             <FeatureCard
                                 icon={
@@ -268,63 +263,15 @@ export default function LandingPage() {
                                     />
                                 }
                                 title="Career Compass"
-                                description="Get personalized career guidance and skill recommendations based on your resume, experience, and goals."
+                                description="Get personalized career guidance and skill recommendations based on your resume, experience, and goals using our advanced AI technology."
                                 isActive={activeFeature === 0}
-                            />
-                        </motion.div>
-
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.5, delay: 0.2 }}
-                            whileHover={{ scale: 1.03 }}
-                            onHoverStart={() => setActiveFeature(1)}
-                            onHoverEnd={() => setActiveFeature(null)}
-                        >
-                            <FeatureCard
-                                icon={
-                                    <BrainCircuit
-                                        className={cn(
-                                            "h-6 w-6 transition-all duration-300",
-                                            activeFeature === 1 ? "text-green-400 scale-125" : "text-green-500",
-                                        )}
-                                    />
-                                }
-                                title="Career Chatbot Agent"
-                                description="Interact with our AI assistant to get answers to your career questions, job search advice, and industry insights."
-                                isActive={activeFeature === 1}
-                            />
-                        </motion.div>
-
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.5, delay: 0.3 }}
-                            whileHover={{ scale: 1.03 }}
-                            onHoverStart={() => setActiveFeature(2)}
-                            onHoverEnd={() => setActiveFeature(null)}
-                        >
-                            <FeatureCard
-                                icon={
-                                    <Sparkles
-                                        className={cn(
-                                            "h-6 w-6 transition-all duration-300",
-                                            activeFeature === 2 ? "text-green-400 scale-125" : "text-green-500",
-                                        )}
-                                    />
-                                }
-                                title="Job Aggregator"
-                                description="Discover job opportunities from multiple sources, curated and organized to match your skills and preferences."
-                                isActive={activeFeature === 2}
                             />
                         </motion.div>
                     </div>
                 </section>
 
                 {/* Video Demo Section */}
-                <motion.section 
+                <motion.section
                     initial={{ opacity: 0 }}
                     whileInView={{ opacity: 1 }}
                     viewport={{ once: true }}
@@ -338,21 +285,17 @@ export default function LandingPage() {
                         transition={{ duration: 0.5 }}
                         className="text-center mb-16"
                     >
-                        <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">See Our Platform in Action</h2>
-                        <p className="text-zinc-300 max-w-2xl mx-auto">
-                            Watch how our tools can transform your career journey with AI-powered insights and guidance.
+                        <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">See Our Career Compass in Action</h2>                        <p className="text-zinc-300 max-w-2xl mx-auto">
+                            Watch how our Career Compass can transform your career journey with AI-powered insights and guidance.
                         </p>
                     </motion.div>
 
                     <div className="relative">
                         <div className="absolute -top-40 -left-40 h-80 w-80 rounded-full bg-green-500/10 blur-[100px]"></div>
                         <div className="absolute -bottom-40 -right-40 h-80 w-80 rounded-full bg-green-500/10 blur-[100px]"></div>
-                        
                         <div className="relative py-8 rounded-xl border border-zinc-800 bg-zinc-900/30 backdrop-blur-sm shadow-2xl overflow-hidden">
                             <LandingVideoDemo videoSources={{
-                                careerCompass: "/videos/career-compass-demo.mp4",
-                                aggregator: "/videos/aggregator-demo.mp4",
-                                chatbot: "/videos/chatbot-demo.mp4"
+                                careerCompass: "/videos/career-compass-demo.mp4"
                             }} />
                         </div>
                     </div>
