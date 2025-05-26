@@ -3,22 +3,13 @@
 import type * as React from "react"
 import {
   Compass,
-  LayoutDashboard,
-  FileText,
-  Trash2,
-  BotMessageSquareIcon,
-  Clock,
-  Briefcase
+  Clock
 } from "lucide-react"
 import { usePathname } from "next/navigation"
-import { Suspense, useState, useEffect } from "react"
-import Link from "next/link"
+import { useState, useEffect } from "react"
 import { NavMain } from "./nav-main"
 import { NavUser } from "./nav-user"
-import { ChatHistory } from "./chat-history"
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarRail, SidebarSeparator, useSidebar } from "@/components/ui/sidebar"
-
-import { Skeleton } from "@/components/ui/skeleton"
 
 // Real-time clock component - Client-side only rendering
 function RealtimeClock() {
@@ -93,14 +84,11 @@ export function AppSidebar({
   ...props
 }: {
   userData?: { name: string; email: string; image?: string; id?: string } | null
-} & React.ComponentProps<typeof Sidebar>) {
-  // Get current pathname to check which page we're on
+} & React.ComponentProps<typeof Sidebar>) {  // Get current pathname to check which page we're on
   const pathname = usePathname()
   const isCareerCompassPage = pathname?.includes('/dashboard/career-compass')
-  const isChatPage = pathname?.includes('/dashboard/chat')
   const { state } = useSidebar();
   const isCollapsed = state === "collapsed";
-
   // Use userData if available, otherwise fall back to sample data
   const data = {
     user: userData ? {
@@ -120,20 +108,6 @@ export function AppSidebar({
         isActive: isCareerCompassPage,
       },
 
-    ],
-    additionals: [
-      {
-        title: "Aggregator",
-        url: "/dashboard/aggregator",
-        icon: LayoutDashboard,
-        isActive: pathname?.includes('/dashboard/aggregator') || false,
-      },
-      {
-        title: "Chatbot",
-        url: "/dashboard/chat",
-        icon: BotMessageSquareIcon,
-        isActive: isChatPage,
-      }
     ]
   }
 
@@ -148,35 +122,10 @@ export function AppSidebar({
             </h1>
           </div>
         </div>
-      </SidebarHeader>
-      <SidebarContent className="overflow-hidden">
+      </SidebarHeader>      <SidebarContent className="overflow-hidden">
         <NavMain items={data.navMain} groupLabel="Application" />
-        <NavMain items={data.additionals} groupLabel="Additionals" />
 
-        {/* Show Chat History only on Chat page */}
-        {isChatPage && (
-          <>
-            <div className="w-full overflow-hidden">
-              <SidebarSeparator className="my-2 w-full max-w-full" />
-            </div>
-
-            {/* Use the ChatHistory component */}
-            <Suspense fallback={
-              <div className="px-2">
-                <div className="text-xs font-medium text-muted-foreground px-3 py-1.5">Recent Chat</div>
-                <div className="px-3 py-5">
-                  <Skeleton className="h-5 w-full mb-3" />
-                  <Skeleton className="h-5 w-3/4 mb-3" />
-                  <Skeleton className="h-5 w-5/6" />
-                </div>
-              </div>
-            }>
-              <ChatHistory userId={userData?.id || 'anonymous'} />
-            </Suspense>
-          </>
-        )}
-
-        {/* Career Compass section, but without the chat history */}
+        {/* Career Compass section */}
         {isCareerCompassPage && (
           <>
             <div className="w-full overflow-hidden">
