@@ -386,25 +386,31 @@ export default function CareerDataVisualizer({ structuredData }: CareerDataVisua
                         </div>
                     </CardContent>
                 </Card>
-            )}
-
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            )}            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 {/* Technical Skills Card (Span 2 cols on large screens) */}
                 <Card className="shadow-md hover:shadow-lg transition-shadow lg:col-span-2">
                     <CardHeader>
                         <CardTitle>Technical Skills</CardTitle>
                         <CardDescription>All identified technical skills</CardDescription>
                     </CardHeader>
-                    <CardContent>
+                    <CardContent className="overflow-hidden">
                         <div className="flex flex-wrap gap-2">
                             {technicalSkills.map((skill) => (
-                                <Badge
-                                    key={skill}
-                                    variant="secondary"
-                                    className="px-3 py-1 text-sm font-medium rounded-full shadow-sm"
-                                >
-                                    {skill}
-                                </Badge>
+                                <TooltipProvider key={skill}>
+                                    <UITooltip>
+                                        <TooltipTrigger asChild>
+                                            <Badge
+                                                variant="secondary"
+                                                className="px-3 py-1 text-sm font-medium rounded-full shadow-sm max-w-[200px] truncate inline-block break-words"
+                                            >
+                                                {skill}
+                                            </Badge>
+                                        </TooltipTrigger>
+                                        <TooltipContent>
+                                            <p className="max-w-xs break-words">{skill}</p>
+                                        </TooltipContent>
+                                    </UITooltip>
+                                </TooltipProvider>
                             ))}
                         </div>
                     </CardContent>
@@ -416,16 +422,24 @@ export default function CareerDataVisualizer({ structuredData }: CareerDataVisua
                         <CardTitle>Soft Skills</CardTitle>
                         <CardDescription>All identified soft skills</CardDescription>
                     </CardHeader>
-                    <CardContent>
+                    <CardContent className="overflow-hidden">
                         <div className="flex flex-wrap gap-2">
                             {softSkills.map((skill) => (
-                                <Badge
-                                    key={skill}
-                                    variant="secondary"
-                                    className="px-3 py-1 text-sm font-medium rounded-full shadow-sm"
-                                >
-                                    {skill}
-                                </Badge>
+                                <TooltipProvider key={skill}>
+                                    <UITooltip>
+                                        <TooltipTrigger asChild>
+                                            <Badge
+                                                variant="secondary"
+                                                className="px-3 py-1 text-sm font-medium rounded-full shadow-sm max-w-[180px] truncate inline-block break-words"
+                                            >
+                                                {skill}
+                                            </Badge>
+                                        </TooltipTrigger>
+                                        <TooltipContent>
+                                            <p className="max-w-xs break-words">{skill}</p>
+                                        </TooltipContent>
+                                    </UITooltip>
+                                </TooltipProvider>
                             ))}
                         </div>
                     </CardContent>
