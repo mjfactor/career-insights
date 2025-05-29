@@ -41,7 +41,7 @@ export default function LandingPage() {
     const [displayText, setDisplayText] = useState("")
     const phrases = [
         "AI-Powered Career Analysis",
-        "Random Forest Integration",
+        "AI Integration",
         "Employment Opportunities",
         "Career Development Platform"
     ]
@@ -154,7 +154,7 @@ export default function LandingPage() {
                         className="inline-flex items-center rounded-full border border-zinc-800 bg-zinc-900/50 px-3 py-1 text-sm text-zinc-300 backdrop-blur mb-6"
                     >
                         <span className="flex h-2 w-2 rounded-full bg-green-500 mr-2"></span>
-                        <span className="text-green-400">Random Forest + LLM Technology</span>
+                        <span className="text-green-400">Advanced AI + LLM Technology</span>
                     </motion.div>
 
                     {/* Main heading with typing effect */}
@@ -174,7 +174,7 @@ export default function LandingPage() {
                         transition={{ duration: 0.5, delay: 0.4 }}
                         className="text-lg text-zinc-300 mb-10 max-w-2xl"
                     >
-                        Employment Opportunities combines the predictive power of Random Forests with the understanding
+                        Employment Opportunities combines the predictive power of Machine Learning with the understanding
                         capabilities of Large Language Models to help you navigate your career journey with our Career Compass,
                         Career Chatbot Agent, and Job Aggregator.
                     </motion.p>
@@ -324,7 +324,7 @@ export default function LandingPage() {
                 </section>
 
                 {/* Video Demo Section */}
-                <motion.section 
+                <motion.section
                     initial={{ opacity: 0 }}
                     whileInView={{ opacity: 1 }}
                     viewport={{ once: true }}
@@ -347,7 +347,7 @@ export default function LandingPage() {
                     <div className="relative">
                         <div className="absolute -top-40 -left-40 h-80 w-80 rounded-full bg-green-500/10 blur-[100px]"></div>
                         <div className="absolute -bottom-40 -right-40 h-80 w-80 rounded-full bg-green-500/10 blur-[100px]"></div>
-                        
+
                         <div className="relative py-8 rounded-xl border border-zinc-800 bg-zinc-900/30 backdrop-blur-sm shadow-2xl overflow-hidden">
                             <LandingVideoDemo videoSources={{
                                 careerCompass: "/videos/career-compass-demo.mp4",

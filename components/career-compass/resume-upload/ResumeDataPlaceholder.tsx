@@ -4,7 +4,7 @@ import { motion } from "framer-motion"
 import { BrainCircuit, Trees, FileText, Sparkles, CheckCircle } from "lucide-react"
 import React, { useState, useEffect } from "react"
 
-// Random forest tree visualization component
+// AI model visualization component
 const RandomForestAnimation = () => {
     return (
         <div className="relative h-[120px] mt-4 mb-2 overflow-hidden">
@@ -222,10 +222,9 @@ export default function Skeleton() {
         {
             icon: <FileText className="h-4 w-4" />,
             label: "Extracting resume information"
-        },
-        {
+        }, {
             icon: <Trees className="h-4 w-4" />,
-            label: "Processing with Random Forest model"
+            label: "Processing with AI algorithms"
         },
         {
             icon: <BrainCircuit className="h-4 w-4" />,
@@ -267,9 +266,7 @@ export default function Skeleton() {
             <h2 className="text-xl font-bold mb-3">Building Your Career Profile</h2>
             <p className="text-muted-foreground text-sm mb-2">
                 Our AI is analyzing your resume to create structured data for a comprehensive career assessment...
-            </p>
-
-            {/* Random Forest Visualization - Show during the Random Forest step */}
+            </p>            {/* AI Processing Visualization - Show during the AI processing step */}
             {currentStep === 1 && <RandomForestAnimation />}
 
             {/* Sequential progress steps */}

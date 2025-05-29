@@ -92,7 +92,7 @@ export default function AIFlowDiagram() {
       <h3 className="text-xl font-semibold text-white mb-8 text-center">Employment Opportunities Career Analysis Process</h3>
 
       <div className="flex flex-col md:flex-row items-center justify-between gap-8 md:gap-4 relative">
-        {/* Random Forest Model */}
+        {/* AI Model */}
         <motion.div
           className={`flex flex-col items-center text-center p-6 rounded-lg border ${activeStep === 0 ? "border-green-500 bg-zinc-900/80" : "border-zinc-800 bg-zinc-900/40"} transition-all duration-300 w-full md:w-1/3 relative z-10`}
           initial={{ opacity: 0, y: 20 }}
@@ -107,7 +107,7 @@ export default function AIFlowDiagram() {
               className={`h-8 w-8 ${activeStep === 0 ? "text-green-400" : "text-green-600"} transition-all duration-300`}
             />
           </div>
-          <h4 className="text-lg font-medium text-white mb-2">Random Forest Model</h4>
+          <h4 className="text-lg font-medium text-white mb-2">AI Model</h4>
           <p className="text-zinc-400 text-sm">Analyzes patterns in career data using ensemble learning</p>
 
           {/* Animated trees */}
@@ -327,7 +327,7 @@ export default function AIFlowDiagram() {
 
       <div className="text-center mt-16">
         <p className="text-zinc-400 text-sm max-w-2xl mx-auto">
-          Our unique approach combines the statistical power of Random Forest models with the contextual understanding
+          Our unique approach combines the statistical power of Machine Learning models with the contextual understanding
           of Large Language Models to deliver comprehensive career insights.
         </p>
 

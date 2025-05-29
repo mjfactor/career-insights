@@ -178,7 +178,7 @@ export default function DecisionTreeVisual() {
     <div className="flex flex-col items-center justify-center py-4">
       <h3 className="text-xl font-semibold text-white mb-4">Interactive Decision Tree</h3>
       <p className="text-zinc-400 mb-6 text-sm max-w-md text-center">
-        Hover over nodes to explore the decision paths that power our random forest model
+        Hover over nodes to explore the decision paths that power our machine learning model
       </p>
       <div className="relative">
         <canvas ref={canvasRef} width={600} height={300} className="mx-auto" />

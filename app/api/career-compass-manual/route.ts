@@ -46,8 +46,8 @@ Format exactly as follows:
 ### ⚖️ Work-Life Balance
 - Describe typical work-life balance for this role
 
-### 🎲 Random Forest Insights
-- Include the random forest explanation
+### 🤖 AI Analysis Insights
+- Include the AI analysis explanation
 
 ---
 ## 3. Overall Evaluation
