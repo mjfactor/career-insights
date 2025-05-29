@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useRef, useCallback } from "react"
 import { motion } from "framer-motion"
-import { Trees, BrainCircuit, ArrowRight, FileText, User, Briefcase, GraduationCap } from "lucide-react"
+import { FileSearch, BrainCircuit, ArrowRight, FileText, User, Briefcase, GraduationCap } from "lucide-react"
 
 export default function AIFlowDiagram() {
   const [activeStep, setActiveStep] = useState<number | null>(null)
@@ -99,18 +99,15 @@ export default function AIFlowDiagram() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
           whileHover={{ scale: 1.03 }}
+        >          <div
+          className={`rounded-full p-4 ${activeStep === 0 ? "bg-green-500/20" : "bg-zinc-800"} transition-all duration-300 mb-4`}
         >
-          <div
-            className={`rounded-full p-4 ${activeStep === 0 ? "bg-green-500/20" : "bg-zinc-800"} transition-all duration-300 mb-4`}
-          >
-            <Trees
+            <FileSearch
               className={`h-8 w-8 ${activeStep === 0 ? "text-green-400" : "text-green-600"} transition-all duration-300`}
             />
           </div>
-          <h4 className="text-lg font-medium text-white mb-2">AI Model</h4>
-          <p className="text-zinc-400 text-sm">Analyzes patterns in career data using ensemble learning</p>
-
-          {/* Animated trees */}
+          <h4 className="text-lg font-medium text-white mb-2">Resume Parsing</h4>
+          <p className="text-zinc-400 text-sm">Extracts and analyzes key information from resumes</p>          {/* Animated documents */}
           {activeStep === 0 && (
             <>
               <motion.div
@@ -119,7 +116,7 @@ export default function AIFlowDiagram() {
                 animate={{ opacity: 0.3, scale: 1 }}
                 transition={{ duration: 0.5 }}
               >
-                <Trees className="h-6 w-6 text-green-500" />
+                <FileSearch className="h-6 w-6 text-green-500" />
               </motion.div>
               <motion.div
                 className="absolute -bottom-4 -right-4 opacity-30"
@@ -127,7 +124,7 @@ export default function AIFlowDiagram() {
                 animate={{ opacity: 0.3, scale: 1 }}
                 transition={{ duration: 0.5, delay: 0.2 }}
               >
-                <Trees className="h-6 w-6 text-green-500" />
+                <FileSearch className="h-6 w-6 text-green-500" />
               </motion.div>
               <motion.div
                 className="absolute top-1/2 -right-8 opacity-30"
@@ -135,7 +132,7 @@ export default function AIFlowDiagram() {
                 animate={{ opacity: 0.3, scale: 1 }}
                 transition={{ duration: 0.5, delay: 0.4 }}
               >
-                <Trees className="h-6 w-6 text-green-500" />
+                <FileSearch className="h-6 w-6 text-green-500" />
               </motion.div>
             </>
           )}
@@ -325,11 +322,10 @@ export default function AIFlowDiagram() {
         />
       </svg>
 
-      <div className="text-center mt-16">
-        <p className="text-zinc-400 text-sm max-w-2xl mx-auto">
-          Our unique approach combines the statistical power of Machine Learning models with the contextual understanding
-          of Large Language Models to deliver comprehensive career insights.
-        </p>
+      <div className="text-center mt-16">        <p className="text-zinc-400 text-sm max-w-2xl mx-auto">
+        Our streamlined approach combines intelligent resume parsing with the contextual understanding
+        of Large Language Models to deliver comprehensive career insights.
+      </p>
 
         <motion.div
           className="mt-6 inline-flex items-center text-green-500 text-sm font-medium cursor-pointer"
