@@ -104,10 +104,9 @@ export default function CareerAnalysis({
                                 <Info className="h-4 w-4 text-muted-foreground" />
                                 <span className="sr-only">About Career Compass</span>
                             </Button>
-                        </TooltipTrigger>
-                        <TooltipContent className="max-w-[300px] p-3">
+                        </TooltipTrigger>                        <TooltipContent className="max-w-[300px] p-3">
                             <p className="text-xs leading-relaxed">
-                                Career Compass combines random forest with natural language processing to analyze your professional background
+                                Career Compass combines advanced AI with natural language processing to analyze your professional background
                                 and provide actionable insights for career development.
                             </p>
                         </TooltipContent>

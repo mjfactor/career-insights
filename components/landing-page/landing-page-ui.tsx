@@ -41,7 +41,7 @@ export default function LandingPage() {
     const [displayText, setDisplayText] = useState("")
     const phrases = [
         "AI-Powered Career Analysis",
-        "Random Forest Integration",
+        "AI Integration",
         "Employment Opportunities",
         "Career Development Platform"
     ]
@@ -154,7 +154,7 @@ export default function LandingPage() {
                         className="inline-flex items-center rounded-full border border-zinc-800 bg-zinc-900/50 px-3 py-1 text-sm text-zinc-300 backdrop-blur mb-6"
                     >
                         <span className="flex h-2 w-2 rounded-full bg-green-500 mr-2"></span>
-                        <span className="text-green-400">Random Forest + LLM Technology</span>
+                        <span className="text-green-400">Advanced AI + LLM Technology</span>
                     </motion.div>
 
                     {/* Main heading with typing effect */}
@@ -271,6 +271,7 @@ export default function LandingPage() {
                 </section>
 
                 {/* Video Demo Section */}
+                <motion.section
                 <motion.section
                     initial={{ opacity: 0 }}
                     whileInView={{ opacity: 1 }}

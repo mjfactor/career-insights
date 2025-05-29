@@ -17,7 +17,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Employment Opportunities | AI-Powered Career Platform",
-  description: "Employment Opportunities combines Random Forests with Large Language Models for comprehensive career guidance with Career Compass, Career Chatbot Agent, and Job Aggregator.",
+  description: "Employment Opportunities uses advanced AI and Large Language Models for comprehensive career guidance with Career Compass, Career Chatbot Agent, and Job Aggregator.",
 };
 
 export default function RootLayout({
