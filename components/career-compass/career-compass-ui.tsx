@@ -90,10 +90,8 @@ export default function CareerAnalysis({
                     <div className="h-0.5 w-10 bg-gradient-to-r from-primary/30 to-primary/0"></div>
                     <span className="text-primary/80 text-sm font-medium">AI-Powered Career Insights</span>
                     <div className="h-0.5 w-10 bg-gradient-to-l from-primary/30 to-primary/0"></div>
-                </div>
-
-                <p className="text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-                    Unlock your professional potential with data-driven career guidance. Our advanced AI analyzes your background
+                </div>                <p className="text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+                    Unlock your professional potential with data-driven career guidance. Our advanced Generative AI analyzes your background
                     to deliver personalized insights, skill recommendations, and growth opportunities tailored to your unique profile.
                 </p>
 

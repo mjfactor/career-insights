@@ -263,10 +263,9 @@ export default function Skeleton() {
                 <h3 className="text-sm font-medium text-green-500">Processing Resume Data</h3>
             </div>
 
-            <h2 className="text-xl font-bold mb-3">Building Your Career Profile</h2>
-            <p className="text-muted-foreground text-sm mb-2">
-                Our AI is analyzing your resume to create structured data for a comprehensive career assessment...
-            </p>            {/* AI Processing Visualization - Show during the AI processing step */}
+            <h2 className="text-xl font-bold mb-3">Building Your Career Profile</h2>            <p className="text-muted-foreground text-sm mb-2">
+                Our Generative AI is analyzing your resume to create structured data for a comprehensive career assessment...
+            </p>{/* AI Processing Visualization - Show during the AI processing step */}
             {currentStep === 1 && <RandomForestAnimation />}
 
             {/* Sequential progress steps */}

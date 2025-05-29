@@ -644,7 +644,7 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
                 </div>
               </TooltipTrigger>              <TooltipContent className="max-w-[300px] p-3">
                 <p className="text-xs">
-                  Our system uses advanced AI algorithms to extract key qualifications, combined with a state-of-the-art Large Language Model (LLM) to generate personalized insights tailored to your professional background.
+                  Our system uses advanced Generative AI algorithms to extract key qualifications, then generates personalized insights tailored to your professional background with intelligent career guidance.
                 </p>
               </TooltipContent>
             </Tooltip>

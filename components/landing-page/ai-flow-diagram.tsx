@@ -182,9 +182,8 @@ export default function AIFlowDiagram() {
             <BrainCircuit
               className={`h-8 w-8 ${activeStep === 1 ? "text-green-400" : "text-green-600"} transition-all duration-300`}
             />
-          </div>
-          <h4 className="text-lg font-medium text-white mb-2">Large Language Model</h4>
-          <p className="text-zinc-400 text-sm">Enhances predictions with contextual understanding</p>
+          </div>          <h4 className="text-lg font-medium text-white mb-2">Generative AI</h4>
+          <p className="text-zinc-400 text-sm">Enhances predictions with intelligent contextual understanding</p>
 
           {/* Neural network animation */}
           {activeStep === 1 && (
@@ -323,8 +322,8 @@ export default function AIFlowDiagram() {
       </svg>
 
       <div className="text-center mt-16">        <p className="text-zinc-400 text-sm max-w-2xl mx-auto">
-        Our streamlined approach combines intelligent resume parsing with the contextual understanding
-        of Large Language Models to deliver comprehensive career insights.
+        Our streamlined approach combines intelligent resume parsing with the advanced capabilities
+        of Generative AI to deliver comprehensive career insights.
       </p>
 
         <motion.div
