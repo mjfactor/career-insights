@@ -92,9 +92,8 @@ export default function ManualDetailsPlaceholder() {
                 <h3 className="text-sm font-medium text-primary">Analyzing Your Details</h3>
             </div>
 
-            <h2 className="text-xl font-bold mb-3">Creating Your Career Profile</h2>
-            <p className="text-muted-foreground text-sm mb-6">
-                Our AI is analyzing your professional details to generate personalized career insights...
+            <h2 className="text-xl font-bold mb-3">Creating Your Career Profile</h2>            <p className="text-muted-foreground text-sm mb-6">
+                Our Generative AI is analyzing your professional details to generate personalized career insights...
             </p>
 
             {/* Sequential progress steps */}
