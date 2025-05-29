@@ -642,10 +642,9 @@ const ResumeUploadTab = forwardRef(function ResumeUploadTab(props, ref) {
                   <InfoIcon className="h-3 w-3 text-primary" />
                   <span>How it works</span>
                 </div>
-              </TooltipTrigger>
-              <TooltipContent className="max-w-[300px] p-3">
+              </TooltipTrigger>              <TooltipContent className="max-w-[300px] p-3">
                 <p className="text-xs">
-                  Our system uses a Random Forest model to extract key qualifications, combined with a state-of-the-art Large Language Model (LLM) to generate personalized insights tailored to your professional background.
+                  Our system uses advanced Generative AI algorithms to extract key qualifications, then generates personalized insights tailored to your professional background with intelligent career guidance.
                 </p>
               </TooltipContent>
             </Tooltip>

@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useRef, useCallback } from "react"
 import { motion } from "framer-motion"
-import { Trees, BrainCircuit, ArrowRight, FileText, User, Briefcase, GraduationCap } from "lucide-react"
+import { FileSearch, BrainCircuit, ArrowRight, FileText, User, Briefcase, GraduationCap } from "lucide-react"
 
 export default function AIFlowDiagram() {
   const [activeStep, setActiveStep] = useState<number | null>(null)
@@ -92,25 +92,22 @@ export default function AIFlowDiagram() {
       <h3 className="text-xl font-semibold text-white mb-8 text-center">Employment Opportunities Career Analysis Process</h3>
 
       <div className="flex flex-col md:flex-row items-center justify-between gap-8 md:gap-4 relative">
-        {/* Random Forest Model */}
+        {/* AI Model */}
         <motion.div
           className={`flex flex-col items-center text-center p-6 rounded-lg border ${activeStep === 0 ? "border-green-500 bg-zinc-900/80" : "border-zinc-800 bg-zinc-900/40"} transition-all duration-300 w-full md:w-1/3 relative z-10`}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
           whileHover={{ scale: 1.03 }}
+        >          <div
+          className={`rounded-full p-4 ${activeStep === 0 ? "bg-green-500/20" : "bg-zinc-800"} transition-all duration-300 mb-4`}
         >
-          <div
-            className={`rounded-full p-4 ${activeStep === 0 ? "bg-green-500/20" : "bg-zinc-800"} transition-all duration-300 mb-4`}
-          >
-            <Trees
+            <FileSearch
               className={`h-8 w-8 ${activeStep === 0 ? "text-green-400" : "text-green-600"} transition-all duration-300`}
             />
           </div>
-          <h4 className="text-lg font-medium text-white mb-2">Random Forest Model</h4>
-          <p className="text-zinc-400 text-sm">Analyzes patterns in career data using ensemble learning</p>
-
-          {/* Animated trees */}
+          <h4 className="text-lg font-medium text-white mb-2">Resume Parsing</h4>
+          <p className="text-zinc-400 text-sm">Extracts and analyzes key information from resumes</p>          {/* Animated documents */}
           {activeStep === 0 && (
             <>
               <motion.div
@@ -119,7 +116,7 @@ export default function AIFlowDiagram() {
                 animate={{ opacity: 0.3, scale: 1 }}
                 transition={{ duration: 0.5 }}
               >
-                <Trees className="h-6 w-6 text-green-500" />
+                <FileSearch className="h-6 w-6 text-green-500" />
               </motion.div>
               <motion.div
                 className="absolute -bottom-4 -right-4 opacity-30"
@@ -127,7 +124,7 @@ export default function AIFlowDiagram() {
                 animate={{ opacity: 0.3, scale: 1 }}
                 transition={{ duration: 0.5, delay: 0.2 }}
               >
-                <Trees className="h-6 w-6 text-green-500" />
+                <FileSearch className="h-6 w-6 text-green-500" />
               </motion.div>
               <motion.div
                 className="absolute top-1/2 -right-8 opacity-30"
@@ -135,7 +132,7 @@ export default function AIFlowDiagram() {
                 animate={{ opacity: 0.3, scale: 1 }}
                 transition={{ duration: 0.5, delay: 0.4 }}
               >
-                <Trees className="h-6 w-6 text-green-500" />
+                <FileSearch className="h-6 w-6 text-green-500" />
               </motion.div>
             </>
           )}
@@ -185,9 +182,8 @@ export default function AIFlowDiagram() {
             <BrainCircuit
               className={`h-8 w-8 ${activeStep === 1 ? "text-green-400" : "text-green-600"} transition-all duration-300`}
             />
-          </div>
-          <h4 className="text-lg font-medium text-white mb-2">Large Language Model</h4>
-          <p className="text-zinc-400 text-sm">Enhances predictions with contextual understanding</p>
+          </div>          <h4 className="text-lg font-medium text-white mb-2">Generative AI</h4>
+          <p className="text-zinc-400 text-sm">Enhances predictions with intelligent contextual understanding</p>
 
           {/* Neural network animation */}
           {activeStep === 1 && (
@@ -325,11 +321,10 @@ export default function AIFlowDiagram() {
         />
       </svg>
 
-      <div className="text-center mt-16">
-        <p className="text-zinc-400 text-sm max-w-2xl mx-auto">
-          Our unique approach combines the statistical power of Random Forest models with the contextual understanding
-          of Large Language Models to deliver comprehensive career insights.
-        </p>
+      <div className="text-center mt-16">        <p className="text-zinc-400 text-sm max-w-2xl mx-auto">
+        Our streamlined approach combines intelligent resume parsing with the advanced capabilities
+        of Generative AI to deliver comprehensive career insights.
+      </p>
 
         <motion.div
           className="mt-6 inline-flex items-center text-green-500 text-sm font-medium cursor-pointer"

@@ -41,7 +41,7 @@ export default function LandingPage() {
     const [displayText, setDisplayText] = useState("")
     const phrases = [
         "AI-Powered Career Analysis",
-        "Random Forest Integration",
+        "AI Integration",
         "Employment Opportunities",
         "Career Development Platform"
     ]
@@ -154,7 +154,7 @@ export default function LandingPage() {
                         className="inline-flex items-center rounded-full border border-zinc-800 bg-zinc-900/50 px-3 py-1 text-sm text-zinc-300 backdrop-blur mb-6"
                     >
                         <span className="flex h-2 w-2 rounded-full bg-green-500 mr-2"></span>
-                        <span className="text-green-400">Random Forest + LLM Technology</span>
+                        <span className="text-green-400">AI</span>
                     </motion.div>
 
                     {/* Main heading with typing effect */}
@@ -172,8 +172,8 @@ export default function LandingPage() {
                         transition={{ duration: 0.5, delay: 0.4 }}
                         className="text-lg text-zinc-300 mb-10 max-w-2xl"
                     >
-                        Employment Opportunities combines the predictive power of Random Forests with the understanding
-                        capabilities of Large Language Models to help you navigate your career journey with our intelligent Career Compass.
+                        Employment Opportunities leverages cutting-edge Generative AI technology to provide intelligent
+                        career insights and help you navigate your career journey with our intelligent Career Compass.
                     </motion.p>
 
                     <motion.div
@@ -261,9 +261,8 @@ export default function LandingPage() {
                                             activeFeature === 0 ? "text-green-400 scale-125" : "text-green-500",
                                         )}
                                     />
-                                }
-                                title="Career Compass"
-                                description="Get personalized career guidance and skill recommendations based on your resume, experience, and goals using our advanced AI technology."
+                                } title="Career Compass"
+                                description="Get personalized career guidance and skill recommendations based on your resume, experience, and goals using our advanced Generative AI technology."
                                 isActive={activeFeature === 0}
                             />
                         </motion.div>

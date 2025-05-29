@@ -528,10 +528,9 @@ const ManualDetailsTab = forwardRef(function ManualDetailsTab(props, ref) {
                 <InfoIcon className="h-3 w-3 text-primary" />
                 <span>How this works</span>
               </div>
-            </TooltipTrigger>
-            <TooltipContent className="max-w-[300px] p-3">
+            </TooltipTrigger>            <TooltipContent className="max-w-[300px] p-3">
               <p className="text-xs">
-                Our AI analyzes your input to create a structured profile of your professional experience, then generates customized career insights, skill recommendations, and growth opportunities.
+                Our AI analyzes your input to create a structured profile of your professional experience, then generates customized career insights, skill recommendations, and growth opportunities using advanced Generative AI.
               </p>
             </TooltipContent>
           </Tooltip>
