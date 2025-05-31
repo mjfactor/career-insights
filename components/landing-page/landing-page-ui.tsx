@@ -3,12 +3,12 @@
 import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { ArrowRight, Trees, ChevronDown } from "lucide-react"
+import { ArrowRight, Trees, ChevronDown, Briefcase } from "lucide-react"
 import AuthModal from "@/components/landing-page/auth-modal"
 import GridBackground from "@/components/landing-page/grid-background"
 import FeatureCard from "@/components/landing-page/feature-card"
 import { motion, useScroll, useTransform } from "framer-motion"
-import AIFlowDiagram from "@/components/landing-page/ai-flow-diagram"
+
 import { cn } from "@/lib/utils"
 import LandingVideoDemo from "@/components/landing-page/landing-video-demo"
 
@@ -131,7 +131,7 @@ export default function LandingPage() {
                 <nav className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex items-center justify-between py-6">
                     <Link href="/" className="flex items-center gap-2">
                         <div className="relative flex h-10 w-10 items-center justify-center rounded-full bg-green-500/10 backdrop-blur-sm">
-                            <Trees className="h-5 w-5 text-green-500" />
+                            <Briefcase className="h-5 w-5 text-green-500" />
                             <div className="absolute inset-0 rounded-full border border-green-500/20"></div>
                         </div>
                         <span className="text-xl font-bold text-white">Employment Opportunities</span>
@@ -145,7 +145,7 @@ export default function LandingPage() {
             </header>
 
             <main className="relative z-10">
-                <section ref={heroRef} className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20 md:py-32 flex flex-col items-center text-center relative">
+                <section ref={heroRef} className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20 md:py-32 flex flex-col items-center text-center relative ">
                     {/* Animated badge */}
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
@@ -154,7 +154,7 @@ export default function LandingPage() {
                         className="inline-flex items-center rounded-full border border-zinc-800 bg-zinc-900/50 px-3 py-1 text-sm text-zinc-300 backdrop-blur mb-6"
                     >
                         <span className="flex h-2 w-2 rounded-full bg-green-500 mr-2"></span>
-                        <span className="text-green-400">AI</span>
+                        <span className="text-green-400">Generative AI</span>
                     </motion.div>
 
                     {/* Main heading with typing effect */}
@@ -166,21 +166,13 @@ export default function LandingPage() {
                     >
                         {displayText}
                         <span className="inline-block w-1 h-10 ml-1 bg-green-500 animate-pulse"></span>
-                    </motion.h1>                    <motion.p
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5, delay: 0.4 }}
-                        className="text-lg text-zinc-300 mb-10 max-w-2xl"
-                    >
-                        Employment Opportunities leverages cutting-edge Generative AI technology to provide intelligent
-                        career insights and help you navigate your career journey with our intelligent Career Compass.
-                    </motion.p>
+                    </motion.h1>
 
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.5, delay: 0.6 }}
-                        className="flex flex-col sm:flex-row gap-4 mb-16"
+                        className="flex flex-col sm:flex-row gap-4 mb-8"
                     >
                         <AuthModal mode="signup" className="w-full sm:w-auto">
                             <Button size="lg" className="w-full sm:w-auto group bg-green-600 hover:bg-green-700">
@@ -200,38 +192,12 @@ export default function LandingPage() {
                         </AuthModal>
                     </motion.div>
 
-                    {/* AI Flow Diagram */}
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 0.8, delay: 0.8 }}
-                        style={{ y }}
-                        className="relative w-full max-w-5xl mx-auto"
-                    >
-                        <div className="absolute -top-40 -left-40 h-80 w-80 rounded-full bg-green-500/10 blur-[100px]"></div>
-                        <div className="absolute -bottom-40 -right-40 h-80 w-80 rounded-full bg-green-500/10 blur-[100px]"></div>
 
-                        <div className="relative py-8 px-6 rounded-xl border border-zinc-800 bg-zinc-900/30 backdrop-blur-sm shadow-2xl overflow-hidden">
-                            <AIFlowDiagram />
-                        </div>
-                    </motion.div>
 
-                    {/* Scroll indicator */}
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 1.5, duration: 1 }}
-                        className="absolute bottom-10 left-1/2 transform -translate-x-1/2 cursor-pointer"
-                        onClick={scrollToFeatures}
-                    >
-                        <div className="flex flex-col items-center">
-                            <span className="text-zinc-400 text-sm mb-2">Explore Features</span>
-                            <ChevronDown className="h-6 w-6 text-green-500 animate-bounce" />
-                        </div>
-                    </motion.div>
+                    {/* Scroll indicator REMOVED */}
                 </section>
 
-                <section ref={featuresRef} id="features" className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20">                    <motion.div
+                <section ref={featuresRef} id="features" className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8pb-20">                    <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
@@ -284,7 +250,7 @@ export default function LandingPage() {
                         transition={{ duration: 0.5 }}
                         className="text-center mb-16"
                     >
-                        <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">See Our Career Compass in Action</h2>                        <p className="text-zinc-300 max-w-2xl mx-auto">
+                        <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">See Career Compass in Action</h2>                        <p className="text-zinc-300 max-w-2xl mx-auto">
                             Watch how our Career Compass can transform your career journey with AI-powered insights and guidance.
                         </p>
                     </motion.div>
@@ -301,47 +267,10 @@ export default function LandingPage() {
                 </motion.section>
 
                 {/* Call to action section */}
-                <motion.section
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.8 }}
-                    className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20"
-                >
-                    <div className="relative rounded-xl border border-zinc-800 bg-zinc-900/30 backdrop-blur-sm p-8 overflow-hidden">
-                        <div className="absolute -top-40 -right-40 h-80 w-80 rounded-full bg-green-500/10 blur-[100px]"></div>
 
-                        <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
-                            <div className="text-center md:text-left">
-                                <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
-                                    Ready to advance your career journey?
-                                </h2>
-                            </div>
-
-                            <AuthModal mode="signup" className="w-full md:w-auto">
-                                <Button size="lg" className="w-full md:w-auto bg-green-600 hover:bg-green-700">
-                                    Get Started Now
-                                    <ArrowRight className="ml-2 h-4 w-4" />
-                                </Button>
-                            </AuthModal>
-                        </div>
-                    </div>
-                </motion.section>
             </main>
 
-            <footer className="relative z-10 border-t border-zinc-800 bg-zinc-900/30 backdrop-blur-sm py-12">
-                <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div className="flex justify-center items-center">
-                        <div className="flex items-center gap-2">
-                            <div className="relative flex h-8 w-8 items-center justify-center rounded-full bg-green-500/10">
-                                <Trees className="h-4 w-4 text-green-500" />
-                            </div>
-                            <span className="text-lg font-bold text-white">Employment Opportunities</span>
-                            <p className="text-sm text-zinc-500 ml-2">© {new Date().getFullYear()} All rights reserved.</p>
-                        </div>
-                    </div>
-                </div>
-            </footer>
+
         </div >
     )
 }
