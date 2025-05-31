@@ -89,9 +89,7 @@ interface JobRecommendation {
     growthPotential?: {
         marketDemand: string;
         upwardMobility: string;
-    };
-    workLifeBalance?: string;
-    randomForestInsights?: string;
+    }; workLifeBalance?: string;
     careerPathProjections?: {
         potentialPaths: string[];
         requiredSteps: string[];
@@ -121,9 +119,7 @@ interface CareerData {
         education?: {
             certifications?: string[];
         };
-    };
-    overallEvaluation: {
-        jobFitScores: Record<string, string | number> | Array<{ jobTitle: string; score: string | number }>;
+    }; overallEvaluation: {
         marketPositioning?: {
             competitiveAdvantages: string[];
             improvementAreas: string[];
@@ -149,7 +145,6 @@ type CareerDataVisualizerProps = {
 // Custom colors for charts
 const CHART_COLORS = {
     skills: "hsl(215, 90%, 60%)",
-    jobFit: "hsl(170, 80%, 40%)",
     skillFrequency: "hsl(260, 70%, 55%)", // Added color for skill frequency
     salary: {
         min: "hsl(210, 80%, 50%)",
@@ -190,53 +185,7 @@ export default function CareerDataVisualizer({ structuredData }: CareerDataVisua
         // Check both possible locations for certifications data
         return data.candidateProfile.education?.certifications ||
             data.candidateProfile.coreCompetencies?.certifications || []
-    }, [data])
-
-    // ==========================================================================
-
-    // Job Fit Comparison Chart Data
-    // ==========================================================================
-
-    const jobFitData = useMemo(() => {
-        // Check if jobFitScores is an array (new format) or object (old format)
-        if (Array.isArray(data.overallEvaluation.jobFitScores)) {
-            return data.overallEvaluation.jobFitScores
-                .map(item => ({
-
-                    name: item.jobTitle,
-                    value: typeof item.score === 'string' && item.score.endsWith('%')
-                        ? parseInt(item.score.replace('%', ''))
-                        : typeof item.score === 'number'
-                            ? Math.round(item.score * 100) // Convert decimal scores (0.85) to percentage
-                            : parseInt(String(item.score))
-                }))
-                .sort((a, b) => Number(b.value) - Number(a.value));
-        } else {
-            // Handle old format (Record<string, string | number>)
-            return Object.entries(data.overallEvaluation.jobFitScores)
-                .map(([name, value]) => {
-                    // Handle percentage strings with % sign
-                    if (typeof value === 'string' && value.endsWith('%')) {
-                        return { name, value: parseInt(value.replace('%', '')) };
-                    }
-                    // Handle decimal scores (e.g., 0.85)
-                    if (typeof value === 'number' && value < 1) {
-                        return { name, value: Math.round(value * 100) };
-                    }
-                    return { name, value };
-                })
-                .sort((a, b) => Number(b.value) - Number(a.value));
-        }
-    }, [data])
-
-    const jobFitChartConfig = {
-        value: {
-            label: "Fit Score",
-            color: CHART_COLORS.jobFit,
-        },
-    } satisfies ChartConfig
-
-    // ==========================================================================
+    }, [data])    // ==========================================================================
 
     // Skill Development Time Chart Data
     // ==========================================================================
@@ -484,81 +433,7 @@ export default function CareerDataVisualizer({ structuredData }: CareerDataVisua
                             </div>
                         )}
                     </CardContent>
-                </Card>
-            )}
-
-            {/* Job Fit Comparison Chart */}
-            <Card className="shadow-md hover:shadow-lg transition-shadow">
-                <CardHeader>
-                    <div className="flex items-center justify-between">
-                        <CardTitle>Job Fit Analysis</CardTitle>
-                        <TooltipProvider>
-                            <UITooltip>
-                                <TooltipTrigger>
-                                    <Info className="h-4 w-4 text-muted-foreground" />
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <p className="max-w-xs">Jobs are scored based on how well your skills and experience match the role requirements</p>
-                                </TooltipContent>
-                            </UITooltip>
-                        </TooltipProvider>
-                    </div>
-                    <CardDescription>
-                        Job compatibility based on skills, experience, and education
-                    </CardDescription>
-                </CardHeader>
-                <CardContent className="h-[400px]">
-                    <ChartContainer config={jobFitChartConfig}>
-                        <BarChart
-                            accessibilityLayer
-                            data={jobFitData}
-                            margin={{
-                                top: 40,
-                                right: 40,
-                                bottom: 200,
-                                left: 40,
-                            }}
-                            barCategoryGap={20}
-                        >
-                            <CartesianGrid vertical={false} />
-                            <XAxis
-                                dataKey="name"
-                                tickLine={false}
-                                tickMargin={10}
-                                axisLine={false}
-                            />
-                            <YAxis
-                                domain={[0, 100]}
-                                tickLine={false}
-                                axisLine={false}
-                            />
-                            <ChartTooltip
-                                cursor={false}
-                                content={<ChartTooltipContent hideLabel />}
-                            />
-                            <Bar
-                                dataKey="value"
-                                fill={CHART_COLORS.jobFit}
-                                radius={6}
-                                maxBarSize={50}
-                            >
-                                <LabelList
-                                    position="top"
-                                    offset={12}
-                                    className="fill-foreground"
-                                    fontSize={12}
-                                    formatter={(value: number) => `${value}%`}
-                                />
-                            </Bar>
-                        </BarChart>
-                    </ChartContainer>
-                </CardContent>
-                <CardFooter className="flex-col items-start gap-2 text-sm">
-                    <div className="flex gap-2 font-medium leading-none">
-                        <TrendingUp className="h-4 w-4" /> Top match: {jobFitData[0]?.name}
-                    </div>
-                </CardFooter>
-            </Card>
+                </Card>)}
 
             {/* Skills Match Analysis */}
             <Card className="shadow-md hover:shadow-lg transition-shadow">
@@ -628,88 +503,7 @@ export default function CareerDataVisualizer({ structuredData }: CareerDataVisua
                 <CardFooter className="text-sm text-muted-foreground">
                     <p>Green circles indicate skills you already possess that match the role</p>
                 </CardFooter>
-            </Card>
-
-            {/* AI Insights Visualization */}
-            <Card className="shadow-md hover:shadow-lg transition-shadow">
-                <CardHeader>
-                    <div className="flex items-center justify-between">
-                        <CardTitle>AI Career Insights</CardTitle>
-                        <TooltipProvider>
-                            <UITooltip>
-                                <TooltipTrigger>
-                                    <Info className="h-4 w-4 text-muted-foreground" />
-                                </TooltipTrigger>                                <TooltipContent>
-                                    <p className="max-w-xs">Career insights generated by our Advanced Generative AI</p>
-                                </TooltipContent>
-                            </UITooltip>
-                        </TooltipProvider>
-                    </div>
-                    <CardDescription>
-                        Key insights about your fit for different roles
-                    </CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <div className="grid grid-cols-1 gap-4">
-                        {data.jobRecommendations.map((job, idx) => {
-                            // Skip if no insights available
-                            if (!job.randomForestInsights) return null;
-
-                            // Combine skillsMatch and skillGaps for highlighting
-                            const skillsToHighlight = [
-                                ...(job.assessment.skillsMatch || []),
-                                ...(job.assessment.skillGaps || [])
-                            ];
-
-                            // Highlight the text with key skills
-                            let highlightedText = job.randomForestInsights || '';
-                            skillsToHighlight.forEach(skill => {
-                                // Escape the skill string before creating the RegExp
-                                const escapedSkill = escapeRegExp(skill);
-                                const regex = new RegExp(escapedSkill, 'gi');
-                                highlightedText = highlightedText.replace(
-                                    regex,
-                                    `<span class="font-medium text-primary">$&</span>`
-                                );
-                            });
-
-                            // Extract key skills mentioned in the insights (using original technicalSkills)
-                            const mentionedSkills = technicalSkills.filter(skill =>
-                                job.randomForestInsights?.toLowerCase().includes(skill.toLowerCase())
-                            );
-
-                            return (
-                                <div
-                                    key={idx}
-                                    className="p-4 rounded-lg border bg-card transition-all"
-                                >
-                                    <div className="mb-2">
-                                        <h3 className="font-semibold text-lg">{job.roleTitle}</h3>
-                                    </div>
-
-                                    <div
-                                        className="text-sm leading-relaxed"
-                                        dangerouslySetInnerHTML={{ __html: highlightedText }}
-                                    />
-
-                                    {mentionedSkills.length > 0 && (
-                                        <div className="mt-3 flex flex-wrap gap-1.5">
-                                            {mentionedSkills.map(skill => (
-                                                <Badge key={skill} variant="outline">{skill}</Badge>
-                                            ))}
-                                        </div>
-                                    )}
-                                </div>
-                            );
-                        })}
-                    </div>
-                </CardContent>
-                <CardFooter className="text-sm text-muted-foreground">
-                    <p>Analysis based on your skills and experience data with highlights on key matches</p>
-                </CardFooter>
-            </Card>
-
-            {/* Career Path Projections Visualization */}
+            </Card>            {/* Career Path Projections Visualization */}
             <Card className="shadow-md hover:shadow-lg transition-shadow">
                 <CardHeader>
                     <div className="flex items-center justify-between">

@@ -106,29 +106,22 @@ export const CandidateAnalysisSchema = z.object({
         .describe("Links to job postings on 4 platforms"),
       skillDevelopment: z.array(SkillDevelopmentResourceSchema)
         .length(4, "Must provide exactly 4 diverse skill development resources")
-        .describe("4 curated resources for skill enhancement"),
-      careerPathProjections: z.object({
-        potentialPaths: z.array(z.string()).describe("Possible future career trajectories"),
-        requiredSteps: z.array(z.string()).describe("Steps needed for advancement"),
-        timelineEstimate: z.string().describe("Estimated time to reach next level")
-      }).describe("Future career path projections"),
-      randomForestInsights: z.string().describe("Come up with an explanation of how the model arrived at this recommendation"),
+        .describe("4 curated resources for skill enhancement"), careerPathProjections: z.object({
+          potentialPaths: z.array(z.string()).describe("Possible future career trajectories"),
+          requiredSteps: z.array(z.string()).describe("Steps needed for advancement"),
+          timelineEstimate: z.string().describe("Estimated time to reach next level")
+        }).describe("Future career path projections"),
       workLifeBalance: z.string().describe("Typical work-life balance for the role")
     }).describe("Detailed job recommendation")
   ).min(3).max(7).describe("List of 4 - 5 detailed job recommendations"),
-
   overallEvaluation: z.object({
-    jobFitScores: z.object({
-      jobTitle: z.string().describe("Title of the job"),
-      score: z.number().describe("Fit score for the job, scores is between 0.55 and 0.90"),
-    }).array().describe("Fit scores for each recommended job, make the numbers look random like 0.64, 0.78, etc."),
     marketPositioning: z.object({
       competitiveAdvantages: z.array(z.string()).optional().describe("Candidate's strongest market advantages"),
       improvementAreas: z.array(z.string()).optional().describe("Areas for development to improve marketability")
     }).optional().describe("Candidate's market standing analysis"),
     personalBrandingSuggestions: z.array(z.string()).optional().describe("Tips for strengthening professional presence")
   }).describe("Overall summary, market position, and interview prep"),
- 
+
   // Resume improvement is optional within the main analysis structure
   resumeImprovement: ResumeImprovementSchema
 

@@ -1,157 +1,83 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { BrainCircuit, Trees, FileText, Sparkles, CheckCircle } from "lucide-react"
+import { BrainCircuit, FileText, Sparkles, CheckCircle } from "lucide-react"
 import React, { useState, useEffect } from "react"
 
 // AI model visualization component
-const RandomForestAnimation = () => {
+const AIProcessingAnimation = () => {
     return (
         <div className="relative h-[120px] mt-4 mb-2 overflow-hidden">
-            {/* Multiple decision trees */}
-            {[...Array(5)].map((_, treeIndex) => (
-                <React.Fragment key={treeIndex}>
-                    {/* Tree trunk and branches */}
-                    <motion.div
-                        className="absolute w-0.5 bg-green-500/60 dark:bg-green-500/40"
-                        style={{
-                            height: 50,
-                            left: `${20 + treeIndex * 20}%`,
-                            top: 0,
-                        }}
-                        initial={{ scaleY: 0 }}
-                        animate={{ scaleY: 1 }}
-                        transition={{
-                            delay: treeIndex * 0.2,
-                            duration: 0.5,
-                            ease: "easeOut"
-                        }}
-                    />
-
-                    {/* Left branch */}
-                    <motion.div
-                        className="absolute w-0.5 bg-green-500/60 dark:bg-green-500/40"
-                        style={{
-                            height: 40,
-                            left: `${20 + treeIndex * 20 - 5}%`,
-                            top: 50,
-                            transformOrigin: "top",
-                            transform: "rotate(-30deg)"
-                        }}
-                        initial={{ scaleY: 0 }}
-                        animate={{ scaleY: 1 }}
-                        transition={{
-                            delay: treeIndex * 0.2 + 0.4,
-                            duration: 0.3,
-                            ease: "easeOut"
-                        }}
-                    />
-
-                    {/* Right branch */}
-                    <motion.div
-                        className="absolute w-0.5 bg-green-500/60 dark:bg-green-500/40"
-                        style={{
-                            height: 40,
-                            left: `${20 + treeIndex * 20 + 5}%`,
-                            top: 50,
-                            transformOrigin: "top",
-                            transform: "rotate(30deg)"
-                        }}
-                        initial={{ scaleY: 0 }}
-                        animate={{ scaleY: 1 }}
-                        transition={{
-                            delay: treeIndex * 0.2 + 0.4,
-                            duration: 0.3,
-                            ease: "easeOut"
-                        }}
-                    />
-
-                    {/* Tree nodes */}
-                    <motion.div
-                        className="absolute w-3 h-3 rounded-full bg-green-500 dark:bg-green-400"
-                        style={{
-                            left: `calc(${20 + treeIndex * 20}% - 4px)`,
-                            top: 0
-                        }}
-                        initial={{ scale: 0, opacity: 0 }}
-                        animate={{ scale: 1, opacity: 1 }}
-                        transition={{
-                            delay: treeIndex * 0.2,
-                            duration: 0.3
-                        }}
-                    />
-
-                    <motion.div
-                        className="absolute w-3 h-3 rounded-full bg-blue-500 dark:bg-blue-400"
-                        style={{
-                            left: `calc(${20 + treeIndex * 20 - 5}% - 4px)`,
-                            top: "calc(50px + 40px - 6px)",
-                            transformOrigin: "top",
-                            transform: "rotate(-30deg)"
-                        }}
-                        initial={{ scale: 0, opacity: 0 }}
-                        animate={{ scale: 1, opacity: 1 }}
-                        transition={{
-                            delay: treeIndex * 0.2 + 0.6,
-                            duration: 0.3
-                        }}
-                    />
-
-                    <motion.div
-                        className="absolute w-3 h-3 rounded-full bg-purple-500 dark:bg-purple-400"
-                        style={{
-                            left: `calc(${20 + treeIndex * 20 + 5}% - 4px)`,
-                            top: "calc(50px + 40px - 6px)",
-                            transformOrigin: "top",
-                            transform: "rotate(30deg)"
-                        }}
-                        initial={{ scale: 0, opacity: 0 }}
-                        animate={{ scale: 1, opacity: 1 }}
-                        transition={{
-                            delay: treeIndex * 0.2 + 0.6,
-                            duration: 0.3
-                        }}
-                    />
-
-                    {/* Data points flowing through the tree */}
-                    {[...Array(3)].map((_, i) => (
+            {/* Neural network nodes */}
+            {[...Array(3)].map((_, layerIndex) => (
+                <React.Fragment key={layerIndex}>
+                    {[...Array(4)].map((_, nodeIndex) => (
                         <motion.div
-                            key={`data-${treeIndex}-${i}`}
-                            className="absolute h-1.5 w-1.5 rounded-full bg-white shadow-glow"
+                            key={`node-${layerIndex}-${nodeIndex}`}
+                            className="absolute w-3 h-3 rounded-full bg-gradient-to-br from-blue-400 to-purple-600"
                             style={{
-                                left: `calc(${20 + treeIndex * 20}% - 2px)`,
-                                top: 0
+                                left: `${20 + layerIndex * 30}%`,
+                                top: `${20 + nodeIndex * 20}px`,
                             }}
-                            initial={{ y: -10, opacity: 0 }}
+                            initial={{ scale: 0, opacity: 0 }}
                             animate={{
-                                y: [-10, 25, 80],
-                                x: [0, 0, i % 2 === 0 ? -15 : 15],
-                                opacity: [0, 1, 0]
+                                scale: [0, 1.2, 1],
+                                opacity: [0, 0.8, 1],
                             }}
                             transition={{
-                                duration: 0.8,
-                                delay: treeIndex * 0.3 + i * 0.6 + 0.5,
-                                times: [0, 0.3, 1]
+                                duration: 0.6,
+                                delay: layerIndex * 0.3 + nodeIndex * 0.1,
+                                ease: "easeOut"
                             }}
                         />
                     ))}
                 </React.Fragment>
             ))}
 
-            {/* Result aggregation visualization */}
+            {/* Connecting lines between layers */}
+            {[...Array(2)].map((_, connectionIndex) => (
+                <React.Fragment key={connectionIndex}>
+                    {[...Array(4)].map((_, startNode) => (
+                        <React.Fragment key={startNode}>
+                            {[...Array(4)].map((_, endNode) => (
+                                <motion.div
+                                    key={`connection-${connectionIndex}-${startNode}-${endNode}`}
+                                    className="absolute h-px bg-gradient-to-r from-blue-400/30 to-purple-600/30"
+                                    style={{
+                                        left: `${20 + connectionIndex * 30 + 1.5}%`,
+                                        top: `${26 + startNode * 20}px`,
+                                        width: `${28}%`,
+                                        transformOrigin: "left",
+                                        transform: `rotate(${(endNode - startNode) * 5}deg)`
+                                    }}
+                                    initial={{ scaleX: 0, opacity: 0 }}
+                                    animate={{ scaleX: 1, opacity: 0.6 }}
+                                    transition={{
+                                        duration: 0.4,
+                                        delay: connectionIndex * 0.3 + startNode * 0.1 + endNode * 0.05 + 0.8,
+                                        ease: "easeOut"
+                                    }}
+                                />
+                            ))}
+                        </React.Fragment>
+                    ))}
+                </React.Fragment>
+            ))}
+
+            {/* AI processing indicator */}
             <motion.div
-                className="absolute bottom-0 left-1/2 transform -translate-x-1/2 px-3 py-1 rounded-lg text-xs font-medium bg-gradient-to-r from-green-500/20 to-blue-500/20 text-primary border border-green-500/30"
+                className="absolute bottom-0 left-1/2 transform -translate-x-1/2 px-3 py-1 rounded-lg text-xs font-medium bg-gradient-to-r from-blue-500/20 to-purple-500/20 text-primary border border-blue-500/30"
                 initial={{ y: 20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 2, duration: 0.5 }}
             >
-                Aggregating Results
+                AI Processing
             </motion.div>
 
-            {/* Floating skills/features */}
-            {['React', 'Python', 'Leadership', 'Design', 'Marketing', 'Data'].map((skill, i) => (
+            {/* Floating data points */}
+            {['Skills', 'Experience', 'Education', 'Projects', 'Keywords', 'Achievements'].map((data, i) => (
                 <motion.div
-                    key={`skill-${i}`}
+                    key={`data-${i}`}
                     className="absolute text-xs px-1.5 py-0.5 rounded bg-primary/10 border border-primary/20 text-primary/80"
                     style={{
                         top: `${Math.random() * 60 + 10}px`,
@@ -169,7 +95,7 @@ const RandomForestAnimation = () => {
                         repeatDelay: 4
                     }}
                 >
-                    {skill}
+                    {data}
                 </motion.div>
             ))}
         </div>
@@ -223,7 +149,7 @@ export default function Skeleton() {
             icon: <FileText className="h-4 w-4" />,
             label: "Extracting resume information"
         }, {
-            icon: <Trees className="h-4 w-4" />,
+            icon: <BrainCircuit className="h-4 w-4" />,
             label: "Processing with AI algorithms"
         },
         {
@@ -266,7 +192,7 @@ export default function Skeleton() {
             <h2 className="text-xl font-bold mb-3">Building Your Career Profile</h2>            <p className="text-muted-foreground text-sm mb-2">
                 Our Generative AI is analyzing your resume to create structured data for a comprehensive career assessment...
             </p>{/* AI Processing Visualization - Show during the AI processing step */}
-            {currentStep === 1 && <RandomForestAnimation />}
+            {currentStep === 1 && <AIProcessingAnimation />}
 
             {/* Sequential progress steps */}
             <div className="space-y-6 relative z-10">

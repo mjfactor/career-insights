@@ -87,20 +87,12 @@ Format exactly as follows:
 ### ⚖️ Work-Life Balance
 - Describe typical work-life balance for this role
 
-### 🤖 AI Analysis Insights
-- Include the AI analysis explanation
-
 ---
 ## 3. Overall Evaluation
-
-### 📊 Job Fit Score Per Role
-Format as:
-- Job Title: Percentage
 
 ### 💪 Market Positioning
 - **Competitive Advantages**: List the candidate's strongest selling points
 - **Improvement Areas**: Note areas that would strengthen marketability
-
 
 ### 🌐 Personal Branding Suggestions
 - Ways to strengthen professional presence

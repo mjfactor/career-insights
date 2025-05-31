@@ -46,15 +46,10 @@ Format exactly as follows:
 ### ⚖️ Work-Life Balance
 - Describe typical work-life balance for this role
 
-### 🤖 AI Analysis Insights
-- Include the AI analysis explanation
-
 ---
 ## 3. Overall Evaluation
 
-### 📊 Job Fit Score Per Role
-Format as:
-- Job Title: Percentage
+**Summary**: Provide a brief overall evaluation of the candidate's readiness for the recommended roles.
 `;
 
 
