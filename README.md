@@ -10,8 +10,6 @@
 
 **An AI-powered career guidance platform that helps professionals navigate their career journey with intelligent insights, personalized recommendations, and comprehensive job search tools.**
 
-[🔗 Live Demo](#) • [🎯 Features](#features) • [🛠️ Tech Stack](#tech-stack)
-
 </div>
 
 ---
@@ -58,7 +56,6 @@ Track your career progress with analytics, goal setting, and visual representati
 - **Prisma** - Type-safe database ORM
 - **NextAuth.js** - Secure authentication
 - **Vercel AI SDK** - Multi-provider AI integration
-- **Multiple AI Models** - OpenAI, Anthropic, Google, Groq, DeepSeek, xAI
 
 ### Additional Tools
 - **Recharts** - Data visualization
