@@ -1,0 +1,80 @@
+name: Keep Services Alive
+
+on:
+  schedule:
+    # Run every 4 days at 2 AM UTC
+    - cron: '0 2 */4 * *'
+  workflow_dispatch: # Allow manual triggering
+
+jobs:
+  ping-services:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Ping Supabase Database
+        run: |
+          echo "Pinging Supabase database..."
+          
+          # Extract connection details from DATABASE_URL
+          DB_URL="${{ secrets.DATABASE_URL }}"
+          
+          # Simple health check query
+          response=$(curl -s -w "%{http_code}" \
+            -X POST \
+            -H "Content-Type: application/json" \
+            -H "Authorization: Bearer ${{ secrets.SUPABASE_ANON_KEY }}" \
+            -d '{"query": "SELECT 1 as health_check"}' \
+            "${{ secrets.SUPABASE_URL }}/rest/v1/rpc/health_check" \
+            -o /tmp/supabase_response.json)
+          
+          if [ "$response" = "200" ] || [ "$response" = "404" ]; then
+            echo "✅ Supabase ping successful (HTTP $response)"
+          else
+            echo "❌ Supabase ping failed (HTTP $response)"
+            cat /tmp/supabase_response.json 2>/dev/null || echo "No response body"
+          fi
+        continue-on-error: true
+
+      - name: Ping Supabase via Database Connection
+        run: |
+          echo "Pinging Supabase via direct database connection..."
+          
+          # Install PostgreSQL client
+          sudo apt-get update && sudo apt-get install -y postgresql-client
+          
+          # Simple ping using psql
+          DB_URL="${{ secrets.DIRECT_URL }}"
+          
+          if echo "SELECT 1 as ping;" | psql "$DB_URL" -t; then
+            echo "✅ Supabase database connection successful"
+          else
+            echo "❌ Supabase database connection failed"
+          fi
+        continue-on-error: true
+
+      - name: Ping Upstash Redis
+        run: |
+          echo "Pinging Upstash Redis..."
+          
+          # Ping Redis using REST API
+          response=$(curl -s -w "%{http_code}" \
+            -X POST \
+            -H "Authorization: Bearer ${{ secrets.UPSTASH_REDIS_REST_TOKEN }}" \
+            -d '["PING"]' \
+            "${{ secrets.UPSTASH_REDIS_REST_URL }}" \
+            -o /tmp/redis_response.json)
+          
+          if [ "$response" = "200" ]; then
+            echo "✅ Upstash Redis ping successful (HTTP $response)"
+            echo "Response: $(cat /tmp/redis_response.json)"
+          else
+            echo "❌ Upstash Redis ping failed (HTTP $response)"
+            cat /tmp/redis_response.json 2>/dev/null || echo "No response body"
+          fi
+        continue-on-error: true
+
+      - name: Summary
+        run: |
+          echo "🏁 Service ping workflow completed"
+          echo "This workflow helps keep your free tier services active by pinging them every 4 days"
+          echo "Check the logs above for individual service status"
