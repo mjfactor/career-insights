@@ -3,78 +3,71 @@ name: Keep Services Alive
 on:
   schedule:
     # Run every 4 days at 2 AM UTC
-    - cron: '0 2 */4 * *'
-  workflow_dispatch: # Allow manual triggering
+    - cron: "0 2 */4 * *"
+  workflow_dispatch:
 
 jobs:
   ping-services:
     runs-on: ubuntu-latest
-    
+    env:
+      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+      SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      DIRECT_URL: ${{ secrets.DIRECT_URL }}
+      UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}
+      UPSTASH_REDIS_REST_TOKEN: ${{ secrets.UPSTASH_REDIS_REST_TOKEN }}
+
     steps:
-      - name: Ping Supabase Database
+      - name: Ping Supabase (REST)
         run: |
-          echo "Pinging Supabase database..."
-          
-          # Extract connection details from DATABASE_URL
-          DB_URL="${{ secrets.DATABASE_URL }}"
-          
-          # Simple health check query
+          echo "Pinging Supabase REST..."
           response=$(curl -s -w "%{http_code}" \
             -X POST \
             -H "Content-Type: application/json" \
-            -H "Authorization: Bearer ${{ secrets.SUPABASE_ANON_KEY }}" \
-            -d '{"query": "SELECT 1 as health_check"}' \
-            "${{ secrets.SUPABASE_URL }}/rest/v1/rpc/health_check" \
+            -H "apikey: $SUPABASE_ANON_KEY" \
+            -H "Authorization: Bearer $SUPABASE_ANON_KEY" \
+            -d '{}' \
+            "$SUPABASE_URL/rest/v1/rpc/health_check" \
             -o /tmp/supabase_response.json)
-          
-          if [ "$response" = "200" ] || [ "$response" = "404" ]; then
-            echo "✅ Supabase ping successful (HTTP $response)"
+
+          if [ "$response" = "200" ]; then
+            echo "✅ Supabase REST ping successful"
           else
-            echo "❌ Supabase ping failed (HTTP $response)"
-            cat /tmp/supabase_response.json 2>/dev/null || echo "No response body"
+            echo "❌ Supabase REST ping failed (HTTP $response)"
+            cat /tmp/supabase_response.json || echo "No response"
           fi
         continue-on-error: true
 
-      - name: Ping Supabase via Database Connection
+      - name: Ping Supabase (Direct DB)
         run: |
-          echo "Pinging Supabase via direct database connection..."
-          
-          # Install PostgreSQL client
+          echo "Pinging Supabase DB..."
           sudo apt-get update && sudo apt-get install -y postgresql-client
-          
-          # Simple ping using psql
-          DB_URL="${{ secrets.DIRECT_URL }}"
-          
-          if echo "SELECT 1 as ping;" | psql "$DB_URL" -t; then
-            echo "✅ Supabase database connection successful"
+          if echo "SELECT 1;" | psql "$DIRECT_URL" -t --set=sslmode=require; then
+            echo "✅ Supabase DB connection successful"
           else
-            echo "❌ Supabase database connection failed"
+            echo "❌ Supabase DB connection failed"
           fi
         continue-on-error: true
 
       - name: Ping Upstash Redis
         run: |
           echo "Pinging Upstash Redis..."
-          
-          # Ping Redis using REST API
           response=$(curl -s -w "%{http_code}" \
             -X POST \
-            -H "Authorization: Bearer ${{ secrets.UPSTASH_REDIS_REST_TOKEN }}" \
+            -H "Authorization: Bearer $UPSTASH_REDIS_REST_TOKEN" \
             -d '["PING"]' \
-            "${{ secrets.UPSTASH_REDIS_REST_URL }}" \
+            "$UPSTASH_REDIS_REST_URL" \
             -o /tmp/redis_response.json)
-          
+
           if [ "$response" = "200" ]; then
-            echo "✅ Upstash Redis ping successful (HTTP $response)"
-            echo "Response: $(cat /tmp/redis_response.json)"
+            echo "✅ Redis ping successful"
+            cat /tmp/redis_response.json
           else
-            echo "❌ Upstash Redis ping failed (HTTP $response)"
-            cat /tmp/redis_response.json 2>/dev/null || echo "No response body"
+            echo "❌ Redis ping failed (HTTP $response)"
+            cat /tmp/redis_response.json || echo "No response"
           fi
         continue-on-error: true
 
       - name: Summary
         run: |
-          echo "🏁 Service ping workflow completed"
-          echo "This workflow helps keep your free tier services active by pinging them every 4 days"
-          echo "Check the logs above for individual service status"
+          echo "🏁 Workflow completed — services pinged to stay alive"
