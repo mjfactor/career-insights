@@ -18,26 +18,6 @@ jobs:
       UPSTASH_REDIS_REST_TOKEN: ${{ secrets.UPSTASH_REDIS_REST_TOKEN }}
 
     steps:
-      - name: Ping Supabase (REST)
-        run: |
-          echo "Pinging Supabase REST..."
-          response=$(curl -s -w "%{http_code}" \
-            -X POST \
-            -H "Content-Type: application/json" \
-            -H "apikey: $SUPABASE_ANON_KEY" \
-            -H "Authorization: Bearer $SUPABASE_ANON_KEY" \
-            -d '{}' \
-            "$SUPABASE_URL/rest/v1/rpc/health_check" \
-            -o /tmp/supabase_response.json)
-
-          if [ "$response" = "200" ]; then
-            echo "✅ Supabase REST ping successful"
-          else
-            echo "❌ Supabase REST ping failed (HTTP $response)"
-            cat /tmp/supabase_response.json || echo "No response"
-          fi
-        continue-on-error: true
-
       - name: Ping Supabase (Direct DB)
         run: |
           echo "Pinging Supabase DB..."
